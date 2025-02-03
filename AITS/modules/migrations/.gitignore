@@ -1,0 +1,33 @@
+# Virtual environment
+venv/
+env/
+dev/
+
+
+# Byte-compiled files
+__pycache__/
+*.__pyc
+*.pyo
+
+# Database (if using SQLite)
+db.postgresql
+*.sqlite3
+
+
+# Environment variables and secrets
+.env
+*.env
+
+# Django logs
+logs/
+*.logs
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cache and dependencies
+*.logs
+node_modules/
