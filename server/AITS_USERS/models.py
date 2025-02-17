@@ -1,5 +1,5 @@
-from django.contrib.auth.models import AbstractUser
-from django.db import models
+from django.contrib.auth.models import AbstractUser # type: ignore
+from django.db import models # type: ignore
 
 # Custom User Model to support multiple roles
 class User(AbstractUser):
