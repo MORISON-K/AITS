@@ -7,6 +7,17 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  return (
     <>
       <div>
         <a href="https://vite.dev" target="_blank">
@@ -28,8 +39,9 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <Counter /> //add the Counter component
     </>
   )
 }
 
-export default App
+export default App;
