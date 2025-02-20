@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import User, Issues,Departments
+from .models import User, Issue,Department
 
 admin.site.register(User)
-admin.site.register(Issues)
-admin.site.register(Departments)
+admin.site.register(Issue)
+admin.site.register(Department)
