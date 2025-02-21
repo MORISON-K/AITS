@@ -1,48 +1,18 @@
-
-// src/Register.jsx
-import React, { useState } from 'react';
-
-const registerUser = async (userData) => {
-  try {
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+import React from 'react';
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const userData = { name, email, password };
-    registerUser(userData).then((response) => {
-      console.log(response);
-    });
-  };
-
   return (
     <div>
       <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
+      <form>
         <label>Name:</label>
-        <input type="text" value={name} onChange={(event) => setName(event.target.value)} />
+        <input type="text" />
         <br />
         <label>Email:</label>
-        <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+        <input type="email" />
         <br />
         <label>Password:</label>
-        <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+        <input type="password" />
         <br />
         <button type="submit">Register</button>
       </form>
