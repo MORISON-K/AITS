@@ -11,26 +11,39 @@ function App() {
   };
 
   return (
-    <div className="welcome-page">
-      {currentPage === 'welcome' ? (
-        <div>
-          <h1>Welcome to Academic Issue Tracking System</h1>
-          <div className="button-container">
-            <button className="register-button" onClick={() => handlePageChange('register')}>
-              Register
-            </button>
-            <button className="login-button" onClick={() => handlePageChange('login')}>
-              Login
-            </button>
-            </div>
-        </div>
-      ) : currentPage === 'login' ? (
-        <Login />
-      ) : (
-        <Register />
-      )}
-    </div>
-  );
+    <div className="app-container">
+      <nav className="nav-bar">
+        <button className="nav-button" onClick={() => handlePageChange('welcome')}>
+          Home
+        </button>
+        {currentPage !== 'welcome' && (
+          <button className="nav-button" onClick={() => handlePageChange('welcome')}>
+            Back to Home
+          </button>
+ )}
+ </nav>
+ {currentPage === 'welcome' ? (
+   <div className="welcome-page">
+     <h1>Welcome to Academic Issue Tracking System</h1>
+     <div className="button-container">
+       <button
+         className="register-button"
+         onClick={() => handlePageChange('register')}
+       >
+         Register
+       </button>
+       <button className="login-button" onClick={() => handlePageChange('login')}>
+         Login
+       </button>
+     </div>
+   </div>
+ ) : currentPage === 'login' ? (
+   <Login handlePageChange={handlePageChange} />
+ ) : (
+   <Register handlePageChange={handlePageChange} />
+ )}
+</div>
+);
 }
 
 export default App;
