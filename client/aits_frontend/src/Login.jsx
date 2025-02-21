@@ -2,13 +2,33 @@ jsx
 // src/Login.jsx
 import React, { useState } from 'react';
 
+const loginUser = async (userData) => {
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // TO DO: Handle login submission
+    const userData = { email, password };
+    loginUser(userData).then((response) => {
+      console.log(response);
+    });
   };
 
   return (

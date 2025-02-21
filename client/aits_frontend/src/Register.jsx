@@ -2,6 +2,22 @@ jsx
 // src/Register.jsx
 import React, { useState } from 'react';
 
+const registerUser = async (userData) => {
+  try {
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -13,7 +29,7 @@ const Register = () => {
     registerUser(userData).then((response) => {
       console.log(response);
     });
-  };  
+  };
 
   return (
     <div>
@@ -35,4 +51,3 @@ const Register = () => {
 };
 
 export default Register;
-
