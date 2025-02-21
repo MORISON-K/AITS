@@ -1,19 +1,23 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import Login from './Login';
 import Register from './Register';
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('login');
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<div>Welcome to Academic Issue Tracking System</div>} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <nav>
+        <button onClick={() => handlePageChange('login')}>Login</button>
+        <button onClick={() => handlePageChange('register')}>Register</button>
+      </nav>
+      {currentPage === 'login' ? <Login /> : <Register />}
+    </div>
   );
 }
 
 export default App;
-
