@@ -1,4 +1,3 @@
-jsx
 // src/Login.jsx
 import React, { useState } from 'react';
 
@@ -28,6 +27,7 @@ const Login = () => {
     const userData = { email, password };
     loginUser(userData).then((response) => {
       console.log(response);
+      // You might want to handle the response here, like redirecting the user
     });
   };
 
@@ -36,10 +36,18 @@ const Login = () => {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <label>Email:</label>
-        <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+        <input
+          type="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
         <br />
         <label>Password:</label>
-        <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+        <input
+          type="password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
         <br />
         <button type="submit">Login</button>
       </form>

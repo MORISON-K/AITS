@@ -1,4 +1,4 @@
-jsx
+
 // src/Register.jsx
 import React, { useState } from 'react';
 
