@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Register = () => {
+const Register = ({ handlePageChange }) => {
   return (
-    <div>
+    <div className="register-page">
       <h1>Register</h1>
       <form>
         <label>Name:</label>
@@ -16,6 +16,9 @@ const Register = () => {
         <br />
         <button type="submit">Register</button>
       </form>
+      <button className="back-button" onClick={() => handlePageChange('welcome')}>
+        Back to Home
+      </button>
     </div>
   );
 };
