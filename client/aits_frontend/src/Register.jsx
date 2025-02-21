@@ -9,8 +9,11 @@ const Register = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // TO DO: Handle registration submission
-  };
+    const userData = { name, email, password };
+    registerUser(userData).then((response) => {
+      console.log(response);
+    });
+  };  
 
   return (
     <div>
