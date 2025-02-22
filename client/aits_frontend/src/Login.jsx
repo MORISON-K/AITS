@@ -5,17 +5,18 @@ const Login = ({ handlePageChange }) => {
     <div className="login-page">
       <h1>Login</h1>
       <form>
-        <label>Email:</label>
-        <input type="email" />
+        <input type="email" placeholder= "Email" className='login-input'/><br />
+        <input type="password" placeholder='Password' className='login-input'/>
         <br />
-        <label>Password:</label>
-        <input type="password" />
-        <br />
-        <button type="submit">Login</button>
+        <span className='Forgot-Password'>Forgot Password?</span><br />
+        <button type="submit" className='login'>Login</button><br />
+        <span className='without'>Don't have an account? </span>
+        <span className='without-account'>Sign up</span>
       </form>
-      <button className="back-button" onClick={() => handlePageChange('welcome')}>
+      {/* <button className="back-button" onClick={() => handlePageChange('welcome')}>
         Back to Home
-      </button>
+      </button> */}
+    
     </div>
   );
 };

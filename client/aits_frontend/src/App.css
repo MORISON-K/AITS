@@ -1,27 +1,27 @@
+/* Styling for the Home page */
 .app-container {
-  background-color: #f0f0f0;
+  background-color: #f0f0f0d7;
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 .nav-bar {
-  background-color: #684d13bd;
+  background-color: #4c4648b5;
   color: #fff;
   padding: 10px;
   display: flex;
   justify-content: space-between;
-  border-radius: 80px;
 }
 
 .nav-button {
-  background-color: #3a483b;
+  background-color: #61e4b0;
   color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -64,4 +64,56 @@ cd
 .register-button:hover,
 .login-button:hover {
   background-color: #3e8e41;
+}
+
+/* Styling for the login page */
+
+.login-page {
+  height: 100vh;
+  margin-bottom: 0px;
+  background-color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+.login-input {
+   width: 350px;
+   height: 35px;
+   border-radius: 10px;
+   padding: 10px;
+   margin-bottom: 15px; 
+   border: 1px solid #333;
+   box-shadow: 0px 0px 10px 2px rgba(119, 105, 105, 0.25);
+
+  
+}
+
+.Forgot-Password {
+  margin-left: 100px;
+
+}
+
+.login {
+  width: 370px; 
+  height: 45px; 
+  border-radius: 10px;
+  background-color: #fff;
+  border: 1px solid #333;
+  cursor: pointer;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+
+.without-account {
+  margin-left: 5px;
+  color: blue;
+}
+
+.without {
+  margin-left: 60px;
 }
