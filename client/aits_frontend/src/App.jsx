@@ -24,7 +24,7 @@ function App() {
  </nav>
  {currentPage === 'welcome' ? (
    <div className="welcome-page">
-    <img src="public/muk_logo.jpeg" alt="Logo not found" />
+    <img src="/muk_logo.jpeg" alt="Logo not found" />
      <h1>Welcome to Academic Issue Tracking System</h1>
      <div className="button-container">
        <button
