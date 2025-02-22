@@ -6,22 +6,26 @@
 }
 
 .nav-bar {
-  background-color: #333;
+  background-color: #684d13bd;
   color: #fff;
   padding: 10px;
   display: flex;
   justify-content: space-between;
+  border-radius: 80px;
 }
 
 .nav-button {
-  background-color: #4CAF50;
+  background-color: #3a483b;
   color: #fff;
   padding: 10px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
 }
-
+cd
 .nav-button:hover {
   background-color: #3e8e41;
 }
@@ -46,12 +50,15 @@
 
 .register-button,
 .login-button {
-  background-color: #4CAF50;
+  background-color: #0a580d;
   color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .register-button:hover,
