@@ -5,21 +5,24 @@ const Register = ({ handlePageChange }) => {
     <div className="register-page">
       <h1>Register</h1>
       <form>
-        <label>Name:</label>
-        <input type="text" />
+        <input type="text" placeholder='First Name' />
+        <input type="text" placeholder='Second Name' />
         <br />
-        <label>Email:</label>
-        <input type="email" />
+        <input type="email" placeholder='Email'/>
         <br />
-        <label>Password:</label>
-        <input type="password" />
+        <input type="text" placeholder='Select Role'/><br />
+        <input type="text" placeholder='Enter Role ID' /><br />
+        <input type="password" placeholder='Password'/>
         <br />
-        <button type="submit">Register</button>
+        <input type="text" placeholder='Confirm Password' /><br />
+        <button>Submit</button><br />
+        {/* <button type="submit">Register</button> */}
       </form>
-      <button className="back-button" onClick={() => handlePageChange('welcome')}>
+      {/* <button className="back-button" onClick={() => handlePageChange('welcome')}>
         Back to Home
-      </button>
+      </button> */}
     </div>
+
   );
 };
 
