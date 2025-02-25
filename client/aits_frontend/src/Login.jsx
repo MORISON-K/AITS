@@ -11,7 +11,7 @@ const Login = ({ handlePageChange }) => {
         <span className='Forgot-Password'>Forgot Password?</span><br />
         <button type="submit" className='login'>Login</button><br />
         <span className='without'>Don't have an account? </span>
-        <span className='without-account'>Sign up</span>
+        <span className='without-account'><Register></Register></span>
       </form>
       {/* <button className="back-button" onClick={() => handlePageChange('welcome')}>
         Back to Home
