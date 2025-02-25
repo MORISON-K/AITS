@@ -48,6 +48,7 @@ cd
   width: 300px;
 }
 
+/* .issue-button, */
 .register-button,
 .login-button {
   background-color: #0a580d;
@@ -60,6 +61,7 @@ cd
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
 }
+
 
 .register-button:hover,
 .login-button:hover {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Login from './Login';
 import Register from './Register';
 import './App.css';
+import IssueSubmission_form from './IssueSubmission_form';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('welcome');
@@ -36,13 +37,18 @@ function App() {
        <button className="login-button" onClick={() => handlePageChange('login')}>
          Login
        </button>
+       {/* <button className='issue-button' onClick={() => handlePageChange('issueSubmission')}>
+          Create New Isue 
+       </button> */}
      </div>
    </div>
  ) : currentPage === 'login' ? (
    <Login handlePageChange={handlePageChange} />
- ) : (
+ ) : currentPage === 'register'? (
    <Register handlePageChange={handlePageChange} />
- )}
+ ) : currentPage ==='issueSubmission'? (
+  <IssueSubmission_form/>
+ ) : null}
 </div>
 );
 }
