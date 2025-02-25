@@ -2,24 +2,26 @@ import React from 'react';
 
 const Register = ({ handlePageChange }) => {
   return (
-    <div className="register-page">
+    <div className="Register-page">
       <h1>Register</h1>
       <form>
-        <label>Name:</label>
-        <input type="text" />
+        <input type="text" placeholder='First Name' className='First-Name' />
+        <input type="text" placeholder='Last Name' className='Last-Name' />
         <br />
-        <label>Email:</label>
-        <input type="email" />
+        <input type="email" placeholder='Email' className='Register-input' />
         <br />
-        <label>Password:</label>
-        <input type="password" />
+        <input type="text" placeholder='Select Role' className='Register-input' /><br />
+        <input type="text" placeholder='Enter Role ID' className='Register-input' /><br />
+        <input type="password" placeholder='Password' className='Register-input' />
         <br />
-        <button type="submit">Register</button>
+        <input type="password" placeholder='Confirm Password' className='Register-input' /><br />
+        <button className='Submit-Button'>Submit</button><br />
       </form>
-      <button className="back-button" onClick={() => handlePageChange('welcome')}>
+      {/* <button className="back-button" onClick={() => handlePageChange('welcome')}>
         Back to Home
-      </button>
+      </button> */}
     </div>
+
   );
 };
 

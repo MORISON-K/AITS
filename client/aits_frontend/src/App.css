@@ -67,7 +67,7 @@ cd
 }
 
 /* Styling for the login page */
-
+.Register-page,
 .login-page {
   height: 100vh;
   margin-bottom: 0px;
@@ -97,6 +97,10 @@ cd
 
 }
 
+.First-Name,
+.Last-Name,
+.Register-input, 
+.Submit-Button,
 .login {
   width: 370px; 
   height: 45px; 
@@ -117,3 +121,19 @@ cd
 .without {
   margin-left: 60px;
 }
+
+/*Styling for the login page*/
+
+.First-Name,
+.Last-Name {
+  width: 175px;
+}
+
+.Last-Name {
+  margin-left: 13px;
+}
+
+.Submit-Button {
+  width: 375px;
+}
+
