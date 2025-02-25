@@ -1,27 +1,62 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Register = ({ handlePageChange }) => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    role: "",
+    roleId: "",
+    password: "",
+    confirmPassword: ""
+  });
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.role || !formData.roleId || !formData.password || !formData.confirmPassword) {
+      alert("All fields are required.");
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    console.log("Form submitted:", formData);
+  };
+
   return (
     <div className="Register-page">
       <h1>Register</h1>
-      <form>
-        <input type="text" placeholder='First Name' className='First-Name' />
-        <input type="text" placeholder='Last Name' className='Last-Name' />
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="firstName" placeholder="First Name" className="First-Name" value={formData.firstName} onChange={handleChange} />
+        <input type="text" name="lastName" placeholder="Last Name" className="Last-Name" value={formData.lastName} onChange={handleChange} />
         <br />
-        <input type="email" placeholder='Email' className='Register-input' />
+        <input type="email" name="email" placeholder="Email" className="Register-input" value={formData.email} onChange={handleChange} />
         <br />
-        <input type="text" placeholder='Select Role' className='Register-input' /><br />
-        <input type="text" placeholder='Enter Role ID' className='Register-input' /><br />
-        <input type="password" placeholder='Password' className='Register-input' />
+        <select name="role" value={formData.role} onChange={handleChange} className="Register-input">
+          <option value="">Select Role</option>
+          <option value="academic_registrar">Academic Registrar</option>
+          <option value="lecturer">Lecturer</option>
+        </select>
         <br />
-        <input type="password" placeholder='Confirm Password' className='Register-input' /><br />
-        <button className='Submit-Button'>Submit</button><br />
+        <input type="text" name="roleId" placeholder="Enter Role ID" className="Register-input" value={formData.roleId} onChange={handleChange} />
+        <br />
+        <input type="password" name="password" placeholder="Password" className="Register-input" value={formData.password} onChange={handleChange} />
+        <br />
+        <input type="password" name="confirmPassword" placeholder="Confirm Password" className="Register-input" value={formData.confirmPassword} onChange={handleChange} />
+        <br />
+        <button type="submit" className="Submit-Button">Submit</button>
+        <br />
       </form>
-      {/* <button className="back-button" onClick={() => handlePageChange('welcome')}>
-        Back to Home
-      </button> */}
+    
     </div>
-
   );
 };
 
