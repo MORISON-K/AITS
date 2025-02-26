@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState('welcome');
 
   const login = (userData) => {
     // Call API to authenticate user
@@ -16,8 +17,12 @@ const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, currentPage, handlePageChange }}>
       {children}
     </AuthContext.Provider>
   );
@@ -25,3 +30,4 @@ const AuthProvider = ({ children }) => {
 
 export { AuthProvider }
 export default AuthContext;
+
