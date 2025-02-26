@@ -42,17 +42,19 @@ function App() {
                 )}
               </AuthContext.Consumer>
             } />
-            <AuthContext.Consumer>
-              {({ user }) => (
-                user && user.role === 'academic_registrar' ? (
-                  <Route path="/dashboard" element={<RegistrarDashboard />} />
-                ) : user && user.role === 'lecturer' ? (
-                  <Route path="/dashboard" element={<LecturerDashboard />} />
-                ) : (
-                  <Route path="/dashboard" element={<StudentDashboard />} />
-                )
-              )}
-            </AuthContext.Consumer>
+            <Route path="/dashboard" element={
+              <AuthContext.Consumer>
+                {({ user }) => (
+                  user && user.role === 'academic_registrar' ? (
+                    <RegistrarDashboard />
+                  ) : user && user.role === 'lecturer' ? (
+                    <LecturerDashboard />
+                  ) : (
+                    <StudentDashboard />
+                  )
+                )}
+              </AuthContext.Consumer>
+            } />
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/registrar-dashboard" element={<RegistrarDashboard />} />
             <Route path="/lecturer-dashboard" element={<LecturerDashboard />} />
