@@ -1,25 +1,26 @@
 // App.jsx
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AuthProvider, AuthContext } from './auth';
 import Login from './Login';
 import Register from './Register';
 import './App.css';
 import IssueSubmission_form from './IssueSubmission_form';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import StudentDashboard from './StudentDashboard';
+import RegistrarDashboard from './RegistrarDashboard'; // Import RegistrarDashboard
+import { AuthProvider, AuthContext } from './auth';
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <AuthContext.Consumer>
-          {({ currentPage, handlePageChange }) => (
-            <div className="app-container">
-              <nav className="nav-bar">
-                <button className="nav-button" onClick={() => handlePageChange('welcome')}> Home </button>
-              </nav>
-              <Routes>
-                <Route path="/" element={
+        <div className="app-container">
+          <nav className="nav-bar">
+            <button className="nav-button" onClick={() => window.location.href = '/'}> Home </button>
+          </nav>
+          <Routes>
+            <Route path="/" element={
+              <AuthContext.Consumer>
+                {({ currentPage, handlePageChange, user }) => (
                   currentPage === 'welcome' ? (
                     <div className="welcome-page">
                       <img src="/muk_logo.jpeg" alt="Logo not found" />
@@ -27,6 +28,7 @@ function App() {
                       <div className="button-container">
                         <button className="register-button" onClick={() => handlePageChange('register')}> Register </button>
                         <button className="login-button" onClick={() => handlePageChange('login')}> Login </button>
+                        {/* <button className='issue-button' onClick={() => handlePageChange('issueSubmission')}> Create New Issue </button> */}
                       </div>
                     </div>
                   ) : currentPage === 'login' ? (
@@ -36,13 +38,17 @@ function App() {
                   ) : currentPage === 'issueSubmission' ? (
                     <IssueSubmission_form />
                   ) : null
-                } />
-                <Route path="/login" element={<Login />} />
-                <Route path="/student-dashboard" element={<StudentDashboard />} />
-              </Routes>
-            </div>
-          )}
-        </AuthContext.Consumer>
+                )}
+              </AuthContext.Consumer>
+            } />
+            {user && user.role === 'academic_registrar' ? (
+              <Route path="/dashboard" element={<RegistrarDashboard />} />
+            ) : (
+              <Route path="/dashboard" element={<StudentDashboard />} />
+            )}
+            <Route path="/student-dashboard" element={<StudentDashboard />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </AuthProvider>
   );
