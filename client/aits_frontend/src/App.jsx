@@ -7,7 +7,7 @@ import IssueSubmission_form from './IssueSubmission_form';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import StudentDashboard from './StudentDashboard';
 import RegistrarDashboard from './RegistrarDashboard';
-import LecturerDashboard from './LecturerDashboard'; // Import LecturerDashboard
+import LecturerDashboard from './LecturerDashboard';
 import { AuthProvider, AuthContext } from './auth';
 
 function App() {
@@ -42,13 +42,17 @@ function App() {
                 )}
               </AuthContext.Consumer>
             } />
-            {user && user.role === 'academic_registrar' ? (
-              <Route path="/dashboard" element={<RegistrarDashboard />} />
-            ) : user && user.role === 'lecturer' ? (
-              <Route path="/dashboard" element={<LecturerDashboard />} />
-            ) : (
-              <Route path="/dashboard" element={<StudentDashboard />} />
-            )}
+            <AuthContext.Consumer>
+              {({ user }) => (
+                user && user.role === 'academic_registrar' ? (
+                  <Route path="/dashboard" element={<RegistrarDashboard />} />
+                ) : user && user.role === 'lecturer' ? (
+                  <Route path="/dashboard" element={<LecturerDashboard />} />
+                ) : (
+                  <Route path="/dashboard" element={<StudentDashboard />} />
+                )
+              )}
+            </AuthContext.Consumer>
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/registrar-dashboard" element={<RegistrarDashboard />} />
             <Route path="/lecturer-dashboard" element={<LecturerDashboard />} />
