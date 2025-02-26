@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from './auth.js';
+import AuthContext from './auth.jsx';
 
 const Login = ({ handlePageChange }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
