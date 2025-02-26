@@ -13,6 +13,13 @@ const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
+  const register = (userData) => {
+    // Call API to register user
+    console.log('Registering user:', userData);
+    // For now, just set the user data
+    setUser(userData);
+  };
+
   const logout = () => {
     setUser(null);
   };
@@ -22,7 +29,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, currentPage, handlePageChange }}>
+    <AuthContext.Provider value={{ user, login, register, logout, currentPage, handlePageChange }}>
       {children}
     </AuthContext.Provider>
   );
