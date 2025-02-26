@@ -23,4 +23,5 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export { AuthProvider, AuthContext };
+export { AuthProvider }
+export default AuthContext;
