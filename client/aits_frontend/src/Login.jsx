@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from './auth';
+import { AuthContext } from './auth';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -17,7 +17,13 @@ const Login = () => {
       return alert("Please enter both email and password.");
     }
     login({ ...formData, role });
-    navigate('/student-dashboard');
+    if (role === 'student') {
+      navigate('/student-dashboard');
+    } else if (role === 'lecturer') {
+      navigate('/lecturer-dashboard');
+    } else if (role === 'registrar') {
+      navigate('/registrar-dashboard');
+    }
   };
 
   return (
