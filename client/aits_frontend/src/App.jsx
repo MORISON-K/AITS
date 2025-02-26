@@ -1,3 +1,4 @@
+// App.jsx
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './auth';
@@ -36,6 +37,7 @@ function App() {
                     <IssueSubmission_form />
                   ) : null
                 } />
+                <Route path="/login" element={<Login />} />
                 <Route path="/student-dashboard" element={<StudentDashboard />} />
               </Routes>
             </div>
