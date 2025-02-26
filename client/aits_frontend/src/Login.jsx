@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from './auth.jsx';
+import AuthContext from './auth';
 
-const Login = ({ handlePageChange }) => {
+const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [role, setRole] = useState('student');
-  const { login } = useContext(AuthContext);
+  const { login, currentPage, handlePageChange } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
