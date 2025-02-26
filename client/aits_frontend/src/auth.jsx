@@ -1,4 +1,4 @@
-// src/auth.js
+// auth.jsx
 import { createContext, useState } from 'react';
 
 const AuthContext = createContext();
@@ -28,6 +28,4 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export { AuthProvider }
-export default AuthContext;
-
+export { AuthProvider, AuthContext };
