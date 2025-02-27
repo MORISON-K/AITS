@@ -58,6 +58,10 @@ function App() {
             <Route path="/student-dashboard" element={<StudentDashboard />} />
             <Route path="/registrar-dashboard" element={<RegistrarDashboard />} />
             <Route path="/lecturer-dashboard" element={<LecturerDashboard />} />
+
+            <Route path="/IssueSubmission-Page" element={<IssueSubmission_form />} />
+            <Route path="/Register-Page" element={<Register />} />
+            <Route path="/Login-Page" element={<Login />} />
           </Routes>
         </div>
       </BrowserRouter>
