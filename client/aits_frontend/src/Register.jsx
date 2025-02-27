@@ -7,6 +7,9 @@ const Register = ({ handlePageChange }) => {
     email: "",
     role: "",
     roleId: "",
+    department: "",
+    college: "",
+    programmeName: "",
     password: "",
     confirmPassword: ""
   });
@@ -17,9 +20,27 @@ const Register = ({ handlePageChange }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
-    if (!formData.firstName || !formData.lastName || !formData.email || !formData.role || !formData.roleId || !formData.password || !formData.confirmPassword) {
+
+    if (
+      !formData.firstName ||
+      !formData.lastName ||
+      !formData.email ||
+      !formData.role ||
+      !formData.roleId ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
       alert("All fields are required.");
+      return;
+    }
+
+    if (formData.role === "lecturer" && !formData.department) {
+      alert("Department is required for lecturers.");
+      return;
+    }
+    
+    if (formData.role === "student" && (!formData.college || !formData.programmeName)) {
+      alert("College and Programme are required for students.");
       return;
     }
 
@@ -35,28 +56,113 @@ const Register = ({ handlePageChange }) => {
     <div className="Register-page">
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="firstName" placeholder="First Name" className="First-Name" value={formData.firstName} onChange={handleChange} />
-        <input type="text" name="lastName" placeholder="Last Name" className="Last-Name" value={formData.lastName} onChange={handleChange} />
+        <input 
+          type="text" 
+          name="firstName" 
+          placeholder="First Name" 
+          className="First-Name" 
+          value={formData.firstName} 
+          onChange={handleChange} 
+        />
+        <input 
+          type="text" 
+          name="lastName" 
+          placeholder="Last Name" 
+          className="Last-Name" 
+          value={formData.lastName} 
+          onChange={handleChange} 
+        />
         <br />
-        <input type="email" name="email" placeholder="Email" className="Register-input" value={formData.email} onChange={handleChange} />
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Email" 
+          className="Register-input" 
+          value={formData.email} 
+          onChange={handleChange} 
+        />
         <br />
-        <select name="role" value={formData.role} onChange={handleChange} className="Register-input">
+        <select 
+          name="role" 
+          value={formData.role} 
+          onChange={handleChange} 
+          className="Register-input"
+        >
           <option value="">Select Role</option>
           <option value="student">Student</option>
           <option value="academic_registrar">Academic Registrar</option>
           <option value="lecturer">Lecturer</option>
         </select>
         <br />
-        <input type="text" name="roleId" placeholder="Enter Role ID" className="Register-input" value={formData.roleId} onChange={handleChange} />
+        <input 
+          type="text" 
+          name="roleId" 
+          placeholder="Enter Role ID" 
+          className="Register-input" 
+          value={formData.roleId} 
+          onChange={handleChange} 
+        />
         <br />
-        <input type="password" name="password" placeholder="Password" className="Register-input" value={formData.password} onChange={handleChange} />
+
+        
+        {formData.role === "lecturer" && (
+          <>
+            <input 
+              type="text" 
+              name="department" 
+              placeholder="Department" 
+              className="Register-input" 
+              value={formData.department} 
+              onChange={handleChange} 
+            /><br />
+          </>
+        )}
+
+        
+        {formData.role === "student" && (
+          <>
+            <input 
+              type="text" 
+              name="college" 
+              placeholder="College" 
+              className="Register-input" 
+              value={formData.college} 
+              onChange={handleChange} 
+            /><br />
+            
+            <input 
+              type="text" 
+              name="programmeName" 
+              placeholder="Programme" 
+              className="Register-input" 
+              value={formData.programmeName} 
+              onChange={handleChange} 
+            /><br />
+          </>
+        )}
+
+        <input 
+          type="password" 
+          name="password" 
+          placeholder="Password" 
+          className="Register-input" 
+          value={formData.password} 
+          onChange={handleChange} 
+        />
         <br />
-        <input type="password" name="confirmPassword" placeholder="Confirm Password" className="Register-input" value={formData.confirmPassword} onChange={handleChange} />
+
+        <input 
+          type="password" 
+          name="confirmPassword" 
+          placeholder="Confirm Password" 
+          className="Register-input" 
+          value={formData.confirmPassword} 
+          onChange={handleChange} 
+        />
         <br />
         <button type="submit" className="Submit-Button">Submit</button>
         <br />
       </form>
-    
     </div>
   );
 };
