@@ -42,6 +42,7 @@ const Register = ({ handlePageChange }) => {
         <br />
         <select name="role" value={formData.role} onChange={handleChange} className="Register-input">
           <option value="">Select Role</option>
+          <option value="student">Student</option>
           <option value="academic_registrar">Academic Registrar</option>
           <option value="lecturer">Lecturer</option>
         </select>
