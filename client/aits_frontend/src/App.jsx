@@ -8,6 +8,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import StudentDashboard from './StudentDashboard';
 import RegistrarDashboard from './RegistrarDashboard';
 import LecturerDashboard from './LecturerDashboard';
+import ManageIssues from "./pages/ManageIssues";
+import CreateIssue from "./pages/CreateIssue";
+import AssignIssue from "./pages/AssignIssue";
+
 import { AuthProvider, AuthContext } from './auth';
 
 function App() {
@@ -62,7 +66,12 @@ function App() {
             <Route path="/IssueSubmission-Page" element={<IssueSubmission_form />} />
             <Route path="/Register-Page" element={<Register />} />
             <Route path="/Login-Page" element={<Login />} />
-          </Routes>
+
+            <Route path="/ManageIssues" element={<ManageIssues />} />
+            <Route path="/CreateIssue" element={<CreateIssue />} />
+            <Route path="/AssignIssue" element={<AssignIssue />} />
+      
+        </Routes>
         </div>
       </BrowserRouter>
     </AuthProvider>
