@@ -11,6 +11,7 @@ import LecturerDashboard from './LecturerDashboard';
 import ManageIssues from "./pages/ManageIssues";
 import CreateIssue from "./pages/CreateIssue";
 import AssignIssue from "./pages/AssignIssue";
+import NotFound from './pages/NotFound';
 
 import { AuthProvider, AuthContext } from './auth';
 
@@ -70,7 +71,9 @@ function App() {
             <Route path="/ManageIssues" element={<ManageIssues />} />
             <Route path="/CreateIssue" element={<CreateIssue />} />
             <Route path="/AssignIssue" element={<AssignIssue />} />
-      
+
+            {/* Catch-all route for unknow pages */}
+            <Route path="*" element={<NotFound />} />
         </Routes>
         </div>
       </BrowserRouter>
