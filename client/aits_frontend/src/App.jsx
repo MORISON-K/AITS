@@ -34,7 +34,6 @@ function App() {
                       <div className="button-container">
                         <button className="register-button" onClick={() => handlePageChange('register')}> Register </button>
                         <button className="login-button" onClick={() => handlePageChange('login')}> Login </button>
-                        {/* <button className='issue-button' onClick={() => handlePageChange('issueSubmission')}> Create New Issue </button> */}
                       </div>
                     </div>
                   ) : currentPage === 'login' ? (
