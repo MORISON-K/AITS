@@ -650,10 +650,10 @@ body {
 	flex-grow: 1;
 	flex-basis: 300px;
 }
-#content main .table-data .todo .todo-list {
+#content main .table-data   {
 	width: 100%;
 }
-#content main .table-data .todo .todo-list li {
+#content main .table-data   li {
 	width: 100%;
 	margin-bottom: 16px;
 	background: var(--grey);
@@ -663,16 +663,16 @@ body {
 	justify-content: space-between;
 	align-items: center;
 }
-#content main .table-data .todo .todo-list li .bx {
+#content main .table-data   li .bx {
 	cursor: pointer;
 }
-#content main .table-data .todo .todo-list li.completed {
+#content main .table-data   li.completed {
 	border-left: 10px solid var(--blue);
 }
-#content main .table-data .todo .todo-list li.not-completed {
+#content main .table-data   li.not-completed {
 	border-left: 10px solid var(--orange);
 }
-#content main .table-data .todo .todo-list li:last-child {
+#content main .table-data   li:last-child {
 	margin-bottom: 0;
 }
 /* MAIN */
@@ -746,7 +746,7 @@ body {
 	#content main .table-data .order table {
 		min-width: 420px;
 	}
-	#content main .table-data .todo .todo-list {
+	#content main .table-data   {
 		min-width: 420px;
 	}
 }

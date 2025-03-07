@@ -87,7 +87,7 @@ const StudentDashboard = () => {
                     <td>Missing Marks</td>
                     <td>01-10-2021</td>
                     <td>
-                      <span className="status completed">Completed</span>
+                      <span className="status completed">Resolved</span>
                     </td>
                   </tr>
                   <tr>
@@ -109,7 +109,7 @@ const StudentDashboard = () => {
                     <td>Wrong Credentials</td>
                     <td>01-10-2021</td>
                     <td>
-                      <span className="status process">Processing</span>
+                      <span className="status process">In Progress</span>
                     </td>
                   </tr>
                 </tbody>
