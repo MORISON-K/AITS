@@ -12,6 +12,8 @@ import ManageIssues from "./pages/ManageIssues";
 import CreateIssue from "./pages/CreateIssue";
 import AssignIssue from "./pages/AssignIssue";
 import NotFound from './pages/NotFound';
+import 'boxicons/css/boxicons.min.css';
+
 
 import { AuthProvider, AuthContext } from './auth';
 
