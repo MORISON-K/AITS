@@ -26,7 +26,7 @@ function IssueSubmission_form() {
   }
   return (
     <div className='issueForm'>
-      <h1>Issue Submission Form</h1>
+      <h1 className='issueh1'>Issue Submission Form</h1>
       <form onSubmit={handleSubmit}>
         <label className='issueLabel'>Fill the information accurately</label><br />
         <button className='issueButton'>YEAR OF STUDY</button>
