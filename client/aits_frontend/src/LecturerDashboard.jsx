@@ -20,7 +20,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/IssueSubmission-Page">
+          <Link to="/AssignedIssues-Page">
             <i className="bx bxs-shopping-bag-alt"></i>
             <span className="text">View Assigned Issues</span>
           </Link>
@@ -114,8 +114,8 @@ const Content = () => {
   );
 };
 
-// Main StudentDashboard Component
-const StudentDashboard = () => {
+// Main LecturerDashboard Component
+const LecturerDashboard = () => {
   return (
     <div className="admin-hub">
       <Sidebar />
@@ -124,4 +124,4 @@ const StudentDashboard = () => {
   );
 };
 
-export default StudentDashboard;
+export default LecturerDashboard;
