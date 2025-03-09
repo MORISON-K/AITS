@@ -1,18 +1,127 @@
-import React from 'react';
 
-const LecturerDashboard = () => {
+import React from 'react';
+import './App.css';
+import "boxicons/css/boxicons.min.css";
+import { Link } from 'react-router-dom';
+
+// Sidebar Component
+const Sidebar = () => {
   return (
-    <div>
-      <h1>Lecturer Dashboard</h1>
-      <ul>
-        <li><a href="#">View new issues</a></li>
-        <li><a href="#">View pending issues</a></li>
-        <li><a href="#">View solved issues</a></li>
-        <li><a href="#">create issues</a></li>
+    <section id="sidebar">
+      <Link to="/profile" className="brand">
+        <i className="bx bxs-smile"></i>
+        <span className="text">Profile</span>
+      </Link>
+      <ul className="side-menu top">
+        <li className="active">
+          <Link to="/dashboard">
+            <i className="bx bxs-dashboard"></i>
+            <span className="text">Dashboard</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/IssueSubmission-Page">
+            <i className="bx bxs-shopping-bag-alt"></i>
+            <span className="text">View Assigned Issues</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/notifications">
+            <i className="bx bxs-bell"></i>
+            <span className="text">Notifications</span>
+          </Link>
+        </li>
       </ul>
+      <ul className="side-menu">
+        <li>
+          <Link to="/logout" className="logout">
+            <i className="bx bxs-log-out-circle"></i>
+            <span className="text">Logout</span>
+          </Link>
+        </li>
+      </ul>
+    </section>
+  );
+};
+
+// Recent History Table Component
+const RecentHistoryTable = () => {
+  // Data to be fetched from the  API.
+  const data = [
+    { course: "CSC 1101", studentNumber: "24007", category: "Missing Marks", date: "01-10-2021", status: "completed", statusText: "Yes" },
+    { course: "CSC 1101", studentNumber: "24008", category: "Missing Marks", date: "01-10-2021", status: "pending", statusText: "No" },
+    { course: "CSC 1100", studentNumber: "24009", category: "Wrong Credentials", date: "01-10-2021", status: "process", statusText: "More details Required" },
+  ];
+
+  return (
+    <div className="order">
+      <div className="head">
+        <h3>Recent History</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Course Unit</th>
+            <th>Student Number</th>
+            <th>Issue Category</th>
+            <th>Date Created</th>
+            <th>Resolved ?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((row, index) => (
+            <tr key={index}>
+              <td>
+                <p>{row.course}</p>
+              </td>
+              <td>{row.studentNumber}</td>
+              <td>{row.category}</td>
+              <td>{row.date}</td>
+              <td>
+                <span className={`status ${row.status}`}>{row.statusText}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default LecturerDashboard;
+// Content Component
+const Content = () => {
+  return (
+    <section id="content">
+      <main>
+        <div className="head-title">
+          <div className="left">
+            <h1>Welcome Lecturer!</h1>
+            <ul className="breadcrumb">
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+              <li>
+                <i className="bx bx-chevron-right"></i>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="table-data">
+          <RecentHistoryTable />
+        </div>
+      </main>
+    </section>
+  );
+};
 
+// Main StudentDashboard Component
+const StudentDashboard = () => {
+  return (
+    <div className="admin-hub">
+      <Sidebar />
+      <Content />
+    </div>
+  );
+};
+
+export default StudentDashboard;
