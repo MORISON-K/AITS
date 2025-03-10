@@ -9,7 +9,6 @@ import StudentDashboard from './StudentDashboard';
 import RegistrarDashboard from './RegistrarDashboard';
 import LecturerDashboard from './LecturerDashboard';
 import ManageIssues from "./pages/ManageIssues";
-import CreateIssue from "./pages/CreateIssue";
 import AssignIssue from "./pages/AssignIssue";
 import NotFound from './pages/NotFound';
 import 'boxicons/css/boxicons.min.css';
@@ -70,7 +69,7 @@ function App() {
             <Route path="/Login-Page" element={<Login />} />
 
             <Route path="/ManageIssues" element={<ManageIssues />} />
-            <Route path="/CreateIssue" element={<CreateIssue />} />
+            
             <Route path="/AssignIssue" element={<AssignIssue />} />
 
             {/* Catch-all route for unknow pages */}
