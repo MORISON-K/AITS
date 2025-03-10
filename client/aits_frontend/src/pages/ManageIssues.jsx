@@ -7,9 +7,9 @@ const ManageIssues = () => {
   // Simulated API fetch (replace with actual API call)
   useEffect(() => {
     setIssues([
-      { id: 1, title: 'Login issue', status: 'Pending', student: 'John Doe' },
-      { id: 2, title: 'Error in grading', status: 'Assigned', student: 'Alice Smith' },
-      { id: 3, title: 'Course registration failure', status: 'Resolved', student: 'Michael Brown' },
+      { id: 1, issue: 'Login issue', status: 'Pending', studentNumber: 'S12345' }, // student number instead of name
+      { id: 2, issue: 'Error in grading', status: 'Assigned', studentNumber: 'S67890' },
+      { id: 3, issue: 'Course registration failure', status: 'Resolved', studentNumber: 'S11223' },
     ]);
   }, []);
 
@@ -41,12 +41,12 @@ const ManageIssues = () => {
       </label>
 
       {/* Issues Table */}
-      <table border="1">
+      <table border="1" style={{ width: '100%', marginTop: '20px' }}>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Title</th>
-            <th>Student</th>
+            <th>issue</th>
+            <th>Student Number</th> {/* Displaying student number */}
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -55,8 +55,8 @@ const ManageIssues = () => {
           {filteredIssues.map((issue) => (
             <tr key={issue.id}>
               <td>{issue.id}</td>
-              <td>{issue.title}</td>
-              <td>{issue.student}</td>
+              <td>{issue.issue}</td>
+              <td>{issue.studentNumber}</td> {/* Displaying student number */}
               <td>{issue.status}</td>
               <td>
                 {issue.status !== 'Resolved' && (
