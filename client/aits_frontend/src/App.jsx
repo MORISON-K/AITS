@@ -69,7 +69,8 @@ function App() {
             <Route path="/Login-Page" element={<Login />} />
 
             <Route path="/ManageIssues" element={<ManageIssues />} />
-            <Route path="/AssignIssue" element={<AssignIssue />} />
+            
+           { /*<Route path="/AssignIssue" element={<AssignIssue />} />*/}
 
             <Route path='/Assigned-Issues' element={<AssignedIssues/>}/>
 
@@ -83,3 +84,4 @@ function App() {
 }
 
 export default App;
+
