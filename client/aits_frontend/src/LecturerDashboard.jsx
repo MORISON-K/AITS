@@ -20,7 +20,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/AssignedIssues-Page">
+          <Link to="/Assigned-Issues">
             <i className="bx bxs-shopping-bag-alt"></i>
             <span className="text">View Assigned Issues</span>
           </Link>
