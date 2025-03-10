@@ -804,3 +804,48 @@ body {
 		min-width: 420px;
 	}
 }
+
+.assigned-issues {
+	max-width: 900px;
+	margin: 40px auto;
+	text-align: center;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	color: #333;
+  }
+  
+  .table-container {
+	overflow-x: auto;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+  }
+  
+  table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	margin-top: 20px;
+	background: #fff;
+  }
+  
+  th, td {
+	padding: 12px 15px;
+	border: 1px solid #e0e0e0;
+  }
+  
+  th {
+	background-color: #007bff;
+	color: #fff;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+  }
+  
+  tbody tr:nth-child(even) {
+	background-color: #f9f9f9;
+  }
+  
+  tbody tr:hover {
+	background-color: #f1f1f1;
+	transition: background-color 0.3s ease;
+  }
+  
+ 
