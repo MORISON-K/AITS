@@ -26,12 +26,6 @@ const Sidebar = () => {
         </li>
       
         
-        <li>
-          <Link to="/AssignIssue" className="flex items-center p-3 text-white hover:bg-gray-700">
-            <i className="bx bxs-user-check text-xl mr-3"></i>
-            <span className="text-lg">Assign an Issue</span>
-          </Link>
-        </li>
       </ul>
       <ul className="side-menu p-4">
         <li>

@@ -8,11 +8,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import StudentDashboard from './StudentDashboard';
 import RegistrarDashboard from './RegistrarDashboard';
 import LecturerDashboard from './LecturerDashboard';
-import ManageIssues from "./pages/ManageIssues";
-import AssignIssue from "./pages/AssignIssue";
+import ManageIssues from "./pages/ManageAndAssignissues";
+//import AssignIssue from "./pages/AssignIssue";
 import NotFound from './pages/NotFound';
 import 'boxicons/css/boxicons.min.css';
-
+import AssignedIssues from "./AssignedIssues.jsx"
 
 import { AuthProvider, AuthContext } from './auth';
 
@@ -70,7 +70,9 @@ function App() {
 
             <Route path="/ManageIssues" element={<ManageIssues />} />
             
-            <Route path="/AssignIssue" element={<AssignIssue />} />
+           { /*<Route path="/AssignIssue" element={<AssignIssue />} />*/}
+
+            <Route path='/Assigned-Issues' element={<AssignedIssues/>}/>
 
             {/* Catch-all route for unknow pages */}
             <Route path="*" element={<NotFound />} />
@@ -82,3 +84,4 @@ function App() {
 }
 
 export default App;
+
