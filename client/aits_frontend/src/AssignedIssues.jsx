@@ -16,22 +16,22 @@ const AssignedIssues = () => {
         <table>
           <thead>
             <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Course Unit</th>
-              <th scope="col">Student Number</th>
-              <th scope="col">Issue Category</th>
-              <th scope="col">Date Created</th>
+              <th scope="col" className="AssignedIsues-th">ID</th>
+              <th scope="col" className="AssignedIsues-th">Course Unit</th>
+              <th scope="col" className="AssignedIsues-th">Student Number</th>
+              <th scope="col" className="AssignedIsues-th">Issue Category</th>
+              <th scope="col" className="AssignedIsues-th">Date Created</th>
              
             </tr>
           </thead>
           <tbody>
             {data.map((row, index) => (
               <tr key={index}>
-                <td>{row.ID}</td>
-                <td>{row.course}</td>
-                <td>{row.studentNumber}</td>
-                <td>{row.category}</td>
-                <td>{row.date}</td>
+                <td className="AssignedIsues-td">{row.ID}</td>
+                <td className="AssignedIsues-td">{row.course}</td>
+                <td className="AssignedIsues-td">{row.studentNumber}</td>
+                <td className="AssignedIsues-td">{row.category}</td>
+                <td className="AssignedIsues-td">{row.date}</td>
                 
               </tr>
             ))}

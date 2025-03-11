@@ -805,6 +805,7 @@ body {
 	}
 }
 
+/* Styling for the Assigned Isuees page */
 .assigned-issues {
 	max-width: 900px;
 	margin: 40px auto;
@@ -827,13 +828,14 @@ body {
 	background: #fff;
   }
   
-  th, td {
+  .AssignedIsues-th,
+  .AssignedIsues-td  {
 	padding: 12px 15px;
 	border: 1px solid #e0e0e0;
   }
   
-  th {
-	background-color: #007bff;
+  .AssignedIsues-th {
+	background-color: #90670e;
 	color: #fff;
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
