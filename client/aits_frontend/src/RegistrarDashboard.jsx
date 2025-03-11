@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import "boxicons/css/boxicons.min.css";  // Import Boxicons for the icons
 
 
+
 // Sidebar Component
 const Sidebar = () => {
   return (
@@ -19,7 +20,7 @@ const Sidebar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/ManageIssues" className="flex items-center p-3 text-white hover:bg-gray-700">
+          <Link to="/manage-issues" className="flex items-center p-3 text-white hover:bg-gray-700">
             <i className="bx bxs-folder-open text-xl mr-3"></i>
             <span className="text-lg">Manage Student Issues</span>
           </Link>
