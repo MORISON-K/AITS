@@ -68,7 +68,7 @@ function App() {
             <Route path="/Register-Page" element={<Register />} />
             <Route path="/Login-Page" element={<Login />} />
 
-            <Route path="/Manage-Issues" element={<ManageIssues />} />
+            <Route path="/manage-issues" element={<ManageIssues />} />
             
            { /*<Route path="/AssignIssue" element={<AssignIssue />} />*/}
 

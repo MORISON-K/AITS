@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import "boxicons/css/boxicons.min.css";
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
 
 // Sidebar Component
 const Sidebar = () => {
@@ -44,14 +45,17 @@ const Sidebar = () => {
   );
 };
 
+
 // Recent History Table Component
 const RecentHistoryTable = () => {
-  // Data to be fetched from the  API.
-  const data = [
-    { course: "CSC 1101", studentNumber: "24007", category: "Missing Marks", date: "01-10-2021", status: "completed", statusText: "Yes" },
-    { course: "CSC 1101", studentNumber: "24008", category: "Missing Marks", date: "01-10-2021", status: "pending", statusText: "No" },
-    { course: "CSC 1100", studentNumber: "24009", category: "Wrong Credentials", date: "01-10-2021", status: "process", statusText: "More details Required" },
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("API_ENDPOINT_HERE") // Replace with your actual API endpoint
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
   return (
     <div className="order">
@@ -71,9 +75,7 @@ const RecentHistoryTable = () => {
         <tbody>
           {data.map((row, index) => (
             <tr key={index}>
-              <td>
-                <p>{row.course}</p>
-              </td>
+              <td>{row.course}</td>
               <td>{row.studentNumber}</td>
               <td>{row.category}</td>
               <td>{row.date}</td>
@@ -87,6 +89,7 @@ const RecentHistoryTable = () => {
     </div>
   );
 };
+
 
 // Content Component
 const Content = () => {
