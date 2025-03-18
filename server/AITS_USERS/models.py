@@ -9,7 +9,7 @@ class User(AbstractUser):
         ('academic registrar', 'Academic Registrar'),
     ]
   
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
+    role = models.CharField(max_length=100, choices=ROLE_CHOICES, default='student')
     groups = models.ManyToManyField('auth.Group', related_name='ait_users_groups', blank=True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name='ait_users_permissions', blank=True)
 
