@@ -80,29 +80,40 @@ cd
 /* Styling for the login page */
 .Register-page,
 .login-page {
-  height: 100vh;
-  margin-bottom: 0px;
-  background-color:  #cff1f3;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(48, 4, 4, 0.1);
 }
 
+.Register-page {
+	width: 600px;
+}
+
+.login-page {
+	margin-top: 50px;
+	width: 600px;
+	height: 500px;
+}
 
 .login-input {
-   width: 350px;
-   height: 35px;
-   border-radius: 8px;
+   width: 370px;
+   height: 40px;
+   border-radius: 4px;
    padding: 10px;
    margin-bottom: 20px; 
    border: 1px solid #333;
    background-color: #f8f8f8;
-   box-shadow: 0px 0px 12px 3px rgba(76, 175, 80, 0.2);
-   transition: all 0.3s ease-in-out;
+   transition: all 0.3s ease-in-out;  
+}
 
-  
+.login {
+	color: white;
+	background-color: rgb(27, 88, 109);
 }
 
 .Forgot-Password {
@@ -117,11 +128,11 @@ cd
 .login {
   width: 370px; 
   height: 45px; 
-  border-radius: 10px;
-  background-color: whitesmoke;
+  border-radius: 4px;
   border: 1px solid #333;
   cursor: pointer;
   font-size: 18px;
+  padding: 10px;
   margin-bottom: 5px;
   transition: background-color 0.3s ease;
   margin-top: 15px;
@@ -131,7 +142,7 @@ cd
 
 .without-account {
   margin-left: 5px;
-  color: #4caf50;
+  color: blue;
 }
 
 .without {
@@ -146,7 +157,7 @@ cd
 }
 
 .Last-Name {
-  margin-left: 13px;
+  margin-left: 16px;
 }
 
 .Submit-Button {
