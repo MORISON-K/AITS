@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Register = ({ handlePageChange }) => {
   const [formData, setFormData] = useState({
@@ -13,14 +14,21 @@ const Register = ({ handlePageChange }) => {
     password: "",
     confirmPassword: ""
   });
+  
+  const [error, setError] = useState(""); 
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
+   
+    setError("");
+
+    
     if (
       !formData.firstName ||
       !formData.lastName ||
@@ -30,26 +38,40 @@ const Register = ({ handlePageChange }) => {
       !formData.password ||
       !formData.confirmPassword
     ) {
-      alert("All fields are required.");
+      setError("All fields are required.");
       return;
     }
 
     if (formData.role === "lecturer" && !formData.department) {
-      alert("Department is required for lecturers.");
+      setError("Department is required for lecturers.");
       return;
     }
     
     if (formData.role === "student" && (!formData.college || !formData.programmeName)) {
-      alert("College and Programme are required for students.");
+      setError("College and Programme are required for students.");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      setError("Passwords do not match.");
       return;
     }
 
     console.log("Form submitted:", formData);
+
+    const dashboardRoutes = {
+      student: '/student-dashboard',
+      lecturer: '/lecturer-dashboard',
+      academic_registrar: '/registrar-dashboard'
+    };
+
+
+    if (dashboardRoutes[formData.role]) {
+      navigate(dashboardRoutes[formData.role]);
+    } else {
+    
+      navigate('/');
+    }
   };
 
   return (
@@ -104,7 +126,6 @@ const Register = ({ handlePageChange }) => {
         />
         <br />
 
-        
         {formData.role === "lecturer" && (
           <>
             <input 
@@ -118,7 +139,6 @@ const Register = ({ handlePageChange }) => {
           </>
         )}
 
-        
         {formData.role === "student" && (
           <>
             <input 
@@ -160,6 +180,11 @@ const Register = ({ handlePageChange }) => {
           onChange={handleChange} 
         />
         <br />
+
+        {/* Only display error message if there is an error */}
+        {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
+        <br />
+
         <button type="submit" className="Submit-Button">Submit</button>
         <br />
       </form>
