@@ -20,12 +20,7 @@ const Sidebar = () => {
             <span className="text">Dashboard</span>
           </Link>
         </li>
-        <li>
-          <Link to="/Assigned-Issues">
-            <i className="bx bxs-shopping-bag-alt"></i>
-            <span className="text">View Assigned Issues</span>
-          </Link>
-        </li>
+        
         <li>
           <Link to="/notifications">
             <i className="bx bxs-bell"></i>
@@ -49,18 +44,48 @@ const Sidebar = () => {
 // Recent History Table Component
 const RecentHistoryTable = () => {
   const [data, setData] = useState([]);
+  const [feedbackText, setFeedbackText] = useState({}); // Store feedback for each issue
 
   useEffect(() => {
-    fetch("API_ENDPOINT_HERE") // Replace with your actual API endpoint
+    fetch("API_ENDPOINT_FOR_ASSIGNED_ISSUES") // Replace with actual API URL
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
+  const sendFeedback = (issueId) => {
+    if (!feedbackText[issueId]) {
+      alert("Please enter feedback before submitting.");
+      return;
+    }
+
+    fetch(`API_ENDPOINT_FOR_SENDING_FEEDBACK/${issueId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status: "Resolved",
+        feedback: feedbackText[issueId], // Send custom feedback
+      }),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        alert("Feedback sent successfully!");
+        // Update the issue status locally
+        setData(data.map(issue =>
+          issue.id === issueId ? { ...issue, status: "Resolved", statusText: "Resolved" } : issue
+        ));
+        // Clear the feedback field for that issue
+        setFeedbackText((prev) => ({ ...prev, [issueId]: "" }));
+      })
+      .catch((error) => console.error("Error sending feedback:", error));
+  };
+
   return (
     <div className="order">
       <div className="head">
-        <h3>Recent History</h3>
+        <h3>Assigned Issues</h3>
       </div>
       <table>
         <thead>
@@ -69,7 +94,9 @@ const RecentHistoryTable = () => {
             <th>Student Number</th>
             <th>Issue Category</th>
             <th>Date Created</th>
-            <th>Resolved ?</th>
+            <th>Status</th>
+            <th>Feedback</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -82,6 +109,24 @@ const RecentHistoryTable = () => {
               <td>
                 <span className={`status ${row.status}`}>{row.statusText}</span>
               </td>
+              <td>
+                {row.status !== "Resolved" && (
+                  <textarea
+                    value={feedbackText[row.id] || ""}
+                    onChange={(e) => setFeedbackText({ ...feedbackText, [row.id]: e.target.value })}
+                    placeholder="Enter feedback..."
+                    rows="2"
+                    cols="25"
+                  />
+                )}
+              </td>
+              <td>
+                {row.status !== "Resolved" && (
+                  <button className="resolve-btn" onClick={() => sendFeedback(row.id)}>
+                    Mark as Resolved
+                  </button>
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -89,6 +134,7 @@ const RecentHistoryTable = () => {
     </div>
   );
 };
+
 
 
 // Content Component

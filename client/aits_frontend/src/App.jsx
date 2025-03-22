@@ -12,7 +12,7 @@ import ManageIssues from "./pages/ManageAndAssignissues";
 //import AssignIssue from "./pages/AssignIssue";
 import NotFound from './pages/NotFound';
 import 'boxicons/css/boxicons.min.css';
-import AssignedIssues from "./AssignedIssues.jsx"
+//import AssignedIssues from "./AssignedIssues.jsx"
 
 import { AuthProvider, AuthContext } from './auth';
 
@@ -72,7 +72,7 @@ function App() {
             
            { /*<Route path="/AssignIssue" element={<AssignIssue />} />*/}
 
-            <Route path='/Assigned-Issues' element={<AssignedIssues/>}/>
+            
 
             {/* Catch-all route for unknow pages */}
             <Route path="*" element={<NotFound />} />
