@@ -29,7 +29,7 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(username, email, password, **extra_fields)
 
-class User(AbstractUser):
+class User(AbstractUser):#custom user model to support multiple roles
     ROLE_CHOICES = [
         ('student', 'Student'),
         ('lecturer', 'Lecturer'),
