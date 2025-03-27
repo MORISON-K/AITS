@@ -32,6 +32,7 @@ const Register = ({ handlePageChange }) => {
     if (
       !formData.firstName ||
       !formData.lastName ||
+      !formData.userName ||
       !formData.email ||
       !formData.role ||
       !formData.roleId ||
@@ -92,6 +93,16 @@ const Register = ({ handlePageChange }) => {
           placeholder="Last Name" 
           className="Last-Name" 
           value={formData.lastName} 
+          onChange={handleChange} 
+        />
+        <br />
+        <br />
+        <input 
+          type="txt" 
+          name="userName" 
+          placeholder="User Name" 
+          className="Register-input" 
+          value={formData.userName} 
           onChange={handleChange} 
         />
         <br />
