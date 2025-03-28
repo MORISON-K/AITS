@@ -6,11 +6,15 @@ class User(AbstractUser):
     ROLE_CHOICES = [
         ('student', 'Student'),
         ('lecturer', 'Lecturer'),
+<<<<<<< HEAD
         ('registrar', 'Registrar'),
         ('admin', 'Administrator'),
+=======
+        ('academic registrar', 'Academic Registrar'),
+>>>>>>> 4301486f849250ddccf23b6805a4fed6d6e200c4
     ]
-      
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+  
+    role = models.CharField(max_length=100, choices=ROLE_CHOICES, default='student')
     groups = models.ManyToManyField('auth.Group', related_name='ait_users_groups', blank=True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name='ait_users_permissions', blank=True)
 
@@ -38,7 +42,7 @@ class Issue(models.Model):
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="submitted_issues", limit_choices_to={'role': 'student'})
-    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="assigned_issues", limit_choices_to={'role__in': ('lecturer', 'admin')})
+    assigned_to = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="assigned_issues", limit_choices_to={'role__in': ('lecturer', 'academic registrar')})
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
