@@ -1,6 +1,9 @@
 from rest_framework import generics, permissions
-from .models import User, Department, Issue
-from .serializers import UserSerializer, DepartmentSerializer, IssueSerializer
+from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
+from .models import User
+from .serializers import UserSerializer, CustomTokenObtainPairSerializer
 
 class IsStudent(permissions.BasePermission):
     """ Allows access only to authenticated users with role 'student'. """
@@ -10,6 +13,37 @@ class IsStudent(permissions.BasePermission):
             request.user.is_authenticated and
             request.user.role == 'student'
         )
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        try:
+            serializer.is_valid(raise_exception=True)
+        except Exception as e:
+            return Response({'error': str(e)}, status_code=400)
+
+        refresh = RefreshToken.for_user(serializer.validated_data['user'])
+        data = {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'user_id': serializer.validated_data['user'].id,
+            'username': serializer.validated_data['user'].username,
+            'email': serializer.validated_data['user'].email,
+            'role': serializer.validated_data['user'].role,
+        }
+
+        return Response(data, status_code=200)
+
+class UserDetailView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
 
 class IsLecturer(permissions.BasePermission):
     """ Allows access only to authenticated users with role 'lecturer'. """
