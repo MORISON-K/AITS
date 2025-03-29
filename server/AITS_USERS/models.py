@@ -85,16 +85,14 @@ class Course(models.Model):
 # Custom User model to support multiple roles
 class User(AbstractUser):
     ROLE_CHOICES = [
-        ('student', 'Student'),
-        ('lecturer', 'Lecturer'),
-<<<<<<< HEAD
-        ('registrar', 'Registrar'),
-        ('admin', 'Administrator'),
-=======
-        ('academic registrar', 'Academic Registrar'),
->>>>>>> 4301486f849250ddccf23b6805a4fed6d6e200c4
-    ]
-  
+    ('student', 'Student'),
+    ('lecturer', 'Lecturer'),
+    ('registrar', 'Registrar'),
+    ('admin', 'Administrator'),
+    ('academic registrar', 'Academic Registrar'),
+]
+
+    ROLE_CHOICES 
     role = models.CharField(
         max_length=100,
         choices=ROLE_CHOICES,
