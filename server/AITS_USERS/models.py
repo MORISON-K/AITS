@@ -91,7 +91,6 @@ class User(AbstractUser):
     ('academic registrar', 'Academic Registrar'),
 ]
 
-    ROLE_CHOICES 
     role = models.CharField(
         max_length=100,
         choices=ROLE_CHOICES,
