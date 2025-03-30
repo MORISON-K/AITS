@@ -23,7 +23,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         try:
             serializer.is_valid(raise_exception=True)
         except Exception as e:
-            return Response({'error': str(e)}, status_code=400)
+            return Response({'error': str(e)}, status=400)
 
         refresh = RefreshToken.for_user(serializer.validated_data['user'])
         data = {
@@ -35,7 +35,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             'role': serializer.validated_data['user'].role,
         }
 
-        return Response(data, status_code=200)
+        return Response(data, status=200)
 
 class UserDetailView(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
