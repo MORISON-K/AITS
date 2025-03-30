@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User, Issue, Department
-from .serializers import UserSerializer, CustomTokenObtainPairSerializer
+from .serializers import UserSerializer,IssueSerializer, DepartmentSerializer, CustomTokenObtainPairSerializer
 
 class IsStudent(permissions.BasePermission):
     """ Allows access only to authenticated users with role 'student'. """
