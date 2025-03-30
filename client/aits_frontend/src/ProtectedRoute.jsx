@@ -4,13 +4,12 @@ import api from "./api";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "./constants";
 import { useState, useEffect } from "react";
 
-
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children, allowedRoles }) {  // Added allowedRoles prop
     const [isAuthorized, setIsAuthorized] = useState(null);
 
     useEffect(() => {
-        auth().catch(() => setIsAuthorized(false))
-    }, [])
+        auth().catch(() => setIsAuthorized(false));
+    }, []);
 
     const refreshToken = async () => {
         const refreshToken = localStorage.getItem(REFRESH_TOKEN);
@@ -18,32 +17,50 @@ function ProtectedRoute({ children }) {
             const res = await api.post("/api/token/refresh/", {
                 refresh: refreshToken,
             });
+            
             if (res.status === 200) {
-                localStorage.setItem(ACCESS_TOKEN, res.data.access)
-                setIsAuthorized(true)
-            } else {
-                setIsAuthorized(false)
+                localStorage.setItem(ACCESS_TOKEN, res.data.access);
+                return true;  // Return success status
             }
+            return false;
         } catch (error) {
-            console.log(error);
-            setIsAuthorized(false);
+            console.error("Refresh token failed:", error);
+            return false;
         }
     };
 
     const auth = async () => {
         const token = localStorage.getItem(ACCESS_TOKEN);
+        
+        // 1. No token case
         if (!token) {
-            setIsAuthorized(false);
-            return;
+            throw new Error("No token found");
         }
+
         const decoded = jwtDecode(token);
-        const tokenExpiration = decoded.exp;
         const now = Date.now() / 1000;
 
-        if (tokenExpiration < now) {
-            await refreshToken();
-        } else {
+        // 2. Handle expired token
+        if (decoded.exp < now) {
+            const refreshSuccess = await refreshToken();
+            if (!refreshSuccess) {
+                throw new Error("Token refresh failed");
+            }
+        }
+
+        // 3. Verify token with backend
+        try {
+            const userResponse = await api.get("/api/auth/user/");
+            
+            // 4. Check role authorization if specified
+            if (allowedRoles && !allowedRoles.includes(userResponse.data.role)) {
+                throw new Error("Unauthorized role");
+            }
+            
             setIsAuthorized(true);
+        } catch (error) {
+            console.error("Authentication failed:", error);
+            throw error;
         }
     };
 
@@ -51,7 +68,7 @@ function ProtectedRoute({ children }) {
         return <div>Loading...</div>;
     }
 
-    return isAuthorized ? children : <Navigate to="/Login-Page" />;
+    return isAuthorized ? children : <Navigate to="/login" />;
 }
 
 export default ProtectedRoute;
