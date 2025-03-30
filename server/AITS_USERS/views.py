@@ -2,7 +2,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User
+from .models import User, Issue, Department
 from .serializers import UserSerializer, CustomTokenObtainPairSerializer
 
 class IsStudent(permissions.BasePermission):
