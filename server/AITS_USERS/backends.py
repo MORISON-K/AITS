@@ -24,7 +24,7 @@ class EmailOrUsernameModelBackend(ModelBackend):
             # Look up the user by username or email
             user = User.objects.get(Q(username=username) | Q(email=username))
         except User.DoesNotExist:
-            # Simulate the hashing time to help prevent timing attacks
+            # Simulating the hashing time to help prevent timing attacks
             make_password(password)
             return None
         else:

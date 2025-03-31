@@ -45,7 +45,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     This view authenticates the user and returns a pair of access and refresh JWT tokens.
     You can customize the serializer if you need to add extra data in the token response.
     """
-    # If customization is needed, define a custom serializer_class here.
+    
     serializer_class = CustomTokenObtainSerializer
 
 class RegisterView(generics.CreateAPIView):
@@ -74,7 +74,7 @@ class LogoutView(APIView):
         try:
             refresh_token = request.data["refresh"]
             token = RefreshToken(refresh_token)
-            token.blacklist()  # Requires 'rest_framework_simplejwt.token_blacklist' to be in INSTALLED_APPS.
+            token.blacklist()  
             return Response({"message": "Successfully logged out."}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": "Invalid or expired refresh token."}, status=status.HTTP_400_BAD_REQUEST)
