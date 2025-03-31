@@ -12,6 +12,7 @@ import NotFound from './pages/NotFound';
 import 'boxicons/css/boxicons.min.css';
 import { AuthProvider, AuthContext } from './auth';
 import ProtectedRoute from './ProtectedRoute';
+// import Logout from './Logout';
 
 function App() {
   return (
@@ -57,7 +58,7 @@ function App() {
               </AuthContext.Consumer>
             } />
 
-            {/* Public routes */}
+          
             <Route path="/IssueSubmission-Page" element={<IssueSubmission_form />} />
 
             {/* Protected routes */}
@@ -84,6 +85,8 @@ function App() {
                 <ManageIssues />
               </ProtectedRoute>
             } />
+
+            {/* <Route path="/logout" element={<Logout />} /> */}
 
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
