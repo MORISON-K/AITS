@@ -1,5 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "./server/AITS_USERS/myenv/Lib/site-packages"
-    ]
-}
