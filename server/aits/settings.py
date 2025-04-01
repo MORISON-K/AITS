@@ -15,6 +15,8 @@ from datetime import timedelta
 from dotenv import load_dotenv
 import os
 from urllib.parse import urlparse
+import dj_database_url 
+import django_heroku
 
 load_dotenv()
 
@@ -25,12 +27,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u)o=%ids*g6pkpb&g8o_5adq1us8^^-*q+yp#*d*gq&!uqf-kt'
+# SECRET_KEY = 'django-insecure-u)o=%ids*g6pkpb&g8o_5adq1us8^^-*q+yp#*d*gq&!uqf-kt'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'aits.herokuapp.com').split(',')
 
 AUTH_USER_MODEL = 'AITS_USERS.User'
 
@@ -53,6 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -130,7 +134,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 STATIC_URL = 'static/'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -188,3 +195,5 @@ AUTHENTICATION_BACKENDS = [
     'AITS_USERS.backends.EmailOrUsernameModelBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+django_heroku.settings(locals())
