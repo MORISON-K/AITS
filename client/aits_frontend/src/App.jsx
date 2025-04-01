@@ -1,18 +1,20 @@
+// App.jsx
 import React from 'react';
 import Login from './Login';
 import Register from './Register';
 import './App.css';
 import IssueSubmission_form from './IssueSubmission_form';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import StudentDashboard from './StudentDashboard';
 import RegistrarDashboard from './RegistrarDashboard';
 import LecturerDashboard from './LecturerDashboard';
 import ManageIssues from "./pages/ManageAndAssignissues";
+//import AssignIssue from "./pages/AssignIssue";
 import NotFound from './pages/NotFound';
 import 'boxicons/css/boxicons.min.css';
+//import AssignedIssues from "./AssignedIssues.jsx"
+
 import { AuthProvider, AuthContext } from './auth';
-import ProtectedRoute from './ProtectedRoute';
-// import Logout from './Logout';
 
 function App() {
   return (
@@ -23,74 +25,58 @@ function App() {
             <button className="nav-button" onClick={() => window.location.href = '/'}> Home </button>
           </nav> */}
           <Routes>
-            {/* Main entry point with welcome page */}
             <Route path="/" element={
               <AuthContext.Consumer>
-                {({ currentPage, handlePageChange, user }) => {
-                  if (user) {
-                    // Redirect logged-in users to appropriate dashboard
-                    return <Navigate to={
-                      user.role === 'academic registrar' ? '/registrar-dashboard' :
-                      user.role === 'lecturer' ? '/lecturer-dashboard' : '/student-dashboard'
-                    } />;
-                  }
-
-                  // Show welcome/login/register based on currentPage
-                  return currentPage === 'welcome' ? (
+                {({ currentPage, handlePageChange, user }) => (
+                  currentPage === 'welcome' ? (
                     <div className="welcome-page">
-                      <img src="/muk_logo.jpeg" alt="Logo" />
+                      <img src="/muk_logo.jpeg" alt="Logo not found" />
                       <h1>Welcome to Academic Issue Tracking System</h1>
                       <div className="button-container">
-                        <button className="register-button" onClick={() => handlePageChange('register')}>
-                          Register
-                        </button>
-                        <button className="login-button" onClick={() => handlePageChange('login')}>
-                          Login
-                        </button>
+                        <button className="register-button" onClick={() => handlePageChange('register')}> Register </button>
+                        <button className="login-button" onClick={() => handlePageChange('login')}> Login </button>
                       </div>
                     </div>
                   ) : currentPage === 'login' ? (
                     <Login handlePageChange={handlePageChange} />
                   ) : currentPage === 'register' ? (
                     <Register handlePageChange={handlePageChange} />
-                  ) : null;
-                }}
+                  ) : currentPage === 'issueSubmission' ? (
+                    <IssueSubmission_form />
+                  ) : null
+                )}
               </AuthContext.Consumer>
             } />
+            <Route path="/dashboard" element={
+              <AuthContext.Consumer>
+                {({ user }) => (
+                  user && user.role === 'academic_registrar' ? (
+                    <RegistrarDashboard />
+                  ) : user && user.role === 'lecturer' ? (
+                    <LecturerDashboard />
+                  ) : (
+                    <StudentDashboard />
+                  )
+                )}
+              </AuthContext.Consumer>
+            } />
+            <Route path="/student-dashboard" element={<StudentDashboard />} />
+            <Route path="/registrar-dashboard" element={<RegistrarDashboard />} />
+            <Route path="/lecturer-dashboard" element={<LecturerDashboard />} />
 
-          
             <Route path="/IssueSubmission-Page" element={<IssueSubmission_form />} />
+            <Route path="/Register-Page" element={<Register />} />
+            <Route path="/Login-Page" element={<Login />} />
 
-            {/* Protected routes */}
-            <Route path="/student-dashboard" element={
-              <ProtectedRoute allowedRoles={['student']}>
-                <StudentDashboard />
-              </ProtectedRoute>
-            } />
+            <Route path="/manage-issues" element={<ManageIssues />} />
             
-            <Route path="/registrar-dashboard" element={
-              <ProtectedRoute allowedRoles={['academic registrar']}>
-                <RegistrarDashboard />
-              </ProtectedRoute>
-            } />
+           { /*<Route path="/AssignIssue" element={<AssignIssue />} />*/}
+
             
-            <Route path="/lecturer-dashboard" element={
-              <ProtectedRoute allowedRoles={['lecturer']}>
-                <LecturerDashboard />
-              </ProtectedRoute>
-            } />
 
-            <Route path="/manage-issues" element={
-              <ProtectedRoute allowedRoles={['academic registrar']}>
-                <ManageIssues />
-              </ProtectedRoute>
-            } />
-
-            {/* <Route path="/logout" element={<Logout />} /> */}
-
-            {/* Catch-all route */}
+            {/* Catch-all route for unknow pages */}
             <Route path="*" element={<NotFound />} />
-          </Routes>
+        </Routes>
         </div>
       </BrowserRouter>
     </AuthProvider>
@@ -98,3 +84,4 @@ function App() {
 }
 
 export default App;
+
