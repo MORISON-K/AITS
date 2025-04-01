@@ -1,55 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from './api';
+import LoadingIndicator from './LoadingIndicator';
 
 const Register = ({ handlePageChange }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    userName: "",
     email: "",
     role: "",
     roleId: "",
     department: "",
     college: "",
-    programmeName: "",
+    programme: "",
     password: "",
     confirmPassword: ""
   });
-  
-  const [error, setError] = useState(""); 
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [colleges, setColleges] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [programmes, setProgrammes] = useState([]);
+  const [optionsLoading, setOptionsLoading] = useState(true);
   const navigate = useNavigate();
 
+  // Fetch initial data for dropdowns
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const [collegesRes, departmentsRes, programmesRes] = await Promise.all([
+          api.get('/api/colleges/'),
+          api.get('/api/departments/'),
+          api.get('/api/programmes/')
+        ]);
+        
+        setColleges(collegesRes.data);
+        setDepartments(departmentsRes.data);
+        setProgrammes(programmesRes.data);
+        setOptionsLoading(false);
+      } catch (error) {
+        console.error('Error fetching options:', error);
+        setError("Failed to load registration options. Please refresh the page.");
+        setOptionsLoading(false);
+      }
+    };
+
+    fetchOptions();
+  }, []);
+
   const handleChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+    setFormData({ 
+      ...formData, 
+      [event.target.name]: event.target.value 
+    });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-   
     setError("");
 
-    
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.userName ||
-      !formData.email ||
-      !formData.role ||
-      !formData.roleId ||
-      !formData.password ||
-      !formData.confirmPassword
-    ) {
+    // Basic validation
+    if (!formData.firstName || !formData.lastName || !formData.userName || 
+        !formData.email || !formData.role || !formData.roleId || 
+        !formData.password || !formData.confirmPassword) {
       setError("All fields are required.");
-      return;
-    }
-
-    if (formData.role === "lecturer" && !formData.department) {
-      setError("Department is required for lecturers.");
-      return;
-    }
-    
-    if (formData.role === "student" && (!formData.college || !formData.programmeName)) {
-      setError("College and Programme are required for students.");
       return;
     }
 
@@ -58,22 +74,55 @@ const Register = ({ handlePageChange }) => {
       return;
     }
 
-    console.log("Form submitted:", formData);
+    // Role-specific validation
+    if (formData.role === "student" && (!formData.college || !formData.programme)) {
+      setError("Students must select a college and programme");
+      return;
+    }
 
-    const dashboardRoutes = {
-      student: '/student-dashboard',
-      lecturer: '/lecturer-dashboard',
-      academic_registrar: '/registrar-dashboard'
-    };
+    if (formData.role === "lecturer" && !formData.department) {
+      setError("Lecturers must select a department");
+      return;
+    }
 
+    setLoading(true);
 
-    if (dashboardRoutes[formData.role]) {
-      navigate(dashboardRoutes[formData.role]);
-    } else {
-    
-      navigate('/');
+    try {
+      const payload = {
+        username: formData.userName,
+        email: formData.email,
+        password: formData.password,
+        confirm_password: formData.confirmPassword,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        role: formData.role,
+        role_id: formData.roleId
+      };
+
+      if (formData.role === "student") {
+        payload.college = formData.college;
+        payload.programme = formData.programme;
+      } else if (formData.role === "lecturer") {
+        payload.department = formData.department;
+      }
+
+      const response = await api.post("/api/auth/register/", payload);
+      
+      setLoading(false);
+      handlePageChange("login");
+    } catch (error) {
+      console.error('Registration error:', error.response?.data);
+      const errorMessage = error.response?.data?.error || 
+                         Object.values(error.response?.data || {}).flat().join(', ') || 
+                         "Registration failed. Please try again.";
+      setError(errorMessage);
+      setLoading(false);
     }
   };
+
+  if (optionsLoading) {
+    return <div className="Register-page"><LoadingIndicator /></div>;
+  }
 
   return (
     <div className="Register-page">
@@ -86,6 +135,7 @@ const Register = ({ handlePageChange }) => {
           className="First-Name" 
           value={formData.firstName} 
           onChange={handleChange} 
+          required
         />
         <input 
           type="text" 
@@ -94,16 +144,17 @@ const Register = ({ handlePageChange }) => {
           className="Last-Name" 
           value={formData.lastName} 
           onChange={handleChange} 
+          required
         />
-        <br />
-        <br />
+        <br /><br />
         <input 
-          type="txt" 
+          type="text" 
           name="userName" 
           placeholder="User Name" 
           className="Register-input" 
           value={formData.userName} 
           onChange={handleChange} 
+          required
         />
         <br />
         <input 
@@ -113,6 +164,7 @@ const Register = ({ handlePageChange }) => {
           className="Register-input" 
           value={formData.email} 
           onChange={handleChange} 
+          required
         />
         <br />
         <select 
@@ -120,56 +172,75 @@ const Register = ({ handlePageChange }) => {
           value={formData.role} 
           onChange={handleChange} 
           className="Register-input"
+          required
         >
           <option value="">Select Role</option>
           <option value="student">Student</option>
-          <option value="academic_registrar">Academic Registrar</option>
           <option value="lecturer">Lecturer</option>
+          <option value="academic registrar">Academic Registrar</option>
         </select>
         <br />
         <input 
           type="text" 
           name="roleId" 
-          placeholder="Enter Role ID" 
+          placeholder="Role ID (e.g., Student ID, Staff ID)" 
           className="Register-input" 
           value={formData.roleId} 
           onChange={handleChange} 
+          required
         />
         <br />
 
-        {formData.role === "lecturer" && (
+        {formData.role === "student" && (
           <>
-            <input 
-              type="text" 
-              name="department" 
-              placeholder="Department" 
-              className="Register-input" 
-              value={formData.department} 
-              onChange={handleChange} 
-            /><br />
+            <select
+              name="college"
+              value={formData.college}
+              onChange={handleChange}
+              className="Register-input"
+              required
+            >
+              <option value="">Select College</option>
+              {colleges.map(college => (
+                <option key={college.id} value={college.name}>
+                  {college.name}
+                </option>
+              ))}
+            </select>
+            <br />
+            <select
+              name="programme"
+              value={formData.programme}
+              onChange={handleChange}
+              className="Register-input"
+              required
+            >
+              <option value="">Select Programme</option>
+              {programmes.map(programme => (
+                <option key={programme.id} value={programme.name}>
+                  {programme.name} ({programme.code})
+                </option>
+              ))}
+            </select>
+            <br />
           </>
         )}
 
-        {formData.role === "student" && (
-          <>
-            <input 
-              type="text" 
-              name="college" 
-              placeholder="College" 
-              className="Register-input" 
-              value={formData.college} 
-              onChange={handleChange} 
-            /><br />
-            
-            <input 
-              type="text" 
-              name="programmeName" 
-              placeholder="Programme" 
-              className="Register-input" 
-              value={formData.programmeName} 
-              onChange={handleChange} 
-            /><br />
-          </>
+        {formData.role === "lecturer" && (
+          <select
+            name="department"
+            value={formData.department}
+            onChange={handleChange}
+            className="Register-input"
+            required
+          >
+            <option value="">Select Department</option>
+            {departments.map(department => (
+              <option key={department.id} value={department.name}>
+                {department.name}
+              </option>
+            ))}
+          </select>
         )}
 
         <input 
@@ -179,9 +250,9 @@ const Register = ({ handlePageChange }) => {
           className="Register-input" 
           value={formData.password} 
           onChange={handleChange} 
+          required
         />
         <br />
-
         <input 
           type="password" 
           name="confirmPassword" 
@@ -189,15 +260,16 @@ const Register = ({ handlePageChange }) => {
           className="Register-input" 
           value={formData.confirmPassword} 
           onChange={handleChange} 
+          required
         />
         <br />
 
-        {/* Only display error message if there is an error */}
         {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
         <br />
-
-        <button type="submit" className="Submit-Button">Submit</button>
-        <br />
+        {loading && <LoadingIndicator />}
+        <button type="submit" className="Submit-Button" disabled={loading || optionsLoading}>
+          {loading ? 'Registering...' : 'Register'}
+        </button>
       </form>
     </div>
   );
