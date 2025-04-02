@@ -91,19 +91,31 @@ class RegisterView(generics.CreateAPIView):
 class LogoutView(APIView):
     """
     Logs out the user by blacklisting their refresh token.
-    Ensure that your settings and installed apps are configured to support token blacklisting.
     """
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     
     def post(self, request):
         try:
-            refresh_token = request.data["refresh"]
+            refresh_token = request.data.get("refresh")
+            
+            # Validate refresh token exists
+            if not refresh_token:
+                return Response(
+                    {"error": "Refresh token is required"},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            
             token = RefreshToken(refresh_token)
-            token.blacklist()  
-            return Response({"message": "Successfully logged out."}, status=status.HTTP_200_OK)
+            token.blacklist()
+            return Response(
+                {"message": "Successfully logged out."}, 
+                status=status.HTTP_200_OK
+            )
         except Exception as e:
-            return Response({"error": "Invalid or expired refresh token."}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(
+                {"error": "Invalid or expired refresh token"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 class UserDetailView(generics.RetrieveUpdateAPIView):
     """
     Retrieves or updates the authenticated user's details.
