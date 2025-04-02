@@ -11,6 +11,31 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserRegistrationSerializer, UserSerializer, DepartmentSerializer,ProgrammeSerializer,CollegeSerializer, IssueSerializer, IssueUpdateSerializer, CourseSerializer, NotificationSerializer, SchoolSerializer
 from .models import User, Department, Issue, College, Programme, IssueUpdate, Course, Notification, School
+from django.core.mail import send_mail
+from django.conf import settings
+
+
+class SendEmailView(APIView):
+    def post(self, request):
+        subject = "Welcome to AITS"
+        message = "Hello, thank you for registering on our platform. We're glad to have you!"
+        recipient_email = request.data.get("email")  # Get recipient email from request
+
+        if not recipient_email:
+            return Response({"error": "Email address is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,  # Sender
+                [recipient_email],  # Recipient list
+                fail_silently=False,
+            )
+            return Response({"message": "Email sent successfully"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 User = get_user_model()
 
@@ -104,3 +129,7 @@ class ProgrammeViewSet(viewsets.ModelViewSet):
     queryset = Programme.objects.all()
     serializer_class = ProgrammeSerializer
     permission_classes = [permissions.AllowAny]
+
+
+
+
