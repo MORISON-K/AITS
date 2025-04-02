@@ -1,8 +1,10 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import api from './api';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants';
 
 export const AuthContext = createContext();
+
+export const useAuth = () =>  useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -52,15 +54,22 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+    
     try {
-      await api.post('/api/auth/logout/', { refresh: refreshToken });
+      if (refreshToken) {
+        await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/auth/logout/`,
+          { refresh: refreshToken },
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+      }
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error('Logout error:', error);
     } finally {
       localStorage.removeItem(ACCESS_TOKEN);
       localStorage.removeItem(REFRESH_TOKEN);
       setUser(null);
-      setCurrentPage('welcome');
+      window.location.href = '/Login-Page'; // Force full reload
     }
   };
 

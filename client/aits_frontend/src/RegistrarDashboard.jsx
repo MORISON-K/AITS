@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "boxicons/css/boxicons.min.css";  // Import Boxicons for the icons
+import { useAuth } from './auth';
 
 
 
 // Sidebar Component
-const Sidebar = () => {
+const Sidebar = ( { handleLogout } ) => {
   return (
     <section id="sidebar" className="bg-gray-800 text-white w-64 min-h-screen">
       <Link to="/profile" className="brand flex items-center p-4 text-xl">
@@ -30,10 +31,10 @@ const Sidebar = () => {
       </ul>
       <ul className="side-menu p-4">
         <li>
-          <Link to="/logout" className="logout flex items-center p-3 text-white hover:bg-gray-700">
-            <i className="bx bxs-log-out-circle text-xl mr-3"></i>
-            <span className="text-lg">Logout</span>
-          </Link>
+        <a href="#!" onClick={handleLogout} className="logout">
+            <i className="bx bxs-log-out-circle"></i>
+            <span className="text">Logout</span>
+          </a>
         </li>
       </ul>
     </section>
@@ -82,9 +83,17 @@ const Content = () => {
 
 // Main RegistrarDashboard Component
 const RegistrarDashboard = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logout();
+    navigate('/Login-Page');
+  };
   return (
     <div className="admin-hub flex">
-      <Sidebar />
+      <Sidebar handleLogout={handleLogout} />
       <Content />
     </div>
   );

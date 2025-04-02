@@ -4,7 +4,7 @@ import Login from './Login';
 import Register from './Register';
 import './App.css';
 import IssueSubmission_form from './IssueSubmission_form';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes,  Navigate } from 'react-router-dom';
 import StudentDashboard from './StudentDashboard';
 import RegistrarDashboard from './RegistrarDashboard';
 import LecturerDashboard from './LecturerDashboard';
