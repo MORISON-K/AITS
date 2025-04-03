@@ -37,7 +37,8 @@ class SendEmailView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-User = get_user_model()
+User = get_user_model()# Get the custom user model
+
 
 class CustomTokenObtainSerializer(TokenObtainPairSerializer):
       def validate(self, attrs):
