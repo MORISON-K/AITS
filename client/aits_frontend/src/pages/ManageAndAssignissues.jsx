@@ -59,6 +59,7 @@ const ManageAndAssignIssues = () => {
     );
     alert(`Issue "${selectedIssue.issue}" assigned to ${selectedLecturer}`);
   };
+  
 
   return (
     <div className='manage'>
