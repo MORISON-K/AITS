@@ -87,6 +87,7 @@ const RecentHistoryTable = () => {
   );
 };
 
+
 // Content Component
 const Content = () => {
   return (
