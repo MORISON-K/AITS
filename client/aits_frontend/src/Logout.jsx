@@ -6,6 +6,7 @@ import { useAuth } from './auth';
 const Logout = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     logout();
