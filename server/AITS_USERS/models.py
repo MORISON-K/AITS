@@ -41,7 +41,6 @@ class CustomUserManager(BaseUserManager):
 # College model (top-level entity)
 class College(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    
     def __str__(self):
         return self.name
 
