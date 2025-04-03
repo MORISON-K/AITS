@@ -242,6 +242,7 @@ const Register = ({ handlePageChange }) => {
             ))}
           </select>
         )}
+        
 
         <input 
           type="password" 
