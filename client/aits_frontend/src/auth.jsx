@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }) => {
       throw error;
     }
   };
+  
 
   const logout = async () => {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN);
