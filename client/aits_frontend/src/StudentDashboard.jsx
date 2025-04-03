@@ -44,6 +44,7 @@ const Sidebar = ( { handleLogout } ) => {
   );
 };
 
+
 // Recent History Table Component
 const RecentHistoryTable = () => {
   // Data to be fetched from the  API.
