@@ -143,13 +143,19 @@ class ProgrammeViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 
+
 class IssueView(APIView):
-    def post(self,request):
-        serializer = IssueSerializer(data = request.data)
+    permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view
+
+    def post(self, request):
+        serializer = IssueSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(student = request.user)
-            return Response(serializer.data, status =201)
-        return Response(serializer.errors, status = 400)
-
-
-
+            # Ensure the user is authenticated before saving
+            if not request.user or not request.user.is_authenticated:
+                return Response(
+                    {"error": "Authentication is required to create an issue."},
+                    status=status.HTTP_401_UNAUTHORIZED
+                )
+            serializer.save(student=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
