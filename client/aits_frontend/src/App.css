@@ -983,4 +983,11 @@ body {
 	transform: scale(1.05); /* Slightly grow the button on hover */
   }
   
-  
+  /* Styling for manage and assign issues*/
+  .manage{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 20px;
+	
+  }
