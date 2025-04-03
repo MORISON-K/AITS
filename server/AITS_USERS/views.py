@@ -16,6 +16,9 @@ from django.conf import settings
 
 
 class SendEmailView(APIView):
+     """
+    Handles sending welcome emails to users after registration.
+    """
     def post(self, request):
         subject = "Welcome to AITS"
         message = "Hello, thank you for registering on our platform. We're glad to have you!"
@@ -41,6 +44,9 @@ User = get_user_model()# Get the custom user model
 
 
 class CustomTokenObtainSerializer(TokenObtainPairSerializer):
+     """
+    Custom serializer for token authentication that allows login with either email or username.
+    """
       def validate(self, attrs):
         credentials = {'password': attrs.get("password")}
 
@@ -82,7 +88,9 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
     
     def perform_create(self, serializer):
-        
+         """
+        Ensures the password is hashed before saving the user.
+        """
         user = serializer.save()
         user.set_password(serializer.validated_data['password'])
         user.save()
@@ -146,6 +154,9 @@ class ProgrammeViewSet(viewsets.ModelViewSet):
 
 
 class IssueView(APIView):
+     """
+    API view for authenticated users to create issues.
+    """
     permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view
 
     def post(self, request):
