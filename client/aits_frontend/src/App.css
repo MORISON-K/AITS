@@ -842,7 +842,7 @@ body {
 }
 
 /* Styling for the Assigned Isuees page */
-.assigned-issues {
+.app-container.assigned-issues {
 	max-width: 900px;
 	margin: 40px auto;
 	text-align: center;
@@ -886,4 +886,101 @@ body {
 	transition: background-color 0.3s ease;
   }
   
- 
+  * Modern color scheme */
+  :root {
+	  --primary-color: #4A90E2;
+	  --secondary-color: #50E3C2;
+	  --background-color: #F5F7FA;
+	  --card-background: #FFFFFF;
+	  --text-color: #333;
+	  --hover-color: #357ABD;
+	  --transition-speed: 0.3s;
+  }
+  
+  body {
+	  background-color: var(--background-color);
+	  font-family: 'Poppins', sans-serif;
+	  color: var(--text-color);
+	  margin: 0;
+	  padding: 0;
+  }
+  
+  .container {
+	  max-width: 1200px;
+	  margin: 40px auto;
+	  padding: 20px;
+  }
+  
+  /* Card-style layout */
+  .card {
+	  background: var(--card-background);
+	  padding: 20px;
+	  border-radius: 10px;
+	  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+	  transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  }
+  
+  .card:hover {
+	  transform: translateY(-5px);
+	  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Buttons */
+  .button {
+	  background: var(--primary-color);
+	  color: white;
+	  padding: 12px 18px;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  transition: background var(--transition-speed);
+  }
+  
+  .app-container.button:hover {
+	  background: var(--hover-color);
+  }
+  
+  /* Table styles */
+  .table {
+	  width: 100%;
+	  border-collapse: collapse;
+	  margin-top: 20px;
+  }
+  
+  .table th, .table td {
+	  padding: 12px;
+	  border-bottom: 1px solid #ddd;
+	  text-align: left;
+  }
+  
+  .table th {
+	  background: var(--primary-color);
+	  color: white;
+  }
+  
+  /* Animations */
+  .fade-in {
+	  opacity: 0;
+	  animation: fadeIn ease-in 0.5s forwards;
+  }
+  
+  @keyframes fadeIn {
+	  from { opacity: 0; }
+	  to { opacity: 1; }
+  }
+  .app-container.assign-btn {
+	background-color: #3498db; /* Blue background */
+	color: white; /* White text */
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .app-container.assign-btn:hover {
+	background-color: #010a10; /* Darker blue on hover */
+	transform: scale(1.05); /* Slightly grow the button on hover */
+  }
+  
+  
