@@ -5,6 +5,7 @@ import { useAuth } from './auth';
 
 
 
+
 // Sidebar Component
 const Sidebar = ( { handleLogout } ) => {
   return (
