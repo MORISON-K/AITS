@@ -3,48 +3,54 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './auth';
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [role, setRole] = useState('student');
-  const { login, currentPage, handlePageChange } = useContext(AuthContext);
+  const [formData, setFormData] = useState({ username: "", password: "" }); 
+  const [errors, setErrors] = useState({ username: "", password: "", nonField: "" });
+  const { login, handlePageChange } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [errors, setErrors] = useState({ email: "", password: "" });
-
   const handleChange = (e) => {
-    setErrors({ ...errors, [e.target.name]: "" });
+    setErrors({ ...errors, [e.target.name]: "", nonField: "" });
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleRoleChange = (e) => setRole(e.target.value);
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let validationErrors = {};
-
     
-    if (!formData.email) {
-      validationErrors.email = "Please enter your email.";
+    if (!formData.username) { 
+      validationErrors.username = "Please enter your username/email.";
     }
     if (!formData.password) {
       validationErrors.password = "Please enter your password.";
     }
-
-
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    setErrors({});
-    login({ ...formData, role });
-    
-    // if (role === 'student') {
-    //   navigate('/student-dashboard');
-    // } else if (role === 'lecturer') {
-    //   navigate('/lecturer-dashboard');
-    // } else if (role === 'registrar') {
-    //   navigate('/registrar-dashboard');
-    // }
+    try {
+      const userData = await login({
+        username: formData.username, 
+        password: formData.password
+      });
+
+      switch(userData.role.toLowerCase()) {
+        case 'student':
+          navigate('/student-dashboard');
+          break;
+        case 'lecturer':
+          navigate('/lecturer-dashboard');
+          break;
+        case 'academic registrar':
+          navigate('/registrar-dashboard');
+          break;
+        default:
+          navigate('/');
+      }
+    } catch (error) {
+      console.error(error);
+      setErrors({ ...errors, nonField: error.response?.data?.detail || "Invalid login credentials." });
+    }
   };
 
   return (
@@ -52,14 +58,14 @@ const Login = () => {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <input 
-          type="email" 
-          name="email" 
-          placeholder="Email" 
+          type="text" 
+          name="username" 
+          placeholder="Username/Email" 
           className="login-input" 
-          value={formData.email} 
+          value={formData.username} 
           onChange={handleChange} 
         /><br />
-        {errors.email && <div className="error-message" style={{ color: 'red' }}>{errors.email}</div>}
+        {errors.username && <div className="error-message" style={{ color: 'red' }}>{errors.username}</div>}
         
         <input 
           type="password" 
@@ -70,17 +76,14 @@ const Login = () => {
           onChange={handleChange} 
         /><br />
         {errors.password && <div className="error-message" style={{ color: 'red' }}>{errors.password}</div>}
-        
-        {/* <select name="role" value={role} onChange={handleRoleChange}>
-          <option value="student">Student</option>
-          <option value="lecturer">Lecturer</option>
-          <option value="registrar">Registrar</option>
-        </select><br /> */}
+        {errors.nonField && <div className="error-message" style={{ color: 'red' }}>{errors.nonField}</div>}
         
         <span className="Forgot-Password">Forgot Password?</span><br />
         <button type="submit" className="login">Login</button><br />
         <span className="without">Don't have an account? </span>
-        <span className="without-account" onClick={() => handlePageChange("register")}>Sign up</span>
+        <span className="without-account" onClick={() => handlePageChange("register")}>
+          Sign up
+        </span>
       </form>
     </div>
   );

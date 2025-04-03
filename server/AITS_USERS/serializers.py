@@ -77,6 +77,24 @@ class NotificationSerializer(serializers.ModelSerializer):
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
+    college = serializers.SlugRelatedField(
+        slug_field='name',
+        queryset=College.objects.all(),
+        required=False,
+        allow_null=True
+    )
+    department = serializers.SlugRelatedField(
+        slug_field='name',
+        queryset=Department.objects.all(),
+        required=False,
+        allow_null=True
+    )
+    programme = serializers.SlugRelatedField(
+        slug_field='name',
+        queryset=Programme.objects.all(),
+        required=False,
+        allow_null=True
+    )
     
     class Meta:
         model = User
@@ -84,37 +102,23 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
                   'role', 'role_id', 'college', 'department', 'programme']
     
     def validate(self, data):
-        # Check if passwords match
         if data.get('password') != data.get('confirm_password'):
             raise serializers.ValidationError({"password": "Password fields didn't match."})
         
-        # Ensure required fields based on role
-        if data.get('role') == 'student':
-            if not data.get('programme'):
-                raise serializers.ValidationError({"programme": "Programme is required for students."})
+        role = data.get('role')
+        
+        if role == 'student':
             if not data.get('college'):
                 raise serializers.ValidationError({"college": "College is required for students."})
+            if not data.get('programme'):
+                raise serializers.ValidationError({"programme": "Programme is required for students."})
         
-        if data.get('role') == 'lecturer' and not data.get('department'):
+        if role == 'lecturer' and not data.get('department'):
             raise serializers.ValidationError({"department": "Department is required for lecturers."})
-            
+        
         return data
     
     def create(self, validated_data):
-        # Remove confirm_password from the data
-        validated_data.pop('confirm_password', None)
-        
-        # Create the user using the user manager
-        user = User.objects.create_user(
-            email=validated_data['email'],
-            password=validated_data['password'],
-            username=validated_data.get('username', validated_data['email']),
-            first_name=validated_data.get('first_name', ''),
-            last_name=validated_data.get('last_name', ''),
-            role=validated_data.get('role', 'student'),
-            role_id=validated_data.get('role_id'),
-            college=validated_data.get('college'),
-            department=validated_data.get('department'),
-            programme=validated_data.get('programme')
-        )
-        return user
+        validated_data.pop('confirm_password')
+        return User.objects.create_user(**validated_data)
+       

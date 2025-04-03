@@ -2,11 +2,12 @@
 import React from 'react';
 import './App.css';
 import "boxicons/css/boxicons.min.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
+import { useAuth } from './auth';
 
 // Sidebar Component
-const Sidebar = () => {
+const Sidebar = ( { handleLogout } ) => {
   return (
     <section id="sidebar">
       <Link to="/profile" className="brand">
@@ -30,10 +31,10 @@ const Sidebar = () => {
       </ul>
       <ul className="side-menu">
         <li>
-          <Link to="/logout" className="logout">
+        <a href="#!" onClick={handleLogout} className="logout">
             <i className="bx bxs-log-out-circle"></i>
             <span className="text">Logout</span>
-          </Link>
+          </a>
         </li>
       </ul>
     </section>
@@ -165,9 +166,17 @@ const Content = () => {
 
 // Main LecturerDashboard Component
 const LecturerDashboard = () => {
+  const { logout } = useAuth();
+    const navigate = useNavigate();
+    
+    const handleLogout = (e) => {
+      e.preventDefault();
+      logout();
+      navigate('/Login-Page');
+    };
   return (
     <div className="admin-hub">
-      <Sidebar />
+      <Sidebar handleLogout={handleLogout} />
       <Content />
     </div>
   );

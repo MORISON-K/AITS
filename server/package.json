@@ -1,0 +1,6 @@
+{
+    "scripts": {
+      "heroku-postbuild": "npm install --prefix ait_frontend && npm run build --prefix ait_frontend"
+    }
+  }
+  
