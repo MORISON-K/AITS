@@ -150,12 +150,8 @@ class IssueView(APIView):
     def post(self, request):
         serializer = IssueSerializer(data=request.data)
         if serializer.is_valid():
-            # Ensure the user is authenticated before saving
-            if not request.user or not request.user.is_authenticated:
-                return Response(
-                    {"error": "Authentication is required to create an issue."},
-                    status=status.HTTP_401_UNAUTHORIZED
-                )
+            # Save the issue with the authenticated user as the student
             serializer.save(student=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
