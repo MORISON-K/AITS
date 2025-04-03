@@ -102,7 +102,7 @@ class User(AbstractUser):
     role_id = models.CharField(max_length=20, unique=True, null=True)
     college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True, related_name='users')
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, related_name='users')
-    # Using a string reference for Programme to avoid forward reference issues
+    
     programme = models.ForeignKey(Programme, on_delete=models.SET_NULL, null=True, blank=True, related_name='students')
     groups = models.ManyToManyField('auth.Group', related_name='ait_users_groups', blank=True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name='ait_users_permissions', blank=True)
