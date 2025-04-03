@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from .models import User, Department, Issue, College, Programme, IssueUpdate, Course, Notification, School
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)# Ensure password is write-only for security
     
     class Meta:
         model = User
@@ -14,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
         }
     
     def create(self, validated_data):
+         # Custom user creation method with required fields
         user = User.objects.create_user(
             email=validated_data['email'],
             password=validated_data['password'],
@@ -37,7 +38,8 @@ class IssueUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = IssueUpdate
         fields = ['id', 'issue', 'user', 'comment', 'created_at']
-        read_only_fields = ['created_at']
+        read_only_fields = ['created_at']  # Prevent modification of created_at field
+
 
 class IssueSerializer(serializers.ModelSerializer):
     updates = IssueUpdateSerializer(many=True, read_only=True, source='updated')
@@ -46,7 +48,7 @@ class IssueSerializer(serializers.ModelSerializer):
         model = Issue
         fields = ['id', 'category', 'description', 'status', 'student', 
                   'course', 'assigned_to', 'created_at', 'updated_at', 'updates']
-        read_only_fields = ['created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']  # Prevent modification of timestamps
 
 class CollegeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -75,8 +77,8 @@ class NotificationSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_at']
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-    confirm_password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)  # Hide password in response
+    confirm_password = serializers.CharField(write_only=True)  # Ensure password confirmation
     college = serializers.SlugRelatedField(
         slug_field='name',
         queryset=College.objects.all(),
@@ -102,11 +104,14 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
                   'role', 'role_id', 'college', 'department', 'programme']
     
     def validate(self, data):
+          # Ensure password and confirm_password match
         if data.get('password') != data.get('confirm_password'):
             raise serializers.ValidationError({"password": "Password fields didn't match."})
         
         role = data.get('role')
         
+
+        # Additional validation for specific roles
         if role == 'student':
             if not data.get('college'):
                 raise serializers.ValidationError({"college": "College is required for students."})
@@ -119,6 +124,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return data
     
     def create(self, validated_data):
-        validated_data.pop('confirm_password')
-        return User.objects.create_user(**validated_data)
+        validated_data.pop('confirm_password') # Remove confirm_password before saving
+        return User.objects.create_user(**validated_data)  # Create user using Django's create_user method
+
        
