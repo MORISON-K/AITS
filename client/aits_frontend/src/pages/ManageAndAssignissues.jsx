@@ -61,7 +61,7 @@ const ManageAndAssignIssues = () => {
   };
 
   return (
-    <div>
+    <div className='manage'>
       <h2>Manage and Assign Student Issues</h2>
       
       <label>
