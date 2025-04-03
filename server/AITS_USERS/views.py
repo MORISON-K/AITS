@@ -143,5 +143,8 @@ class ProgrammeViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 
-
+class IssueView(APIView):
+    def post(self,request):
+        serializer = IssueSerializer(data = request.data)
+        
 
