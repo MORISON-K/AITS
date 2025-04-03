@@ -146,5 +146,8 @@ class ProgrammeViewSet(viewsets.ModelViewSet):
 class IssueView(APIView):
     def post(self,request):
         serializer = IssueSerializer(data = request.data)
-        
+        if serializer.is_valid():
+            serializer.save(student = request.user)
+            
+
 
