@@ -122,7 +122,8 @@ const ManageAndAssignIssues = () => {
                 ))}
               </select>
             </label>
-            <button type="submit">Assign Issue</button>
+            <button type="submit" className="assign-btn">Assign Issue</button>
+
           </form>
         </div>
       )}
