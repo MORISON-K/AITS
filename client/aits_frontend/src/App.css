@@ -999,4 +999,25 @@ body {
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
+  /*styling the assign issue button*/
+  .assign-btn {
+	padding: 4px 10px;
+	background-color: #1181f8; /* Bootstrap blue */
+	color: white;
+	border: none;
+	border-radius: 8px;
+	font-size: 0.85rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .assign-btn:hover {
+	background-color: #0056b3;
+	transform: translateY(-2px);
+  }
+  
+  .assign-btn:active {
+	transform: translateY(0);
+	background-color: #004999;
+  }
   
