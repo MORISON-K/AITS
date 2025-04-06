@@ -24,12 +24,12 @@ const ManageAndAssignIssues = () => {
     if (selectedIssue) {
       const lecturersByCourse = {
         cs101: [
-          { id: 'lecturer_1', name: 'Dr. John Doe' },
-          { id: 'lecturer_2', name: 'Prof. Alice Smith' },
+          { id: 'lecturer_1', name: 'Dr. John Paul' },
+          { id: 'lecturer_2', name: 'Prof. John Kizito' },
         ],
         math202: [
-          { id: 'lecturer_3', name: 'Dr. Brian Johnson' },
-          { id: 'lecturer_4', name: 'Prof. Sarah Lee' },
+          { id: 'lecturer_3', name: 'Mr.Bernard Muwonge' },
+          { id: 'lecturer_4', name: 'Dr.Emmanuel Lule' },
         ],
       };
       setLecturers(lecturersByCourse[selectedIssue.course] || []);
@@ -122,7 +122,8 @@ const ManageAndAssignIssues = () => {
                 ))}
               </select>
             </label>
-            <button type="submit">Assign Issue</button>
+            <button type="submit" className="assign-btn">Assign Issue</button>
+
           </form>
         </div>
       )}
