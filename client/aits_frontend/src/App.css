@@ -193,60 +193,47 @@ cd
 }
 
 
-/* styling for the issue submission form */
-.issueForm{
+/* Styling for the issue submission form */
+.issueForm {
 	display: flex;
-	align-items: center;
 	flex-direction: column;
-	margin: 20px auto;
-	border-radius: 2px;
-	padding: 40px;
+	align-items: center;
+	max-width: 600px;         /* Restrict form width for better readability */
+	margin: 60px auto;        /* Center the form */
+	padding: 40px 30px;       /* Slightly more horizontal padding */
+	border-radius: 8px;       /* Smooth, modern rounded corners */
 	background-color: #2b2b3d;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);  /* Add subtle shadow */
+	color: #ffffff;           /* Make sure text is visible on dark background */
+	gap: 20px;                /* Add space between form elements */
 	/* background-image: url("../public/backimg.jpeg"); */
-	
-	
-}
-
-.issueLabel {
-	margin-left: 200px;
-	color: rgb(230, 210, 210);
-	font-size: 20px;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-.issueh1 {
-	color: var(--light-yellow);
-	font-size: 40px;
-	margin-top: 1px;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-.issueButton,
-.issueSubmit-button,
-.issueContent {
-	width: 350px;
-	padding: 8px;
-	margin-left: 5px;
-	height: 80px;
-	font-size: 20px;
-	border-style: groove;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}	
-
-.issueContent {
-	border-color: #e7855f;
+	 /* background-size: cover;  */
+	/* background-position: center; */
+  }
+  
+  /*  Improve form element spacing inside .issueForm */
+  .issueForm input,
+  .issueForm textarea,
+  .issueForm select,
+  .issueForm button {
+	width: 100%;
+	padding: 10px 12px;
 	border-radius: 4px;
-	margin-bottom: 6px;
-}
-
-.issueSubmit-button {
-	margin-left: 356px;
-	border-radius: 25px;
-	border-style: none;
-	margin-top: 8px;
-	height: 60px;
-	
-}
-
+	border: none;
+	font-size: 1rem;
+  }
+  
+  .issueForm button {
+	background-color: #4a4aef;
+	color: white;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+  }
+  
+  .issueForm button:hover {
+	background-color: #3e4481;
+  }
+  
 
 /* student dash board new new */
 
