@@ -195,45 +195,103 @@ cd
 
 /* Styling for the issue submission form */
 .issueForm {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	max-width: 600px;         /* Restrict form width for better readability */
-	margin: 60px auto;        /* Center the form */
-	padding: 40px 30px;       /* Slightly more horizontal padding */
-	border-radius: 8px;       /* Smooth, modern rounded corners */
-	background-color: #2b2b3d;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);  /* Add subtle shadow */
-	color: #ffffff;           /* Make sure text is visible on dark background */
-	gap: 20px;                /* Add space between form elements */
-	/* background-image: url("../public/backimg.jpeg"); */
-	 /* background-size: cover;  */
-	/* background-position: center; */
-  }
-  
-  /*  Improve form element spacing inside .issueForm */
-  .issueForm input,
-  .issueForm textarea,
-  .issueForm select,
-  .issueForm button {
-	width: 100%;
-	padding: 10px 12px;
-	border-radius: 4px;
-	border: none;
-	font-size: 1rem;
-  }
-  
-  .issueForm button {
-	background-color: #4a4aef;
-	color: white;
-	cursor: pointer;
-	transition: background-color 0.3s ease;
-  }
-  
-  .issueForm button:hover {
-	background-color: #3e4481;
-  }
-  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    width: 90%; /* Use percentage width for responsiveness */
+    margin: 30px auto; /* Reduced top/bottom margin */
+    padding: 30px 20px; /* Reduced padding */
+    border-radius: 8px;
+    background-color: #f0f7ff;
+    box-shadow: 0 4px 12px rgba(60, 145, 230, 0.15);
+    color: #333;
+    gap: 15px; /* Reduced gap */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Make sure all form elements respect the container width */
+.issueForm form {
+    width: 100%;
+}
+
+/* Form element styling */
+.issueForm input,
+.issueForm textarea,
+.issueForm select,
+.issueForm button {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #d0e4f7; /* Light border that complements theme */
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.issueForm input,
+.issueForm textarea,
+.issueForm select {
+    background-color: #ffffff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.issueForm input:focus,
+.issueForm textarea:focus,
+.issueForm select:focus {
+    outline: none;
+    border-color: #3C91E6; /* Theme color for focus state */
+    box-shadow: 0 0 0 3px rgba(60, 145, 230, 0.2);
+}
+
+.issueButton {
+    background-color: #2d6eb3; /* Darker shade of theme color */
+    color: white;
+    font-weight: 600;
+    cursor: default;
+    margin-bottom: 8px !important;
+    text-transform: uppercase;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.5px;
+}
+
+.issueSubmit-button {
+    background-color: #3C91E6; /* Main theme color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+    padding: 14px !important;
+    margin-top: 10px;
+}
+
+.issueSubmit-button:hover {
+    background-color: #2678d3; /* Slightly darker on hover */
+    transform: translateY(-2px);
+}
+
+.issueSubmit-button:active {
+    transform: translateY(0);
+}
+
+.issueh1 {
+    color: #2d6eb3; /* Darker shade of theme color for heading */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.issueLabel {
+    color: #4a5568;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-align: center;
+    display: block;
+}
+
+.issueContent {
+    margin-bottom: 20px;
+}
+
 
 /* student dash board new new */
 
