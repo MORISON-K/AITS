@@ -144,6 +144,7 @@ class CollegeViewSet(viewsets.ModelViewSet):
     serializer_class = CollegeSerializer
     permission_classes = [permissions.AllowAny]
 
+# ViewSet for departments
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
