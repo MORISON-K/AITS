@@ -162,7 +162,7 @@ class IssueView(APIView):
     """
     API view for authenticated users to create issues.
     """
-    permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view
+    permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view and create issues
 
     def post(self, request):
         serializer = IssueSerializer(data=request.data)
