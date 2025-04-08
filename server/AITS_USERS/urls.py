@@ -17,7 +17,9 @@ urlpatterns = [
     path('auth/register/', views.RegisterView.as_view(), name='register'), # Register new user
     path('auth/login/', views.CustomTokenObtainPairView.as_view(), name='login'),  # Login (JWT token)
     path('auth/logout/', views.LogoutView.as_view(), name='logout'), # Logout (blacklist token)
-    path('auth/user/', views.UserDetailView.as_view(), name='user_details'), # Get or update current user details
+    path('auth/user/', views.UserDetailView.as_view(), name='user_details'), # Get or update current user 
+    
+    # Include automatically generated URLs for viewsets (colleges, departments, programmes)
     path('', include(router.urls)),
     path('send-email/', SendEmailView.as_view(), name='send-email'),
 ]
