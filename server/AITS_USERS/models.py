@@ -108,6 +108,7 @@ class User(AbstractUser):
     # Permissions and groups
     groups = models.ManyToManyField('auth.Group', related_name='ait_users_groups', blank=True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name='ait_users_permissions', blank=True)
+    
     objects = CustomUserManager()  # Attach the custom manager
 
     def __str__(self):
