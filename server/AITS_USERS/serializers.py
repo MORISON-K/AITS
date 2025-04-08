@@ -139,6 +139,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         
         return data
     
+    # Create user after validation
     def create(self, validated_data):
         validated_data.pop('confirm_password') # Remove confirm_password before saving
         return User.objects.create_user(**validated_data)  # Create user using Django's create_user method
