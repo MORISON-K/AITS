@@ -15,7 +15,7 @@ router.register(r'programmes', views.ProgrammeViewSet) # /programmes/
 urlpatterns = [
      # User authentication routes
     path('auth/register/', views.RegisterView.as_view(), name='register'), # Register new user
-    path('auth/login/', views.CustomTokenObtainPairView.as_view(), name='login'),
+    path('auth/login/', views.CustomTokenObtainPairView.as_view(), name='login'),  # Login (JWT token)
     path('auth/logout/', views.LogoutView.as_view(), name='logout'),
     path('auth/user/', views.UserDetailView.as_view(), name='user_details'),
     path('', include(router.urls)),
