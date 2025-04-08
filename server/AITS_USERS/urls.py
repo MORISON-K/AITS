@@ -5,6 +5,7 @@ from .views import SendEmailView
 
 
 
+# Create a router for automatic URL routing for viewsets (like CollegeViewSet, etc.
 router = DefaultRouter()
 router.register(r'colleges', views.CollegeViewSet)
 router.register(r'departments', views.DepartmentViewSet)
