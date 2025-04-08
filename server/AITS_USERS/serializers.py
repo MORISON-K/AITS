@@ -74,6 +74,8 @@ class ProgrammeSerializer(serializers.ModelSerializer):
         model = Programme
         fields = ['id', 'code', 'name', 'department']  
 
+
+# Serializer for academic courses
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course 
