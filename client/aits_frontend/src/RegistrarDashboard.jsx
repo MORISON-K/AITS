@@ -24,7 +24,7 @@ const Sidebar = ( { handleLogout } ) => {
         <li>
           <Link to="/manage-issues" className="flex items-center p-3 text-white hover:bg-gray-700">
             <i className="bx bxs-folder-open text-xl mr-3"></i>
-            <span className="text-lg">Manage Student Issues</span>
+            <span className="text-lg">Manage Student Issues.</span>
           </Link>
         </li>
       
