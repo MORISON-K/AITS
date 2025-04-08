@@ -22,7 +22,7 @@ urlpatterns = [
     # Include automatically generated URLs for viewsets (colleges, departments, programmes)
     path('', include(router.urls)),
 
-     # Send welcome email after registration
+    # Send welcome email after registration
     path('send-email/', SendEmailView.as_view(), name='send-email'),   # POST email to trigger sending
 ]
-]
+
