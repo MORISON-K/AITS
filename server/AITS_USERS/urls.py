@@ -11,7 +11,7 @@ router.register(r'colleges', views.CollegeViewSet)  # /colleges/
 router.register(r'departments', views.DepartmentViewSet) # /departments/
 router.register(r'programmes', views.ProgrammeViewSet) # /programmes/
 
-
+# Main URL patterns for the app
 urlpatterns = [
     path('auth/register/', views.RegisterView.as_view(), name='register'),
     path('auth/login/', views.CustomTokenObtainPairView.as_view(), name='login'),
