@@ -138,6 +138,7 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
         return self.request.user
 
 
+# ViewSet for listing, creating, updating, deleting colleges
 class CollegeViewSet(viewsets.ModelViewSet):
     queryset = College.objects.all()
     serializer_class = CollegeSerializer
