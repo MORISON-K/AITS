@@ -31,7 +31,7 @@ class SendEmailView(APIView):
             send_mail(
                 subject,
                 message,
-                settings.EMAIL_HOST_USER,  # Sender
+                settings.EMAIL_HOST_USER,  # Sender from settings.py
                 [recipient_email],  # Recipient list
                 fail_silently=False,
             )
