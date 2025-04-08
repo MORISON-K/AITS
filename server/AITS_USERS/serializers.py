@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name', 
                   'role', 'role_id', 'college', 'department', 'programme']
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True} # Another way to ensure password is not returned in responses
         }
     
     def create(self, validated_data):
