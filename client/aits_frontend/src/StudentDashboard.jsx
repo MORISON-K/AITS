@@ -22,7 +22,7 @@ const Sidebar = ( { handleLogout } ) => {
         <li>
           <Link to="/IssueSubmission-Page">
             <i className="bx bxs-shopping-bag-alt"></i>
-            <span className="text">Create a New Issue</span>
+            <span className="text">Create A New Issue</span>
           </Link>
         </li>
         <li>
@@ -95,7 +95,7 @@ const Content = () => {
       <main>
         <div className="head-title">
           <div className="left">
-            <h1>Welcome Dear Student!</h1>
+            <h1>Welcome Student!</h1>
             <ul className="breadcrumb">
               <li>
                 <Link to="/dashboard">Dashboard</Link>
