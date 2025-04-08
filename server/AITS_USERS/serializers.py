@@ -118,6 +118,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'password', 'confirm_password', 'first_name', 'last_name', 
                   'role', 'role_id', 'college', 'department', 'programme']
     
+    # Validate data before creating user
     def validate(self, data):
           # Ensure password and confirm_password match
         if data.get('password') != data.get('confirm_password'):
