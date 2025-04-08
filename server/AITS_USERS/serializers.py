@@ -68,6 +68,7 @@ class SchoolSerializer(serializers.ModelSerializer):
         model = School              
         fields = ['id', 'name', 'college'] 
 
+# Serializer for academic programmes
 class ProgrammeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programme
