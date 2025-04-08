@@ -25,6 +25,7 @@ class CustomUserManager(BaseUserManager):
 
         # Method to create a superuser
     def create_superuser(self, username, email, password, **extra_fields):
+        # Default values for superuser
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('role', 'academic registrar')  # Default role for superusers
