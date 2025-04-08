@@ -63,6 +63,7 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
 
         self.user = user  #  Assign user
 
+         # Generate JWT tokens
         data = {}
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
