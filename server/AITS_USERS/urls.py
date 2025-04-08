@@ -23,5 +23,6 @@ urlpatterns = [
     path('', include(router.urls)),
 
      # Send welcome email after registration
-    path('send-email/', SendEmailView.as_view(), name='send-email'),
+    path('send-email/', SendEmailView.as_view(), name='send-email'),   # POST email to trigger sending
+]
 ]
