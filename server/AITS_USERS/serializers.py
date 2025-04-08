@@ -33,6 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
         )
         return user
 
+# Serializer for the Department model
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
