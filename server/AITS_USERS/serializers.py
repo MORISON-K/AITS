@@ -46,7 +46,7 @@ class IssueUpdateSerializer(serializers.ModelSerializer):
         fields = ['id', 'issue', 'user', 'comment', 'created_at']
         read_only_fields = ['created_at']  # Prevent modification of created_at field
 
-
+# Serializer for issues reported by users
 class IssueSerializer(serializers.ModelSerializer):
     updates = IssueUpdateSerializer(many=True, read_only=True, source='updated')
     
