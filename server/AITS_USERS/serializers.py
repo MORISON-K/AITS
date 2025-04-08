@@ -2,6 +2,9 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import User, Department, Issue, College, Programme, IssueUpdate, Course, Notification, School
 
+
+
+# Serializer for the main User model
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True) #Ensure password is write-only for security
     
