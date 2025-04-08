@@ -86,7 +86,7 @@ class RegisterView(generics.CreateAPIView):
     Registers a new user.
     """
     serializer_class = UserRegistrationSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]  # Allow anyone to access this view (even unauthenticated)
     
     def perform_create(self, serializer):
         """
