@@ -193,58 +193,103 @@ cd
 }
 
 
-/* styling for the issue submission form */
-.issueForm{
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	margin: 20px auto;
-	border-radius: 2px;
-	padding: 40px;
-	background-color: #2b2b3d;
-	/* background-image: url("../public/backimg.jpeg"); */
-	
-	
+/* Styling for the issue submission form */
+.issueForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 600px;
+    width: 90%; /* Use percentage width for responsiveness */
+    margin: 30px auto; /* Reduced top/bottom margin */
+    padding: 30px 20px; /* Reduced padding */
+    border-radius: 8px;
+    background-color: #f0f7ff;
+    box-shadow: 0 4px 12px rgba(60, 145, 230, 0.15);
+    color: #333;
+    gap: 15px; /* Reduced gap */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
-.issueLabel {
-	margin-left: 200px;
-	color: rgb(230, 210, 210);
-	font-size: 20px;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+/* Make sure all form elements respect the container width */
+.issueForm form {
+    width: 100%;
 }
 
-.issueh1 {
-	color: var(--light-yellow);
-	font-size: 40px;
-	margin-top: 1px;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+/* Form element styling */
+.issueForm input,
+.issueForm textarea,
+.issueForm select,
+.issueForm button {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid #d0e4f7; /* Light border that complements theme */
+    font-size: 1rem;
+    margin-bottom: 15px;
 }
-.issueButton,
-.issueSubmit-button,
-.issueContent {
-	width: 350px;
-	padding: 8px;
-	margin-left: 5px;
-	height: 80px;
-	font-size: 20px;
-	border-style: groove;
-	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}	
 
-.issueContent {
-	border-color: #e7855f;
-	border-radius: 4px;
-	margin-bottom: 6px;
+.issueForm input,
+.issueForm textarea,
+.issueForm select {
+    background-color: #ffffff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.issueForm input:focus,
+.issueForm textarea:focus,
+.issueForm select:focus {
+    outline: none;
+    border-color: #3C91E6; /* Theme color for focus state */
+    box-shadow: 0 0 0 3px rgba(60, 145, 230, 0.2);
+}
+
+.issueButton {
+    background-color: #2d6eb3; /* Darker shade of theme color */
+    color: white;
+    font-weight: 600;
+    cursor: default;
+    margin-bottom: 8px !important;
+    text-transform: uppercase;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.5px;
 }
 
 .issueSubmit-button {
-	margin-left: 356px;
-	border-radius: 25px;
-	border-style: none;
-	margin-top: 8px;
-	height: 60px;
-	
+    background-color: #3C91E6; /* Main theme color */
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+    padding: 14px !important;
+    margin-top: 10px;
+}
+
+.issueSubmit-button:hover {
+    background-color: #2678d3; /* Slightly darker on hover */
+    transform: translateY(-2px);
+}
+
+.issueSubmit-button:active {
+    transform: translateY(0);
+}
+
+.issueh1 {
+    color: #2d6eb3; /* Darker shade of theme color for heading */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.issueLabel {
+    color: #4a5568;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-align: center;
+    display: block;
+}
+
+.issueContent {
+    margin-bottom: 20px;
 }
 
 
