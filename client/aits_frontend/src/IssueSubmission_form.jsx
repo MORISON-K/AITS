@@ -26,7 +26,7 @@
 //   }
 //   return (
 //     <div className='issueForm'>
-//       <h1 className='issueh1'>Issue Submission Form</h1>
+//       <h2 className='issueh2'>Issue Submission Form</h2>
 //       <form onSubmit={handleSubmit}>
 //         <label className='issueLabel'>Fill the information accurately</label><br />
 //         <button className='issueButton'>YEAR OF STUDY</button>
@@ -66,6 +66,7 @@ import './IssueSubmission.css'; // Make sure to create this CSS file
 function IssueSubmission_form() {
   // State for form data
   const [formData, setFormData] = useState({
+    roleId: "",
     yearOfStudy: "",
     courseUnit: "",
     issueCategory: "",
@@ -83,15 +84,19 @@ function IssueSubmission_form() {
   // Navigate to next step
   const nextStep = () => {
     // Validate current step before proceeding
-    if (currentStep === 1 && !formData.yearOfStudy) {
+    // if (currentStep === 1 && !formData.roleId) {
+    //   alert("Please select your year of study");
+    //   return;
+    // }
+    if (currentStep === 2 && !formData.yearOfStudy) {
       alert("Please select your year of study");
       return;
     }
-    if (currentStep === 2 && !formData.courseUnit) {
+    if (currentStep === 3 && !formData.courseUnit) {
       alert("Please enter your course unit");
       return;
     }
-    if (currentStep === 3 && !formData.issueCategory) {
+    if (currentStep === 4 && !formData.issueCategory) {
       alert("Please select an issue category");
       return;
     }
@@ -120,12 +125,13 @@ function IssueSubmission_form() {
     
     // Reset form
     setFormData({
+      roleId: "",
       yearOfStudy: "",
       courseUnit: "",
       issueCategory: "",
       description: "",
     });
-    setCurrentStep(1);
+    setCurrentStep(2);
   };
   
   // Progress indicator
@@ -139,6 +145,8 @@ function IssueSubmission_form() {
         <div className={`step ${currentStep >= 3 ? 'active' : ''}`}>3</div>
         <div className="connector"></div>
         <div className={`step ${currentStep >= 4 ? 'active' : ''}`}>4</div>
+        <div className="connector"></div>
+        <div className={`step ${currentStep >= 5 ? 'active' : ''}`}>5</div>
       </div>
     );
   };
@@ -146,11 +154,31 @@ function IssueSubmission_form() {
   // Render different form steps
   const renderStep = () => {
     switch(currentStep) {
+
       case 1:
         return (
           <div className="form-step">
-            <h2>Year of Study</h2>
-            <p>Please select your current year of study</p>
+            <h1>Your</h1>
+            <p>Please provide details about your issue</p>
+            <textarea 
+              name="description" 
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Describe your issue here" 
+              className="issueContent description-input" 
+              rows="1"
+            />
+            <div className="form-navigation">
+              <button type="button" onClick={nextStep} className="next-button">Next</button>
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="form-step">
+            <h1>Year of Study</h1>
+            <p>This is your Student id</p>
             <select 
               name="yearOfStudy" 
               value={formData.yearOfStudy} 
@@ -165,15 +193,16 @@ function IssueSubmission_form() {
               <option value="yearFive">Year Five</option>
             </select>
             <div className="form-navigation">
+              <button type="button" onClick={prevStep} className="prev-button">Previous</button>
               <button type="button" onClick={nextStep} className="next-button">Next</button>
             </div>
           </div>
         );
       
-      case 2:
+      case 3:
         return (
           <div className="form-step">
-            <h2>Course Unit</h2>
+            <h3>Course Unit</h3>
             <p>Enter the course unit related to your issue</p>
             <input 
               type="text" 
@@ -190,10 +219,10 @@ function IssueSubmission_form() {
           </div>
         );
       
-      case 3:
+      case 4:
         return (
           <div className="form-step">
-            <h2>Issue Category</h2>
+            <h3>Issue Category</h3>
             <p>Select the category that best describes your issue</p>
             <select 
               name="issueCategory" 
@@ -214,10 +243,10 @@ function IssueSubmission_form() {
           </div>
         );
       
-      case 4:
+      case 5:
         return (
           <div className="form-step">
-            <h2>Description</h2>
+            <h3>Description</h3>
             <p>Please provide details about your issue</p>
             <textarea 
               name="description" 
@@ -241,7 +270,7 @@ function IssueSubmission_form() {
   
   return (
     <div className="issueForm">
-      <h1 className="issueh1">Issue Submission Form</h1>
+      <h2 className="issueh2">Issue Submission Form</h2>
       {renderProgress()}
       <form onSubmit={(e) => e.preventDefault()}>
         {renderStep()}
