@@ -16,6 +16,7 @@ class UserSerializer(serializers.ModelSerializer):
             'password': {'write_only': True} # Another way to ensure password is not returned in responses
         }
     
+    # Custom method to create a user with required fields
     def create(self, validated_data):
          # Custom user creation method with required fields
         user = User.objects.create_user(
