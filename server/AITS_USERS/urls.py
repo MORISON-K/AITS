@@ -9,7 +9,7 @@ from .views import SendEmailView
 router = DefaultRouter()
 router.register(r'colleges', views.CollegeViewSet)  # /colleges/
 router.register(r'departments', views.DepartmentViewSet) # /departments/
-router.register(r'programmes', views.ProgrammeViewSet)
+router.register(r'programmes', views.ProgrammeViewSet) # /programmes/
 
 
 urlpatterns = [
