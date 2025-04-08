@@ -93,7 +93,7 @@ class RegisterView(generics.CreateAPIView):
         Ensures the password is hashed before saving the user.
         """
         user = serializer.save()
-        user.set_password(serializer.validated_data['password'])
+        user.set_password(serializer.validated_data['password'])  # Securely hash the password
         user.save()
 
 
