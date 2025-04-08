@@ -56,6 +56,7 @@ class IssueSerializer(serializers.ModelSerializer):
                   'course', 'assigned_to', 'created_at', 'updated_at', 'updates']
         read_only_fields = ['created_at', 'updated_at']  # Prevent modification of timestamps
 
+# Serializer for colleges
 class CollegeSerializer(serializers.ModelSerializer):
     class Meta:
         model = College
