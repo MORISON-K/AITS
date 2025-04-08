@@ -72,7 +72,7 @@ const Content = () => {
         <div className="recent-updates mt-8">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Recent Updates</h2>
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <p className="text-gray-600">No updates yet. Keep track of Student Issues!</p>
+            <p className="text-gray-600">No recent updates yet. Keep track of Student Issues!</p>
           </div>
         </div>
       </main>
