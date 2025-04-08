@@ -89,6 +89,8 @@ class NotificationSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'issue', 'message', 'is_read', 'created_at']
         read_only_fields = ['created_at']
 
+
+# Custom serializer for handling user registration
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)  # Hide password in response
     confirm_password = serializers.CharField(write_only=True)  # Ensure password confirmation
