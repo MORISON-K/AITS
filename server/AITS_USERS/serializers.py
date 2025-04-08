@@ -81,6 +81,8 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course 
         fields = ['id', 'code', 'name', 'department']  
 
+
+# Serializer for notifications sent to users
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
