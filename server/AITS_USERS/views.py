@@ -116,7 +116,7 @@ class LogoutView(APIView):
                 )
             
             token = RefreshToken(refresh_token)
-            token.blacklist()
+            token.blacklist() # Invalidate the refresh token
             return Response(
                 {"message": "Successfully logged out."}, 
                 status=status.HTTP_200_OK
