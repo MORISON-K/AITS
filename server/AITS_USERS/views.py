@@ -57,7 +57,7 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
         except ValidationError:
             credentials['username'] = attrs.get("username")
 
-        user = authenticate(**credentials) 
+        user = authenticate(**credentials) # Authenticate user
         if not user:
             raise AuthenticationFailed("Invalid login credentials")
 
