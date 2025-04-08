@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from .models import User, Department, Issue, College, Programme, IssueUpdate, Course, Notification, School
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)# Ensure password is write-only for security
+    password = serializers.CharField(write_only=True) #Ensure password is write-only for security
     
     class Meta:
         model = User
