@@ -39,6 +39,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
         model = Department
         fields = '__all__'
 
+# Serializer for updates made to an issue
 class IssueUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = IssueUpdate
