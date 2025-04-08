@@ -95,7 +95,7 @@ const Content = () => {
       <main>
         <div className="head-title">
           <div className="left">
-            <h1>Welcome Dear Student!</h1>
+            <h1>Welcome Student!</h1>
             <ul className="breadcrumb">
               <li>
                 <Link to="/dashboard">Dashboard</Link>
