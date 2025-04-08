@@ -42,7 +42,7 @@
 }
 
 .nav-bar {
-  background-color: #4c4648b5;
+  background-color: whitesmoke;
   color: #fff;
   padding: 10px;
   display: flex;
@@ -1033,16 +1033,17 @@ body {
   /* Enhanced styling for Manage and Assign Issues */
 .manage {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 20px; /* adds space between children */
-	padding: 30px 40px;
-	max-width: 1200px;
-	margin: 40px 0 40px 60px;
-	background-color: #f9f9f9;
-	border-radius: 16px;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-direction: column;
+    align-items: center;
+    max-width: 900px;
+    width: 100%;
+    margin: 30px auto;
+    padding: 30px 20px;
+    border-radius: 8px;
+    background-color: #f0f7ff;
+    box-shadow: 0 4px 12px rgba(60, 145, 230, 0.15);
+    color: #333;
+    box-sizing: border-box;
   }
   /*styling the assign issue button*/
   .assign-btn {

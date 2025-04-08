@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { useAuth } from './auth';
 
-// Sidebar Component
+// Sidebar Components
 const Sidebar = ( { handleLogout } ) => {
   return (
     <section id="sidebar">
