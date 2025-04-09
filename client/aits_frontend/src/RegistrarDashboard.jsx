@@ -4,8 +4,6 @@ import "boxicons/css/boxicons.min.css";  // Import Boxicons for the icons
 import { useAuth } from './auth';
 
 
-
-
 // Sidebar Component
 const Sidebar = ( { handleLogout } ) => {
   return (
@@ -24,7 +22,7 @@ const Sidebar = ( { handleLogout } ) => {
         <li>
           <Link to="/manage-issues" className="flex items-center p-3 text-white hover:bg-gray-700">
             <i className="bx bxs-folder-open text-xl mr-3"></i>
-            <span className="text-lg">Manage Student Issues</span>
+            <span className="text-lg">Manage Student Issues.</span>
           </Link>
         </li>
       
@@ -41,7 +39,6 @@ const Sidebar = ( { handleLogout } ) => {
     </section>
   );
 };
-
 
 
 // Content Component
@@ -72,7 +69,7 @@ const Content = () => {
         <div className="recent-updates mt-8">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Recent Updates</h2>
           <div className="bg-white p-6 rounded-lg shadow-lg">
-            <p className="text-gray-600">No recent updates yet. Keep track of your tasks!</p>
+            <p className="text-gray-600">No recent updates yet. Keep track of Student Issues!</p>
           </div>
         </div>
       </main>
