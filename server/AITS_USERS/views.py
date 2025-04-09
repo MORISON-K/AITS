@@ -13,10 +13,12 @@ from .serializers import UserRegistrationSerializer, UserSerializer, DepartmentS
 from .models import User, Department, Issue, College, Programme, IssueUpdate, Course, Notification, School
 from django.core.mail import send_mail
 from django.conf import settings
+from django.shortcuts import render, redirect
+from .forms import IssueSubmissionForm
 
 
 class SendEmailView(APIView):
-     """
+    """
     Handles sending welcome emails to users after registration.
     """
     def post(self, request):
@@ -40,13 +42,9 @@ class SendEmailView(APIView):
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-User = get_user_model()# Get the custom user model
-
+User = get_user_model()
 
 class CustomTokenObtainSerializer(TokenObtainPairSerializer):
-     """
-    Custom serializer for token authentication that allows login with either email or username.
-    """
       def validate(self, attrs):
         credentials = {'password': attrs.get("password")}
 
@@ -70,6 +68,15 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
         data['role'] = self.user.role
         return data
 
+def submit_issue(request):
+    if request.method == 'POST':
+        form = IssueSubmissionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('issue_list')
+    else:
+        form = IssueSubmissionForm()
+    return render(request, 'submit_issue.html', {'form': form})
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
@@ -88,9 +95,7 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
     
     def perform_create(self, serializer):
-         """
-        Ensures the password is hashed before saving the user.
-        """
+        
         user = serializer.save()
         user.set_password(serializer.validated_data['password'])
         user.save()
@@ -154,9 +159,6 @@ class ProgrammeViewSet(viewsets.ModelViewSet):
 
 
 class IssueView(APIView):
-     """
-    API view for authenticated users to create issues.
-    """
     permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view
 
     def post(self, request):
@@ -166,4 +168,3 @@ class IssueView(APIView):
             serializer.save(student=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
