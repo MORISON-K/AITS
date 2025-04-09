@@ -43,6 +43,8 @@ class IssueUpdateSerializer(serializers.ModelSerializer):
 
 class IssueSerializer(serializers.ModelSerializer):
     updates = IssueUpdateSerializer(many=True, read_only=True, source='updated')
+    year_of_study = serializers.CharField()
+    semester = serializers.IntegerField()
     
     class Meta:
         model = Issue
