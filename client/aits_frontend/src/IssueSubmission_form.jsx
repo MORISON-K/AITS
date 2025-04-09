@@ -1,238 +1,231 @@
-// import React, { useState } from 'react'
-// function IssueSubmission_form() {
-//   const IssueSubmission = ({handlePageChange}) => {}
-//   const [formData, SetFormData] = useState({
-//     yearOfStudy: "",
-//     courseUnit: "",
-//     issueCategory: "",
-//     description: "",
-//   });
-  
-
-//   const handleChange = (event) => {
-    
-//     SetFormData({...formData, [event.target.name]: event.target.value});
-//   };
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-
-//     if (!formData.yearOfStudy || !formData.courseUnit || !formData.issueCategory || !formData.description){
-//       alert("Please fill all the fields");
-//     }
-
-//     console.log("Isue submitted", formData)
-
-//   }
-//   return (
-//     <div className='issueForm'>
-//       <h2 className='issueh2'>Issue Submission Form</h2>
-//       <form onSubmit={handleSubmit}>
-//         <label className='issueLabel'>Fill the information accurately</label><br />
-//         <button className='issueButton'>YEAR OF STUDY</button>
-//         <select name="yearOfStudy" value={formData.yearOfStudy} onChange={handleChange} className='issueContent'>
-//           <option value="">Select Year of Study</option>
-//           <option value="yearOne">Year One</option>
-//           <option value="yearTwo">Year Two</option>
-//           <option value="yearThree">Year Three</option>
-//           <option value="yearFour">Year Four</option>
-//           <option value="yearFive">Year Five</option>
-//         </select><br />
-
-//         <button className='issueButton'>COURSE UNIT</button>
-//         <input type="text" name="courseUnit" placeholder='Write Your course here' className='issueContent' /> <br />
-//         <button className='issueButton'>ISSUE CATEGORY</button>
-//         <select name="issueCategory" value={formData.issueCategory} onChange={handleChange} className='issueContent'>
-//           <option value="">Select the Issue Category</option>
-//           <option value="missingMarks">Missing Marks</option>
-//           <option value="incorrectGrades">Incorrect Grades</option>
-//           <option value="remarking">Remarking</option>
-//           <option value="other">Other</option>
-//         </select><br />
-//         <button className='issueButton'>DESCRIPTION</button>
-//         <input type="text" name='description' placeholder='Describe your issue here' className='issueContent' /><br />
-//         <button className='issueSubmit-button'>Submit</button>
-//       </form>
-
-//     </div>
-//   )
-// }
-
-// export default IssueSubmission_form
-
-import React, { useState } from 'react';
-import './IssueSubmission.css'; // Make sure to create this CSS file
+import React, { useState, useEffect } from 'react';
+import { useAuth } from './auth';
+import api from './api';
+import './IssueSubmission.css';
 
 function IssueSubmission_form() {
-  // State for form data
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
-    roleId: "",
     yearOfStudy: "",
+    semester: "",
     courseUnit: "",
     issueCategory: "",
     description: "",
   });
   
-  // State to track current step
   const [currentStep, setCurrentStep] = useState(1);
-  
-  // Handle form field changes
-  const handleChange = (event) => {
-    setFormData({...formData, [event.target.name]: event.target.value});
-  };
-  
-  // Navigate to next step
-  const nextStep = () => {
-    // Validate current step before proceeding
-    // if (currentStep === 1 && !formData.roleId) {
-    //   alert("Please select your year of study");
-    //   return;
-    // }
-    if (currentStep === 2 && !formData.yearOfStudy) {
-      alert("Please select your year of study");
-      return;
-    }
-    if (currentStep === 3 && !formData.courseUnit) {
-      alert("Please enter your course unit");
-      return;
-    }
-    if (currentStep === 4 && !formData.issueCategory) {
-      alert("Please select an issue category");
-      return;
-    }
-    
-    setCurrentStep(currentStep + 1);
-  };
-  
-  // Navigate to previous step
-  const prevStep = () => {
-    setCurrentStep(currentStep - 1);
-  };
-  
-  // Handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (!formData.description) {
-      alert("Please provide a description of your issue");
-      return;
-    }
-    
-    // Here you would typically send the data to your backend
-    console.log("Issue submitted", formData);
-    
-    // Show success message
-    alert("Your issue has been submitted successfully!");
-    
-    // Reset form
-    setFormData({
-      roleId: "",
-      yearOfStudy: "",
-      courseUnit: "",
-      issueCategory: "",
-      description: "",
-    });
-    setCurrentStep(2);
-  };
-  
-  // Progress indicator
-  const renderProgress = () => {
-    return (
-      <div className="progress-indicator">
-        <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>1</div>
-        <div className="connector"></div>
-        <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>2</div>
-        <div className="connector"></div>
-        <div className={`step ${currentStep >= 3 ? 'active' : ''}`}>3</div>
-        <div className="connector"></div>
-        <div className={`step ${currentStep >= 4 ? 'active' : ''}`}>4</div>
-        <div className="connector"></div>
-        <div className={`step ${currentStep >= 5 ? 'active' : ''}`}>5</div>
-      </div>
-    );
-  };
-  
-  // Render different form steps
-  const renderStep = () => {
-    switch(currentStep) {
+  const [years, setYears] = useState([]);
+  const [semesters, setSemesters] = useState([]);
+  const [courses, setCourses] = useState([]);
 
-      case 1:
-        return (
+  // Fetch options with error handling and loading states
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        // Fetch all three data sources in parallel
+        const [yearsRes, semestersRes, coursesRes] = await Promise.all([
+          api.get('/api/years/'),
+          api.get('/api/semesters/'),
+          api.get('/api/courses/')
+        ]);
+        
+        // Verify response structure for courses
+        if (coursesRes.data && Array.isArray(coursesRes.data)) {
+          setCourses(coursesRes.data);
+        } else {
+          console.error('Invalid courses response:', coursesRes);
+          alert('Failed to load course data');
+        }
+
+        setYears(yearsRes.data);
+        setSemesters(semestersRes.data);
+
+      } catch (error) {
+        console.error('API Error:', error.response?.data || error.message);
+        alert('Failed to load form options');
+      }
+    };
+    fetchOptions();
+  }, []);
+
+  // Enhanced change handler with validation
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Progress steps configuration
+  const steps = [
+    { title: 'Your ID', field: null },
+    { title: 'Year of Study', field: 'yearOfStudy' },
+    { title: 'Semester', field: 'semester' },
+    { title: 'Course Unit', field: 'courseUnit' },
+    { title: 'Issue Category', field: 'issueCategory' },
+    { title: 'Description', field: 'description' },
+    { title: 'Confirmation', field: null }
+  ];
+
+  // Validate current step before proceeding
+  const validateStep = (step) => {
+    const field = steps[step - 1]?.field;
+    return field ? !!formData[field] : true;
+  };
+
+  const nextStep = () => {
+    if (!validateStep(currentStep)) {
+      alert(`Please complete the ${steps[currentStep - 1].title} step`);
+      return;
+    }
+    setCurrentStep(prev => Math.min(prev + 1, steps.length));
+  };
+
+  const prevStep = () => {
+    setCurrentStep(prev => Math.max(prev - 1, 1));
+  };
+
+  // Submit handler with error feedback
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await api.post('/api/issues/', {
+        ...formData,
+        student: user.id,
+        course: parseInt(formData.courseUnit), // Ensure numeric ID
+      });
+      
+      if (response.status === 201) {
+        alert("Issue submitted successfully!");
+        setFormData(Object.fromEntries(
+          Object.keys(formData).map(key => [key, ""])
+        ));
+        setCurrentStep(1);
+      }
+    } catch (error) {
+      console.error('Submission Error:', error.response?.data);
+      alert(`Submission failed: ${error.response?.data?.detail || 'Unknown error'}`);
+    }
+  };
+
+  // Progress indicator component
+  const renderProgress = () => (
+    <div className="progress-indicator">
+      {steps.map((_, index) => (
+        <React.Fragment key={index + 1}>
+          <div className={`step ${currentStep >= (index + 1) ? 'active' : ''}`}>
+            {index + 1}
+          </div>
+          {index < steps.length - 1 && <div className="connector"></div>}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+
+  // Course selection component
+  const renderCourseSelect = () => (
+    <div className="form-step">
+      <h1>Course Unit</h1>
+      <select 
+        name="courseUnit" 
+        value={formData.courseUnit} 
+        onChange={handleChange} 
+        className="issueContent"
+        required
+      >
+        <option value="">Select Course Unit</option>
+        {courses.map(course => (
+          <option key={course.id} value={course.id}>
+            {course.code} - {course.name}
+          </option>
+        ))}
+      </select>
+      {courses.length === 0 && (
+        <p className="error-message">No courses available. Contact administrator.</p>
+      )}
+      <div className="form-navigation">
+        <button type="button" onClick={prevStep} className="prev-button">Previous</button>
+        <button type="button" onClick={nextStep} className="next-button">Next</button>
+      </div>
+    </div>
+  );
+
+  // Main render function
+  return (
+    <div className="issueForm">
+      <h2 className="issueh2">Issue Submission Form</h2>
+      {renderProgress()}
+      <form onSubmit={handleSubmit}>
+        {currentStep === 1 && (
           <div className="form-step">
-            <h1>Your</h1>
-            <p>Please provide details about your issue</p>
-            <textarea 
-              name="description" 
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Describe your issue here" 
-              className="issueContent description-input" 
-              rows="1"
-            />
+            <h1>Your ID</h1>
+            <p className="role-id">Role ID: {user?.role_id}</p>
             <div className="form-navigation">
               <button type="button" onClick={nextStep} className="next-button">Next</button>
             </div>
           </div>
-        );
+        )}
 
-      case 2:
-        return (
+        {currentStep === 2 && (
           <div className="form-step">
             <h1>Year of Study</h1>
-            <p>This is your Student id</p>
-            <select 
-              name="yearOfStudy" 
-              value={formData.yearOfStudy} 
-              onChange={handleChange} 
+            <select
+              name="yearOfStudy"
+              value={formData.yearOfStudy}
+              onChange={handleChange}
               className="issueContent"
+              required
             >
-              <option value="">Select Year of Study</option>
-              <option value="yearOne">Year One</option>
-              <option value="yearTwo">Year Two</option>
-              <option value="yearThree">Year Three</option>
-              <option value="yearFour">Year Four</option>
-              <option value="yearFive">Year Five</option>
+              <option value="">Select Year</option>
+              {years.map(year => (
+                <option key={year} value={year}>{year}</option>
+              ))}
             </select>
             <div className="form-navigation">
               <button type="button" onClick={prevStep} className="prev-button">Previous</button>
               <button type="button" onClick={nextStep} className="next-button">Next</button>
             </div>
           </div>
-        );
-      
-      case 3:
-        return (
+        )}
+
+        {currentStep === 3 && (
           <div className="form-step">
-            <h3>Course Unit</h3>
-            <p>Enter the course unit related to your issue</p>
-            <input 
-              type="text" 
-              name="courseUnit" 
-              value={formData.courseUnit}
+            <h1>Semester</h1>
+            <select
+              name="semester"
+              value={formData.semester}
               onChange={handleChange}
-              placeholder="Write your course here" 
-              className="issueContent" 
-            />
+              className="issueContent"
+              required
+            >
+              <option value="">Select Semester</option>
+              {semesters.map(sem => (
+                <option key={sem} value={sem}>Semester {sem}</option>
+              ))}
+            </select>
             <div className="form-navigation">
               <button type="button" onClick={prevStep} className="prev-button">Previous</button>
               <button type="button" onClick={nextStep} className="next-button">Next</button>
             </div>
           </div>
-        );
-      
-      case 4:
-        return (
+        )}
+
+        {currentStep === 4 && renderCourseSelect()}
+
+        {currentStep === 5 && (
           <div className="form-step">
-            <h3>Issue Category</h3>
-            <p>Select the category that best describes your issue</p>
-            <select 
-              name="issueCategory" 
-              value={formData.issueCategory} 
-              onChange={handleChange} 
+            <h1>Issue Category</h1>
+            <select
+              name="issueCategory"
+              value={formData.issueCategory}
+              onChange={handleChange}
               className="issueContent"
+              required
             >
-              <option value="">Select the Issue Category</option>
-              <option value="missingMarks">Missing Marks</option>
-              <option value="incorrectGrades">Incorrect Grades</option>
+              <option value="">Select Category</option>
+              <option value="missing_marks">Missing Marks</option>
+              <option value="incorrect_grades">Incorrect Grades</option>
               <option value="remarking">Remarking</option>
               <option value="other">Other</option>
             </select>
@@ -241,39 +234,45 @@ function IssueSubmission_form() {
               <button type="button" onClick={nextStep} className="next-button">Next</button>
             </div>
           </div>
-        );
-      
-      case 5:
-        return (
+        )}
+
+        {currentStep === 6 && (
           <div className="form-step">
-            <h3>Description</h3>
-            <p>Please provide details about your issue</p>
-            <textarea 
-              name="description" 
+            <h1>Description</h1>
+            <textarea
+              name="description"
               value={formData.description}
               onChange={handleChange}
-              placeholder="Describe your issue here" 
-              className="issueContent description-input" 
+              className="issueContent description-input"
               rows="5"
+              placeholder="Describe your issue in detail..."
+              required
             />
             <div className="form-navigation">
               <button type="button" onClick={prevStep} className="prev-button">Previous</button>
-              <button type="button" onClick={handleSubmit} className="submit-button">Submit Issue</button>
+              <button type="button" onClick={nextStep} className="next-button">Next</button>
             </div>
           </div>
-        );
-      
-      default:
-        return null;
-    }
-  };
-  
-  return (
-    <div className="issueForm">
-      <h2 className="issueh2">Issue Submission Form</h2>
-      {renderProgress()}
-      <form onSubmit={(e) => e.preventDefault()}>
-        {renderStep()}
+        )}
+
+        {currentStep === 7 && (
+          <div className="form-step confirmation-step">
+            <h1>Confirmation</h1>
+            <div className="summary-container">
+              <p><strong>Year:</strong> {formData.yearOfStudy}</p>
+              <p><strong>Semester:</strong> {formData.semester}</p>
+              <p><strong>Course:</strong> {
+                courses.find(c => c.id === parseInt(formData.courseUnit))?.name || 'N/A'
+              }</p>
+              <p><strong>Category:</strong> {formData.issueCategory}</p>
+              <p><strong>Description:</strong> {formData.description}</p>
+            </div>
+            <div className="form-navigation">
+              <button type="button" onClick={prevStep} className="prev-button">Previous</button>
+              <button type="submit" className="submit-button">Submit Issue</button>
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );
