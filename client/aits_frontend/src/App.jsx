@@ -21,9 +21,9 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <div className="app-container">
-          {/* <nav className="nav-bar">
+          <nav className="nav-bar">
             <button className="nav-button" onClick={() => window.location.href = '/'}> Home </button>
-          </nav> */}
+          </nav>
           <Routes>
             <Route path="/" element={
               <AuthContext.Consumer>
@@ -31,7 +31,7 @@ function App() {
                   currentPage === 'welcome' ? (
                     <div className="welcome-page">
                       <img src="/muk_logo.jpeg" alt="Logo not found" />
-                      <h1>Welcome to Academic Issue Tracking System</h1>
+                      <h1>Welcome To The Academic Issue Tracking System</h1>
                       <div className="button-container">
                         <button className="register-button" onClick={() => handlePageChange('register')}> Register </button>
                         <button className="login-button" onClick={() => handlePageChange('login')}> Login </button>
