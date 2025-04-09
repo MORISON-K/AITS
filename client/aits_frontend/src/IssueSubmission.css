@@ -1,4 +1,4 @@
-/* Multi-step form styling with theme color #3C91E6 */
+/* Multi-step form styling with the theme color #3C91E6 */
 .issueForm {
     display: flex;
     flex-direction: column;
@@ -137,7 +137,7 @@
     transform: translateY(0);
   }
   
-  /* For single-button steps */
+  /* For the single-button steps */
   .form-step:first-child .form-navigation {
     justify-content: flex-end;
   }

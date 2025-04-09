@@ -48,7 +48,7 @@ const RecentHistoryTable = () => {
   const [feedbackText, setFeedbackText] = useState({}); // Store feedback for each issue
 
   useEffect(() => {
-    fetch("API_ENDPOINT_FOR_ASSIGNED_ISSUES") // Replace with actual API URL
+    fetch("API_ENDPOINT_FOR_ASSIGNED_ISSUES") // Replaces it with the actual API URL
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -67,7 +67,7 @@ const RecentHistoryTable = () => {
       },
       body: JSON.stringify({
         status: "Resolved",
-        feedback: feedbackText[issueId], // Send custom feedback
+        feedback: feedbackText[issueId], // Sends custom feedback to the user
       }),
     })
       .then((response) => response.json())
@@ -77,7 +77,7 @@ const RecentHistoryTable = () => {
         setData(data.map(issue =>
           issue.id === issueId ? { ...issue, status: "Resolved", statusText: "Resolved" } : issue
         ));
-        // Clear feedback field for that issue
+        // Clear feedback field for that particular issue
         setFeedbackText((prev) => ({ ...prev, [issueId]: "" }));
       })
       .catch((error) => console.error("Error sending feedback:", error));
