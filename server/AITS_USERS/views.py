@@ -33,7 +33,7 @@ class SendEmailView(APIView):
             send_mail(
                 subject,
                 message,
-                settings.EMAIL_HOST_USER,  # Sender
+                settings.EMAIL_HOST_USER,  # Sender from settings.py
                 [recipient_email],  # Recipient list
                 fail_silently=False,
             )
@@ -45,7 +45,14 @@ class SendEmailView(APIView):
 User = get_user_model()
 
 class CustomTokenObtainSerializer(TokenObtainPairSerializer):
+<<<<<<< HEAD
       def validate(self, attrs):
+=======
+    """
+    Custom serializer for token authentication that allows login with either email or username.
+    """
+    def validate(self, attrs):
+>>>>>>> 35fe0431683ef15a978ecae35e5f5a5f1f9fc476
         credentials = {'password': attrs.get("password")}
 
         # Allow login with username or email
@@ -55,17 +62,18 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
         except ValidationError:
             credentials['username'] = attrs.get("username")
 
-        user = authenticate(**credentials) 
+        user = authenticate(**credentials) # Authenticate user
         if not user:
             raise AuthenticationFailed("Invalid login credentials")
 
         self.user = user  #  Assign user
 
+         # Generate JWT tokens
         data = {}
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
         data['refresh'] = str(refresh)
-        data['role'] = self.user.role
+        data['role'] = self.user.role  # Add custom user data (like role)
         return data
 
 def submit_issue(request):
@@ -92,12 +100,18 @@ class RegisterView(generics.CreateAPIView):
     Registers a new user.
     """
     serializer_class = UserRegistrationSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]  # Allow anyone to access this view (even unauthenticated)
     
     def perform_create(self, serializer):
+<<<<<<< HEAD
         
+=======
+        """
+        Ensures the password is hashed before saving the user.
+        """
+>>>>>>> 35fe0431683ef15a978ecae35e5f5a5f1f9fc476
         user = serializer.save()
-        user.set_password(serializer.validated_data['password'])
+        user.set_password(serializer.validated_data['password'])  # Securely hash the password
         user.save()
 
 
@@ -120,7 +134,7 @@ class LogoutView(APIView):
                 )
             
             token = RefreshToken(refresh_token)
-            token.blacklist()
+            token.blacklist() # Invalidate the refresh token
             return Response(
                 {"message": "Successfully logged out."}, 
                 status=status.HTTP_200_OK
@@ -138,19 +152,23 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def get_object(self):
+         # Return the currently logged-in user
         return self.request.user
 
 
+# ViewSet for listing, creating, updating, deleting colleges
 class CollegeViewSet(viewsets.ModelViewSet):
     queryset = College.objects.all()
     serializer_class = CollegeSerializer
     permission_classes = [permissions.AllowAny]
 
+# ViewSet for departments
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     permission_classes = [permissions.AllowAny]
 
+# ViewSet for programmes
 class ProgrammeViewSet(viewsets.ModelViewSet):
     queryset = Programme.objects.all()
     serializer_class = ProgrammeSerializer
@@ -159,7 +177,14 @@ class ProgrammeViewSet(viewsets.ModelViewSet):
 
 
 class IssueView(APIView):
+<<<<<<< HEAD
     permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view
+=======
+    """
+    API view for authenticated users to create issues.
+    """
+    permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view and create issues
+>>>>>>> 35fe0431683ef15a978ecae35e5f5a5f1f9fc476
 
     def post(self, request):
         serializer = IssueSerializer(data=request.data)
