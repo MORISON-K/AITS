@@ -50,8 +50,8 @@
 }
 
 .nav-button {
-  background-color: #61e4b0;
-  color: #fff;
+  background-color: #58e2ab;
+  color: #e2e1e1;
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
@@ -86,7 +86,7 @@ cd
 /* .issue-button, */
 .register-button,
 .login-button {
-  background-color: #0a580d;
+  background-color: #0a520d;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -142,14 +142,14 @@ cd
    border-radius: 4px;
    padding: 10px;
    margin-bottom: 20px; 
-   border: 1px solid #333;
+   border: 1px solid #302e2e;
    background-color: #f8f8f8;
    transition: all 0.3s ease-in-out;  
 }
 
 .login {
 	color: white;
-	background-color: rgb(27, 88, 109);
+	background-color: rgb(30, 105, 130);
 }
 
 .Forgot-Password {
@@ -179,7 +179,7 @@ cd
 
 .without-account {
   margin-left: 5px;
-  color: blue;
+  color: rgba(0, 0, 255, 0.962);
 }
 
 .without {
