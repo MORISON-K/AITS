@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem(ACCESS_TOKEN);
       localStorage.removeItem(REFRESH_TOKEN);
       setUser(null);
-      window.location.href = '/Login-Page'; // Force full reload
+      window.location.href = '/Login-Page'; // Force a full reload
     }
   };
 
@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
       handlePageChange,
       login,
       logout,
-      loadUserFromStorage // Expose for ProtectedRoute
+      loadUserFromStorage // Expose for the ProtectedRoute
     }}>
       {children}
     </AuthContext.Provider>

@@ -11,8 +11,8 @@
   }
   
   .loader {
-	border: 5px solid #f3f3f3; /* Light grey */
-	border-top: 5px solid #3498db; /* Blue */
+	border: 5px solid #e4e4e4; /* Light grey */
+	border-top: 5px solid #308ecd; /* Blue */
 	border-radius: 50%;
 	width: 50px;
 	height: 50px;
@@ -43,7 +43,7 @@
 
 .nav-bar {
   background-color: whitesmoke;
-  color: #fff;
+  color: #f0f0f0;
   padding: 5px;
   display: flex;
   justify-content: space-between;

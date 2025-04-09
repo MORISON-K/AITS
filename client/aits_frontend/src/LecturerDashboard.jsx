@@ -42,7 +42,7 @@ const Sidebar = ( { handleLogout } ) => {
 };
 
 
-// Recent History Table Component
+//  The Recent History Table's Component
 const RecentHistoryTable = () => {
   const [data, setData] = useState([]);
   const [feedbackText, setFeedbackText] = useState({}); // Store feedback for each issue
@@ -77,7 +77,7 @@ const RecentHistoryTable = () => {
         setData(data.map(issue =>
           issue.id === issueId ? { ...issue, status: "Resolved", statusText: "Resolved" } : issue
         ));
-        // Clear the feedback field for that issue
+        // Clear feedback field for that issue
         setFeedbackText((prev) => ({ ...prev, [issueId]: "" }));
       })
       .catch((error) => console.error("Error sending feedback:", error));
