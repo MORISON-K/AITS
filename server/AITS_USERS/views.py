@@ -157,7 +157,7 @@ class IssueView(APIView):
     """
     API view for authenticated users to create issues.
     """
-    permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view
+    permission_classes = [permissions.IsAuthenticated]  
 
     def post(self, request):
         serializer = IssueSerializer(data=request.data)
@@ -167,5 +167,62 @@ class IssueView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class YearOptionsView(APIView):
+    permission_classes = [permissions.AllowAny]
 
+    def get(self, request):
+        years = ["Year One", "Year Two", "Year Three", "Year Four", "Year Five"]
+        return Response(years)
 
+class SemesterOptionsView(APIView):
+    
+    permission_classes = [permissions.AllowAny]
+    def get(self, request):
+        semesters = [1, 2]
+        return Response(semesters)
+    
+
+   
+
+class CourseListView(generics.ListAPIView):
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        # Get courses based on department or programme
+        department_id = self.request.query_params.get('department')
+        programme_id = self.request.query_params.get('programme')
+        
+        if programme_id:
+            programme = Programme.objects.get(id=programme_id)
+            return Course.objects.filter(department=programme.department)
+        if department_id:
+            return Course.objects.filter(department__id=department_id)
+        
+        # Fallback to user's department if available
+        user = self.request.user
+        if user.department:
+            return Course.objects.filter(department=user.department)
+        return Course.objects.none()
+
+class DepartmentListView(generics.ListAPIView):
+    serializer_class = DepartmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Get departments based on user's college
+        user = self.request.user
+        if user.college:
+            return Department.objects.filter(school__college=user.college)
+        return Department.objects.none()
+
+class ProgrammeListView(generics.ListAPIView):
+    serializer_class = ProgrammeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Filter programmes by department from query params
+        department_id = self.request.query_params.get('department')
+        if department_id:
+            return Programme.objects.filter(department__id=department_id)
+        return Programme.objects.none()
