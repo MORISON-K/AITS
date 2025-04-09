@@ -4,8 +4,6 @@ import "boxicons/css/boxicons.min.css";  // Import Boxicons for the icons
 import { useAuth } from './auth';
 
 
-
-
 // Sidebar Component
 const Sidebar = ( { handleLogout } ) => {
   return (
@@ -41,7 +39,6 @@ const Sidebar = ( { handleLogout } ) => {
     </section>
   );
 };
-
 
 
 // Content Component
