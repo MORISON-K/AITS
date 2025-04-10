@@ -48,9 +48,10 @@ class IssueSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Issue
-        fields = ['id', 'category', 'description', 'status', 'student', 
+        fields = ['id', 'year_of_study', 'semester', 'category', 'description', 'status', 'student', 
                   'course', 'assigned_to', 'created_at', 'updated_at', 'updates']
         read_only_fields = ['created_at', 'updated_at']  # Prevent modification of timestamps
+
 
 class CollegeSerializer(serializers.ModelSerializer):
     class Meta:
