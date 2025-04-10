@@ -162,7 +162,7 @@ class IssueView(APIView):
     """
     API view for authenticated users to create issues.
     """
-    permission_classes = [permissions.IsAuthenticated]  # Ensure only authenticated users can access this view and create issues
+    permission_classes = [permissions.IsAuthenticated]  
 
     def post(self, request):
         serializer = IssueSerializer(data=request.data)
@@ -172,3 +172,120 @@ class IssueView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class YearOptionsView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        years = ["Year One", "Year Two", "Year Three", "Year Four", "Year Five"]
+        return Response(years)
+
+class SemesterOptionsView(APIView):
+    
+    permission_classes = [permissions.AllowAny]
+    def get(self, request):
+        semesters = [1, 2]
+        return Response(semesters)
+    
+
+   
+
+# In your views.py file
+
+import logging
+logger = logging.getLogger(__name__)
+
+class CourseListView(generics.ListAPIView):
+    serializer_class = CourseSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        # Try reading query parameters if provided.
+        department_id = self.request.query_params.get('department')
+        programme_id = self.request.query_params.get('programme')
+        logger.debug("CourseListView: department_id=%s, programme_id=%s", department_id, programme_id)
+        
+        # If a programme query parameter is provided, filter courses by that programme's department.
+        if programme_id:
+            try:
+                programme = Programme.objects.get(id=programme_id)
+                logger.debug("Found programme: %s with department: %s", programme, programme.department)
+                qs = Course.objects.filter(department=programme.department)
+                if qs.exists():
+                    return qs
+                else:
+                    logger.debug("No courses found for programme's department.")
+            except Programme.DoesNotExist:
+                logger.debug("Programme with id %s does not exist", programme_id)
+        
+        # If a department query parameter is provided, filter courses by that department.
+        if department_id:
+            qs = Course.objects.filter(department__id=department_id)
+            logger.debug("Filtering courses by department id %s; found %s courses", department_id, qs.count())
+            if qs.exists():
+                return qs
+
+        # Fallback: Use details from the authenticated user.
+        user = self.request.user
+        if user and user.is_authenticated:
+            # If the user has a programme, try using its department.
+            if hasattr(user, 'programme') and user.programme:
+                qs = Course.objects.filter(department=user.programme.department)
+                logger.debug("Using user's programme (id %s) with department %s; found %s courses", 
+                             user.programme.id, user.programme.department, qs.count())
+                if qs.exists():
+                    return qs
+                else:
+                    logger.debug("No courses found for user's programme department.")
+            # If the user has a department set directly.
+            if hasattr(user, 'department') and user.department:
+                qs = Course.objects.filter(department=user.department)
+                logger.debug("Using user's department (id %s); found %s courses", 
+                             user.department.id, qs.count())
+                if qs.exists():
+                    return qs
+                else:
+                    logger.debug("No courses found for user's department.")
+            else:
+                logger.debug("User does not have a programme or department set.")
+        else:
+            logger.debug("No authenticated user found.")
+
+        # For debugging/testing: return all courses if no courses were found via filtering.
+        qs = Course.objects.all()
+        logger.debug("Fallback: returning all courses; count=%s", qs.count())
+        return qs
+
+
+class DepartmentListView(generics.ListAPIView):
+    serializer_class = DepartmentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Get departments based on user's college
+        user = self.request.user
+        if user.college:
+            return Department.objects.filter(school__college=user.college)
+        return Department.objects.none()
+
+class ProgrammeListView(generics.ListAPIView):
+    serializer_class = ProgrammeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Filter programmes by department from query params
+        department_id = self.request.query_params.get('department')
+        if department_id:
+            return Programme.objects.filter(department__id=department_id)
+        return Programme.objects.none()
+
+class IssueCategoryOptionsView(APIView):
+    """
+    API view to return the available issue categories.
+    This reads directly from the Issue model's choices.
+    """
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        categories = Issue.ISSUE_CATEGORIES
+        data = [{'value': value, 'display': display} for value, display in categories]
+        return Response(data)    

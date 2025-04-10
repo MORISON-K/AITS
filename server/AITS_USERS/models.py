@@ -147,6 +147,8 @@ class Issue(models.Model):
         ('remarking', 'Remarking'),
         ('other', 'Other'),
     ]
+    year_of_study = models.CharField(max_length=20, null=True, blank=True)
+    semester = models.IntegerField(choices=[(1, 'First'), (2, 'Second')], null=True, blank=True)
     category = models.CharField(max_length=100, choices=ISSUE_CATEGORIES)
     description = models.TextField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='open')
