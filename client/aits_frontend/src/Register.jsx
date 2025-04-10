@@ -31,9 +31,9 @@ const Register = ({ handlePageChange }) => {
     const fetchOptions = async () => {
       try {
         const [collegesRes, departmentsRes, programmesRes] = await Promise.all([
-          api.get('https://aits.herokuapp.com/api/colleges/'),
-          api.get('https://aits.herokuapp.com/api/departments/'),
-          api.get('https://aits.herokuapp.com/api/programmes/')
+          api.get('/api/colleges/'),
+          api.get('/api/departments/'),
+          api.get('/api/programmes/')
         ]);
         
         setColleges(collegesRes.data);
