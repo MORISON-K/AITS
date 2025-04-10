@@ -41,6 +41,7 @@ const Sidebar = ( { handleLogout } ) => {
 };
 
 
+
 // Content Component
 const Content = () => {
   return (
@@ -76,7 +77,6 @@ const Content = () => {
     </section>
   );
 };
-
 
 
 // Main RegistrarDashboard Component
