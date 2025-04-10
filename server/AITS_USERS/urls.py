@@ -23,5 +23,6 @@ urlpatterns = [
     path('courses/', views.CourseListView.as_view(), name='courses-list'),  
     path('departments/filtered/', views.DepartmentListView.as_view(), name='department-filtered'),
     path('programmes/filtered/', views.ProgrammeListView.as_view(), name='programme-filtered'),
-    # path('issue-categories/', views.IssueCategoryOptionsView.as_view(), name='issue-categories'),
+    path('issue-categories/', views.IssueCategoryOptionsView.as_view(), name='issue-categories'),
+    path('issues/', views.IssueView.as_view(), name='issues'),
 ]
