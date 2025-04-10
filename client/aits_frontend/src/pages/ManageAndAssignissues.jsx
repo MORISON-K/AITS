@@ -12,6 +12,7 @@ const ManageAndAssignIssues = () => {
   useEffect(() => {
     setIssues([
       { id: 1, issue: 'Login issue', status: 'Pending', studentNumber: 'S12345', course: 'cs101' },
+      { id: 4, issue: 'Login issue', status: 'Pending', studentNumber: 'S12345', course: 'cs101' },
       { id: 2, issue: 'Error in grading', status: 'Assigned', studentNumber: 'S67890', course: 'math202' },
       { id: 3, issue: 'Course registration failure', status: 'Resolved', studentNumber: 'S11223', course: 'cs101' },
     ]);
