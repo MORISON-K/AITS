@@ -60,6 +60,7 @@ function IssueSubmission_form() {
       [name]: value
     }));
   };
+  
 
   // Multi-step form configuration.
   const steps = [
