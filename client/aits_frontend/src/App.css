@@ -11,8 +11,8 @@
   }
   
   .loader {
-	border: 5px solid #e4e4e4; /* Light grey */
-	border-top: 5px solid #308ecd; /* Blue */
+	border: 5px solid #f3f3f3; /* Light grey */
+	border-top: 5px solid #3498db; /* Blue */
 	border-radius: 50%;
 	width: 50px;
 	height: 50px;
@@ -43,15 +43,15 @@
 
 .nav-bar {
   background-color: whitesmoke;
-  color: #f0f0f0;
+  color: #fff;
   padding: 5px;
   display: flex;
   justify-content: space-between;
 }
 
 .nav-button {
-  background-color: #58e2ab;
-  color: #e2e1e1;
+  background-color: #61e4b0;
+  color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 20px;
@@ -86,7 +86,7 @@ cd
 /* .issue-button, */
 .register-button,
 .login-button {
-  background-color: #0a520d;
+  background-color: #0a580d;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -142,14 +142,14 @@ cd
    border-radius: 4px;
    padding: 10px;
    margin-bottom: 20px; 
-   border: 1px solid #302e2e;
+   border: 1px solid #333;
    background-color: #f8f8f8;
    transition: all 0.3s ease-in-out;  
 }
 
 .login {
 	color: white;
-	background-color: rgb(30, 105, 130);
+	background-color: rgb(27, 88, 109);
 }
 
 .Forgot-Password {
@@ -179,7 +179,7 @@ cd
 
 .without-account {
   margin-left: 5px;
-  color: rgba(0, 0, 255, 0.962);
+  color: blue;
 }
 
 .without {
