@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './auth';
-
+import { Link, Navigate } from 'react-router-dom';
 const Login = () => {
   const [formData, setFormData] = useState({ username: "", password: "" }); 
   const [errors, setErrors] = useState({ username: "", password: "", nonField: "" });
@@ -78,7 +78,7 @@ const Login = () => {
         {errors.password && <div className="error-message" style={{ color: 'red' }}>{errors.password}</div>}
         {errors.nonField && <div className="error-message" style={{ color: 'red' }}>{errors.nonField}</div>}
         
-        <span className="Forgot-Password">Forgot Password?</span><br />
+        <Link to="/forgotPassword" className="Forgot-Password">Forgot Password?</Link><br />
         <button type="submit" className="login">Login</button><br />
         <span className="without">Don't have an account? </span>
         <span className="without-account" onClick={() => handlePageChange("register")}>
