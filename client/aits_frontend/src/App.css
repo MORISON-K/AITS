@@ -783,13 +783,13 @@ body {
 	border-radius: 20px;
 	font-weight: 700;
 }
-#content main .table-data .order table tr td .status.completed {
+#content main .table-data .order table tr td .status.open {
 	background: var(--blue);
 }
-#content main .table-data .order table tr td .status.process {
+#content main .table-data .order table tr td .status.In Progress {
 	background: var(--yellow);
 }
-#content main .table-data .order table tr td .status.pending {
+#content main .table-data .order table tr td .status.Resolved {
 	background: var(--orange);
 }
 
