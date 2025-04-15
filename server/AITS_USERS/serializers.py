@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import User, Department, Issue, College, Programme, IssueUpdate, Course, Notification, School
+# from .serializers import    CourseSerializer
 
 
 
@@ -46,8 +47,17 @@ class IssueUpdateSerializer(serializers.ModelSerializer):
         fields = ['id', 'issue', 'user', 'comment', 'created_at']
         read_only_fields = ['created_at']  # Prevent modification of created_at field
 
+
+# Serializer for academic courses
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course 
+        fields = ['id', 'code', 'name', 'department']  
+
 # Serializer for issues reported by users
 class IssueSerializer(serializers.ModelSerializer):
+    updates = IssueUpdateSerializer(many=True, read_only=True, source='updated')
+    course_details = CourseSerializer(source='course', read_only=True)
     updates = IssueUpdateSerializer(many=True, read_only=True, source='updated')
     year_of_study = serializers.CharField()
     semester = serializers.IntegerField()
@@ -55,7 +65,7 @@ class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = ['id', 'year_of_study', 'semester', 'category', 'description', 'status', 'student', 
-                  'course', 'assigned_to', 'created_at', 'updated_at', 'updates']
+                  'course', 'course_details', 'assigned_to', 'created_at', 'updated_at', 'updates']
         read_only_fields = ['created_at', 'updated_at']  # Prevent modification of timestamps
 
 
@@ -77,11 +87,11 @@ class ProgrammeSerializer(serializers.ModelSerializer):
         fields = ['id', 'code', 'name', 'department']  
 
 
-# Serializer for academic courses
-class CourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course 
-        fields = ['id', 'code', 'name', 'department']  
+# # Serializer for academic courses
+# class CourseSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Course 
+#         fields = ['id', 'code', 'name', 'department']  
 
 
 # Serializer for notifications sent to users
