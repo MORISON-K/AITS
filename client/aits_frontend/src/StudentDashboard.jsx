@@ -1,8 +1,9 @@
-import React from 'react';
 import './App.css';
 import "boxicons/css/boxicons.min.css";
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './auth';
+import api from './api';
+import { useState, useEffect } from 'react';
 
 // Sidebar Component
 const Sidebar = ( { handleLogout } ) => {
@@ -44,15 +45,22 @@ const Sidebar = ( { handleLogout } ) => {
   );
 };
 
-
-// Recent History Table Component
+// Recent history table
 const RecentHistoryTable = () => {
-  // Data to be fetched from the  API.
-  const data = [
-    { course: "CSC 1101", category: "Missing Marks", date: "01-10-2021", status: "completed", statusText: "Resolved" },
-    { course: "CSC 1101", category: "Missing Marks", date: "01-10-2021", status: "pending", statusText: "Pending" },
-    { course: "CSC 1100", category: "Wrong Credentials", date: "01-10-2021", status: "process", statusText: "In Progress" },
-  ];
+  const [issues, setIssues] = useState([]);
+
+  useEffect(() => {
+    const fetchStudentIssues = async () => {
+      try {
+        const response = await api.get('/api/my-issues/');
+        setIssues(response.data);
+      } catch (error) {
+        console.error("Failed to fetch issues:", error);
+      }
+    };
+
+    fetchStudentIssues();
+  }, []);
 
   return (
     <div className="order">
@@ -69,15 +77,17 @@ const RecentHistoryTable = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
+          {issues.map((issue, index) => (
             <tr key={index}>
               <td>
-                <p>{row.course}</p>
+              <p>{issue.course_details?.name || "N/A"}</p>
               </td>
-              <td>{row.category}</td>
-              <td>{row.date}</td>
+              <td>{issue.category}</td>
+              <td>{new Date(issue.created_at).toLocaleDateString()}</td>
               <td>
-                <span className={`status ${row.status}`}>{row.statusText}</span>
+                <span className={`status ${issue.status.toLowerCase()}`}>
+                  {issue.status.charAt(0).toUpperCase() + issue.status.slice(1)}
+                </span>
               </td>
             </tr>
           ))}
@@ -86,6 +96,7 @@ const RecentHistoryTable = () => {
     </div>
   );
 };
+
 
 // Content Component
 const Content = () => {
