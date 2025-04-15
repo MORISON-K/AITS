@@ -32,5 +32,6 @@ urlpatterns = [
     path('programmes/filtered/', views.ProgrammeListView.as_view(), name='programme-filtered'),
     path('issue-categories/', views.IssueCategoryOptionsView.as_view(), name='issue-categories'),
     path('issues/', views.IssueView.as_view(), name='issues'),
+    path('my-issues/', views.StudentIssueListView.as_view(), name='my-issues')
 ]
 
