@@ -288,4 +288,12 @@ class IssueCategoryOptionsView(APIView):
     def get(self, request):
         categories = Issue.ISSUE_CATEGORIES
         data = [{'value': value, 'display': display} for value, display in categories]
-        return Response(data)    
+        return Response(data)   
+
+class StudentIssueListView(generics.ListAPIView):
+    serializer_class = IssueSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Return issues only for the logged-in student
+        return Issue.objects.filter(student=self.request.user).order_by('-created_at')    
