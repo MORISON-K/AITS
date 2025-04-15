@@ -9,9 +9,9 @@ import StudentDashboard from './StudentDashboard';
 import RegistrarDashboard from './RegistrarDashboard';
 import LecturerDashboard from './LecturerDashboard';
 import ManageIssues from "./pages/ManageAndAssignissues";
-//import AssignIssue from "./pages/AssignIssue";
 import NotFound from './pages/NotFound';
 import 'boxicons/css/boxicons.min.css';
+import ConfirmEmail from './confirmEmail';
 //import AssignedIssues from "./AssignedIssues.jsx"
 
 import { AuthProvider, AuthContext } from './auth';
@@ -67,6 +67,7 @@ function App() {
             <Route path="/IssueSubmission-Page" element={<IssueSubmission_form />} />
             <Route path="/Register-Page" element={<Register />} />
             <Route path="/Login-Page" element={<Login />} />
+            <Route path='/confirmEmail' element={<ConfirmEmail/>}/>
 
             <Route path="/manage-issues" element={<ManageIssues />} />
             
