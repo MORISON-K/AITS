@@ -6,12 +6,32 @@ import api from './api';
 import { useState, useEffect } from 'react';
 
 // Sidebar Component
-const Sidebar = ( { handleLogout } ) => {
+const Sidebar = ({ handleLogout, user }) => {
+  // Debug: Log the user object to see its structure
+  console.log("Sidebar user object:", user);
+  
   return (
     <section id="sidebar">
       <Link to="/profile" className="brand">
         <i className="bx bxs-smile"></i>
-        <span className="text">Profile</span>
+
+        <span className="text">
+  {user ? (
+    <div className="user-info">
+      <div className="user-name">
+        <strong>Name:</strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
+      </div>
+      {(user.role_id || user.roleId) && (
+        <div className="role-id">
+          <strong>Role:</strong> {user.role_id || user.roleId}
+        </div>
+      )}
+    </div>
+  ) : (
+    'Profile'
+  )}
+</span>
+
       </Link>
       <ul className="side-menu top">
         <li className="active">
@@ -48,7 +68,6 @@ const Sidebar = ( { handleLogout } ) => {
 // Recent history table
 const RecentHistoryTable = () => {
   const [issues, setIssues] = useState([]);
-
   useEffect(() => {
     const fetchStudentIssues = async () => {
       try {
@@ -58,7 +77,6 @@ const RecentHistoryTable = () => {
         console.error("Failed to fetch issues:", error);
       }
     };
-
     fetchStudentIssues();
   }, []);
 
@@ -97,7 +115,6 @@ const RecentHistoryTable = () => {
   );
 };
 
-
 // Content Component
 const Content = () => {
   return (
@@ -126,17 +143,45 @@ const Content = () => {
 
 // Main StudentDashboard Component
 const StudentDashboard = () => {
-  const { logout } = useAuth();
+  const auth = useAuth();
   const navigate = useNavigate();
+  
+  // Debug: Log the entire auth object to see what it contains
+  console.log("Auth object:", auth);
+  
+  // Extract user from auth context
+  const user = auth.user;
+  
+  // Debug: Log the user object
+  console.log("Main component user object:", user);
   
   const handleLogout = (e) => {
     e.preventDefault();
-    logout();
+    auth.logout();
     navigate('/Login-Page');
   };
+
+  // Fetch user data if not available
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!user) {
+        try {
+          // This is a placeholder - you might need to adjust this based on your API
+          const response = await api.get('/api/user/profile');
+          console.log("Fetched user data:", response.data);
+          // You might need to update the auth context with this data
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+        }
+      }
+    };
+    
+    fetchUserData();
+  }, [user]);
+
   return (
     <div className="admin-hub">
-      <Sidebar handleLogout={handleLogout} />
+      <Sidebar handleLogout={handleLogout} user={user} />
       <Content />
     </div>
   );
