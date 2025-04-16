@@ -85,6 +85,12 @@ const Register = ({ handlePageChange }) => {
       return;
     }
 
+
+    if (formData.role === "academic registrar" && !formData.college) {
+      setError("Lecturers must select a college");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -225,6 +231,28 @@ const Register = ({ handlePageChange }) => {
             <br />
           </>
         )}
+
+
+        {formData.role === "academic registrar" && (
+          <>
+            <select
+              name="college"
+              value={formData.college}
+              onChange={handleChange}
+              className="Register-input"
+              required
+            >
+              <option value="">Select College</option>
+              {colleges.map(college => (
+                <option key={college.id} value={college.name}>
+                  {college.name}
+                </option>
+              ))}
+            </select>
+            <br />
+          </>
+        )}
+
 
         {formData.role === "lecturer" && (
           <select

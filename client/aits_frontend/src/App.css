@@ -1084,6 +1084,7 @@ body {
 	font-size: 0.5em;
 	color: #6093d4;
 	margin-top: 4px;
+	font-size: 20px;
 	padding: 2px 6px;
 	background-color: rgba(96, 147, 212, 0.1); /* subtle background tint */
 	
@@ -1093,3 +1094,8 @@ body {
 	font-weight: 500;
   }
   
+.user-info {
+	margin-top: 40px;
+	color: #010a10;
+	
+}  
