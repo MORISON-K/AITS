@@ -13,6 +13,10 @@ from .serializers import UserRegistrationSerializer, UserSerializer, DepartmentS
 from .models import User, Department, Issue, College, Programme, IssueUpdate, Course, Notification, School
 from django.core.mail import send_mail
 from django.conf import settings
+from rest_framework.decorators import action
+from rest_framework.viewsets import ViewSet
+
+
 
 
 class SendEmailView(APIView):
@@ -296,4 +300,66 @@ class StudentIssueListView(generics.ListAPIView):
 
     def get_queryset(self):
         # Return issues only for the logged-in student
-        return Issue.objects.filter(student=self.request.user).order_by('-created_at')    
+        return Issue.objects.filter(student=self.request.user).order_by('-created_at') 
+    
+
+
+
+class IssueWorkflowViewSet(ViewSet):
+    """
+    ViewSet to handle the workflow for submitting an issue, marking it as in progress,
+    and resolving it.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+
+    def create(self, request):
+        """
+        Step 1: Student submits an issue.
+        """
+        serializer = IssueSerializer(data=request.data)
+        if serializer.is_valid():
+            # Save the issue with the authenticated user as the student
+            issue = serializer.save(student=request.user, status='open')  # status set to 'open'
+            return Response(
+                {"message": "Issue submitted successfully", "issue": serializer.data},
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    def mark_in_progress(self, request, pk=None):
+        """
+        Step 2: Academic registrar marks the issue as in progress.
+        """
+        try:
+            issue = Issue.objects.get(pk=pk, status='open')  # Status must be 'open' before proceeding
+            issue.status = 'in_progress'
+            issue.save()
+            return Response(
+                {"message": "Issue marked as in progress by the academic registrar."},
+                status=status.HTTP_200_OK
+            )
+        except Issue.DoesNotExist:
+            return Response(
+                {"error": "Issue not found or already in progress."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def resolve(self, request, pk=None):
+        """
+        Step 3: Lecturer resolves the issue.
+        """
+        try:
+            issue = Issue.objects.get(pk=pk, status='in_progress')  # Status must be 'in_progress' before resolving
+            issue.status = 'resolved'
+            issue.save()
+            return Response(
+                {"message": "Issue resolved by the lecturer."},
+                status=status.HTTP_200_OK
+            )
+        except Issue.DoesNotExist:
+            return Response(
+                {"error": "Issue not found or not in progress yet."},
+                status=status.HTTP_404_NOT_FOUND
+            )
