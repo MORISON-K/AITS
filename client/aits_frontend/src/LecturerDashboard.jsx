@@ -9,7 +9,7 @@ import { useAuth } from './auth';
 const Sidebar = ({ handleLogout, user }) => {
   return (
     <section id="sidebar">
-      <Link to="/profile" className="brand">
+      <div className="brand">
         <i className="bx bxs-smile"></i>
         <span className="text">
   {user ? (
@@ -27,8 +27,8 @@ const Sidebar = ({ handleLogout, user }) => {
     'Profile'
   )}
 </span>
-
-      </Link>
+     </div>
+      
       <ul className="side-menu top">
         <li className="active">
           <Link to="/dashboard">
