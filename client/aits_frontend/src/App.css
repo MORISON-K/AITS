@@ -1081,7 +1081,7 @@ body {
   /* styling for role id */
  /* styling for role id */
 .role-id {
-	font-size: 0.5em;
+	font-size: 0.4em;
 	color: #6093d4;
 	margin-top: 4px;
 	font-size: 20px;
@@ -1095,7 +1095,7 @@ body {
   }
   
 .user-info {
-	margin-top: 40px;
-	color: #010a10;
+	margin-top: 20px;
+	color: #6093d4;
 	
 }  
