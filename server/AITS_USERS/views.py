@@ -363,6 +363,7 @@ class IssueWorkflowViewSet(ViewSet):
                 {"message": "Issue resolved by the lecturer."},
                 status=status.HTTP_200_OK
             )
+         # If issue doesn't exist or is not in the right status, return an error
         except Issue.DoesNotExist:
             return Response(
                 {"error": "Issue not found or not in progress yet."},
