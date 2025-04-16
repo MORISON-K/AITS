@@ -354,6 +354,7 @@ class IssueWorkflowViewSet(ViewSet):
         Step 3: Lecturer resolves the issue.
         """
         try:
+            # Try to find the issue with the given ID and status 'in_progress'
             issue = Issue.objects.get(pk=pk, status='in_progress')  # Status must be 'in_progress' before resolving
             # Set status to 'resolved
             issue.status = 'resolved'
