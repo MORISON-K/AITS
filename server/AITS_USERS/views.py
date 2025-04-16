@@ -312,6 +312,7 @@ class IssueWorkflowViewSet(ViewSet):
     """
     permission_classes = [permissions.IsAuthenticated]
 
+    # Only authenticated users (users who are logged in) can access any action in this viewset
     def create(self, request):
         """
         Step 1: Student submits an issue.
