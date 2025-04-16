@@ -10,7 +10,7 @@ router = DefaultRouter()
 router.register(r'colleges', views.CollegeViewSet)  # /colleges/
 router.register(r'departments', views.DepartmentViewSet) # /departments/
 router.register(r'programmes', views.ProgrammeViewSet) # /programmes/
-router.register(r'issues/workflow', IssueWorkflowViewSet, basename='issue-workflow')
+router.register(r'issues/workflow', IssueWorkflowViewSet, basename='issue-workflow')# /issues/workflow/
 
 # Main URL patterns for the app
 urlpatterns = [
