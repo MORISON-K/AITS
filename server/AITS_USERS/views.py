@@ -355,6 +355,7 @@ class IssueWorkflowViewSet(ViewSet):
         """
         try:
             issue = Issue.objects.get(pk=pk, status='in_progress')  # Status must be 'in_progress' before resolving
+            # Set status to 'resolved
             issue.status = 'resolved'
             issue.save()
              # Return a confirmation response
