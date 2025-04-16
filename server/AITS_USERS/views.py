@@ -307,8 +307,10 @@ class StudentIssueListView(generics.ListAPIView):
 
 class IssueWorkflowViewSet(ViewSet):
     """
-    ViewSet to handle the workflow for submitting an issue, marking it as in progress,
-    and resolving it.
+    Handles a 3-step workflow:
+    1. Student submits an issue (status = 'open')
+    2. Academic registrar marks it as in progress (status = 'in_progress')
+    3. Lecturer resolves it (status = 'resolved')
     """
     permission_classes = [permissions.IsAuthenticated]
 
