@@ -12,27 +12,29 @@ const Sidebar = ({ handleLogout, user }) => {
   
   return (
     <section id="sidebar">
-      <Link to="/profile" className="brand">
-        <i className="bx bxs-smile"></i>
+  <div className="brand">
+    <i className="bx bxs-smile"></i>
 
-        <span className="text">
-  {user ? (
-    <div className="user-info">
-      <div className="user-name">
-        <strong>Name:</strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
-      </div>
-      {(user.role_id || user.roleId) && (
-        <div className="role-id">
-          <strong>Role:</strong> {user.role_id || user.roleId}
+    <span className="text">
+      {user ? (
+        <div className="user-info">
+          <div className="user-name">
+            <strong>Name:</strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
+          </div>
+          {(user.role_id || user.roleId) && (
+            <div className="role-id">
+              <strong>Role:</strong> {user.role_id || user.roleId}
+            </div>
+          )}
         </div>
+      ) : (
+        'Profile'
       )}
-    </div>
-  ) : (
-    'Profile'
-  )}
-</span>
+    </span>
+  </div>
 
-      </Link>
+
+      
       <ul className="side-menu top">
         <li className="active">
           <Link to="/dashboard">
