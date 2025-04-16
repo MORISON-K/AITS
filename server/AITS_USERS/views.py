@@ -357,6 +357,7 @@ class IssueWorkflowViewSet(ViewSet):
             issue = Issue.objects.get(pk=pk, status='in_progress')  # Status must be 'in_progress' before resolving
             issue.status = 'resolved'
             issue.save()
+             # Return a confirmation response
             return Response(
                 {"message": "Issue resolved by the lecturer."},
                 status=status.HTTP_200_OK
