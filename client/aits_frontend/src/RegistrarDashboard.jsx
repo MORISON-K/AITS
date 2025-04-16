@@ -10,7 +10,7 @@ import { useAuth } from './auth';
 const Sidebar = ({ handleLogout, user }) => {
   return (
     <section id="sidebar">
-      <Link to="/profile" className="brand">
+      <div className="brand">
         <i className="bx bxs-smile"></i>
         <span className="text">
   {user ? (
@@ -28,8 +28,8 @@ const Sidebar = ({ handleLogout, user }) => {
     'Profile'
   )}
 </span>
-
-      </Link>
+      </div>
+      
       <ul className="side-menu top p-4">
         <li className="active">
           <Link to="/registrar-dashboard" className="flex items-center p-3 text-white hover:bg-gray-700">
