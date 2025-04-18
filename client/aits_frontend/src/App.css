@@ -900,6 +900,12 @@ body {
 }
 
 /* Styling for the Assigned Isuees page */
+.assigned-issues {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
 .app-container.assigned-issues {
 	max-width: 900px;
 	margin: 40px auto;
@@ -911,7 +917,8 @@ body {
   .table-container {
 	overflow-x: auto;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 8px;
+	border-radius: 30px;
+	margin: 50px;
   }
   
   table {
