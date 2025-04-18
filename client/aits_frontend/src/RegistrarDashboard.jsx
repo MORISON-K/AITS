@@ -4,7 +4,6 @@ import "boxicons/css/boxicons.min.css";
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { useAuth } from './auth';
-import { useEffect, useState } from 'react';
 import api from './api';
 
 
