@@ -2,6 +2,8 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "boxicons/css/boxicons.min.css";  // Import Boxicons for the icons
 import { useAuth } from './auth';
+import { useEffect, useState } from 'react';
+import api from './api';
 
 
 // Sidebar Component
@@ -42,6 +44,57 @@ const Sidebar = ( { handleLogout } ) => {
   );
 };
 
+// Recent History
+const RecentHistoryTable = () => {
+  const [issues, setIssues] = useState([]);
+  useEffect(() => {
+    const fetchStudentIssues = async () => {
+      try {
+        const response = await api.get('/api/my-issues/');
+        setIssues(response.data);
+      } catch (error) {
+        console.error("Failed to fetch issues:", error);
+      }
+    };
+    fetchStudentIssues();
+  }, []);
+
+  return (
+    <div className="order">
+      <div className="head">
+        <h3>Recent History</h3>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Course Unit</th>
+            <th>Issue Category</th>
+            <th>Student ID</th>
+            <th>Date Created</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {issues.map((issue, index) => (
+            <tr key={index}>
+              <td>
+              <p>{issue.course_details?.name || "N/A"}</p>
+              </td>
+              <td>{issue.category}</td>
+              <td>{issue.roleId}</td>
+              <td>{new Date(issue.created_at).toLocaleDateString()}</td>
+              <td>
+                <span className={`status ${issue.status.toLowerCase()}`}>
+                  {issue.status.charAt(0).toUpperCase() + issue.status.slice(1)}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 
 // Content Component
@@ -62,18 +115,9 @@ const Content = () => {
               </li>
             </ul>
           </div>
-          {/* User Avatar */}
-          <div className="right">
-            <i className="bx bxs-user-circle text-4xl text-gray-600"></i>
-          </div>
         </div>
-
-        {/* Recent Updates Section */}
-        <div className="recent-updates mt-8">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">Recent Updates</h2>
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <p className="text-gray-600">No recent updates yet. Keep track of Student Issues!</p>
-          </div>
+         <div className="table-data">
+          <RecentHistoryTable />
         </div>
       </main>
     </section>
