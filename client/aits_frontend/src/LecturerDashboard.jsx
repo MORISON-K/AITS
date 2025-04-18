@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './App.css';
 import "boxicons/css/boxicons.min.css";
@@ -7,13 +6,29 @@ import { useState, useEffect } from "react";
 import { useAuth } from './auth';
 
 // Sidebar Components
-const Sidebar = ( { handleLogout } ) => {
+const Sidebar = ({ handleLogout, user }) => {
   return (
     <section id="sidebar">
-      <Link to="/profile" className="brand">
+      <div className="brand">
         <i className="bx bxs-smile"></i>
-        <span className="text">Profile</span>
-      </Link>
+        <span className="text">
+  {user ? (
+    <div className="user-info">
+      <div className="user-name">
+        <strong>Name:</strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
+      </div>
+      {(user.role_id || user.roleId) && (
+        <div className="role-id">
+          <strong>Role:</strong> {user.role_id || user.roleId}
+        </div>
+      )}
+    </div>
+  ) : (
+    'Profile'
+  )}
+</span>
+     </div>
+      
       <ul className="side-menu top">
         <li className="active">
           <Link to="/dashboard">
@@ -21,7 +36,6 @@ const Sidebar = ( { handleLogout } ) => {
             <span className="text">Dashboard</span>
           </Link>
         </li>
-        
         <li>
           <Link to="/notifications">
             <i className="bx bxs-bell"></i>
@@ -31,7 +45,7 @@ const Sidebar = ( { handleLogout } ) => {
       </ul>
       <ul className="side-menu">
         <li>
-        <a href="#!" onClick={handleLogout} className="logout">
+          <a href="#!" onClick={handleLogout} className="logout">
             <i className="bx bxs-log-out-circle"></i>
             <span className="text">Logout</span>
           </a>
@@ -41,12 +55,11 @@ const Sidebar = ( { handleLogout } ) => {
   );
 };
 
-
 // Recent History Table Component
 const RecentHistoryTable = () => {
   const [data, setData] = useState([]);
   const [feedbackText, setFeedbackText] = useState({}); // Store feedback for each issue
-
+  
   useEffect(() => {
     fetch("API_ENDPOINT_FOR_ASSIGNED_ISSUES") // Replace with actual API URL
       .then((response) => response.json())
@@ -59,7 +72,7 @@ const RecentHistoryTable = () => {
       alert("Please enter feedback before submitting.");
       return;
     }
-
+    
     fetch(`API_ENDPOINT_FOR_SENDING_FEEDBACK/${issueId}`, {
       method: "POST",
       headers: {
@@ -136,7 +149,6 @@ const RecentHistoryTable = () => {
   );
 };
 
-
 // Content Component
 const Content = () => {
   return (
@@ -163,20 +175,20 @@ const Content = () => {
   );
 };
 
-
 // Main LecturerDashboard Component
 const LecturerDashboard = () => {
-  const { logout } = useAuth();
-    const navigate = useNavigate();
-    
-    const handleLogout = (e) => {
-      e.preventDefault();
-      logout();
-      navigate('/Login-Page');
-    };
+  const { logout, user } = useAuth();
+  const navigate = useNavigate();
+  
+  const handleLogout = (e) => {
+    e.preventDefault();
+    logout();
+    navigate('/Login-Page');
+  };
+
   return (
     <div className="admin-hub">
-      <Sidebar handleLogout={handleLogout} />
+      <Sidebar handleLogout={handleLogout} user={user} />
       <Content />
     </div>
   );

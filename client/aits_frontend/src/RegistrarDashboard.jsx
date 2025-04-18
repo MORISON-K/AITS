@@ -1,19 +1,37 @@
 import React from 'react';
+import './App.css';
+import "boxicons/css/boxicons.min.css";
 import { Link, useNavigate } from 'react-router-dom';
-import "boxicons/css/boxicons.min.css";  // Import Boxicons for the icons
+import { useState, useEffect } from "react";
 import { useAuth } from './auth';
 import { useEffect, useState } from 'react';
 import api from './api';
 
 
 // Sidebar Component
-const Sidebar = ( { handleLogout } ) => {
+const Sidebar = ({ handleLogout, user }) => {
   return (
-    <section id="sidebar" className="bg-gray-800 text-white w-64 min-h-screen">
-      <Link to="/profile" className="brand flex items-center p-4 text-xl">
-        <i className="bx bxs-user text-2xl"></i>
-        <span className="ml-3 text-white">Registrar Profile</span>
-      </Link>
+    <section id="sidebar">
+      <div className="brand">
+        <i className="bx bxs-smile"></i>
+        <span className="text">
+  {user ? (
+    <div className="user-info">
+      <div className="user-name">
+        <strong>Name:</strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
+      </div>
+      {(user.role_id || user.roleId) && (
+        <div className="role-id">
+          <strong>Role:</strong> {user.role_id || user.roleId}
+        </div>
+      )}
+    </div>
+  ) : (
+    'Profile'
+  )}
+</span>
+      </div>
+      
       <ul className="side-menu top p-4">
         <li className="active">
           <Link to="/registrar-dashboard" className="flex items-center p-3 text-white hover:bg-gray-700">
@@ -126,8 +144,8 @@ const Content = () => {
 
 
 // Main RegistrarDashboard Component
-const RegistrarDashboard = () => {
-  const { logout } = useAuth();
+const  RegistrarDashboard = () => {
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
   
   const handleLogout = (e) => {
@@ -135,9 +153,10 @@ const RegistrarDashboard = () => {
     logout();
     navigate('/Login-Page');
   };
+
   return (
-    <div className="admin-hub flex">
-      <Sidebar handleLogout={handleLogout} />
+    <div className="admin-hub">
+      <Sidebar handleLogout={handleLogout} user={user} />
       <Content />
     </div>
   );
