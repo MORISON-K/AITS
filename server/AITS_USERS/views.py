@@ -174,6 +174,7 @@ class IssueView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    
 class YearOptionsView(APIView):
     permission_classes = [permissions.AllowAny]
 
@@ -300,7 +301,16 @@ class StudentIssueListView(generics.ListAPIView):
         # Return issues only for the logged-in student
         return Issue.objects.filter(student=self.request.user).order_by('-created_at') 
     
-
+class IsAcademicRegistrar(permissions.BasePermission):
+    """
+    Allows access only to users whose .role == 'academic registrar'
+    """
+    def has_permission(self, request, view):
+        return bool(
+            request.user and
+            request.user.is_authenticated and
+            request.user.role == 'academic registrar'
+        )    
 
 class IssueWorkflowViewSet(mixins.ListModelMixin,
                            viewsets.GenericViewSet):
@@ -313,7 +323,7 @@ class IssueWorkflowViewSet(mixins.ListModelMixin,
     serializer_class = IssueSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAdminUser])
+    @action(detail=True, methods=['post'], permission_classes=[IsAcademicRegistrar])
     def mark_in_progress(self, request, pk=None):
         issue = self.get_object()
         issue.status = 'in_progress'
@@ -338,3 +348,11 @@ class LecturerByDepartmentView(generics.ListAPIView):
     def get_queryset(self):
         dept_id = self.request.query_params.get('department')
         return User.objects.filter(role='lecturer', department__id=dept_id)
+    
+class IssueViewSet(viewsets.ModelViewSet):
+    """
+    Provides list/retrieve/partial_update on /api/issues/
+    """
+    queryset = Issue.objects.all()
+    serializer_class = IssueSerializer
+    permission_classes = [permissions.IsAuthenticated]    
