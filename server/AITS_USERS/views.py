@@ -356,3 +356,18 @@ class IssueViewSet(viewsets.ModelViewSet):
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
     permission_classes = [permissions.IsAuthenticated]    
+
+
+class RegistrarIssueHistoryView(generics.ListAPIView):
+    """
+    GET /issues/history/ → list all issues for students in the registrar’s college,
+    ordered by most recent.
+    """
+    serializer_class = IssueSerializer
+    permission_classes = [permissions.IsAuthenticated, IsAcademicRegistrar]
+
+    def get_queryset(self):
+        # Only issues whose student is in the same college as the registrar
+        user = self.request.user
+        return Issue.objects.filter(student__college=user.college) \
+                            .order_by('-created_at')
