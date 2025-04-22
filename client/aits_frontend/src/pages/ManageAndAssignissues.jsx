@@ -1,101 +1,70 @@
 import React, { useState, useEffect } from 'react';
+import api from '../api';
 import './ManageAndAssignIssues.css';
 
 const ManageAndAssignIssues = () => {
   const [issues, setIssues] = useState([]);
   const [filterStatus, setFilterStatus] = useState('All');
-  const [courseUnits, setCourseUnits] = useState([]);
+  const [courseUnits, setCourseUnits] = useState([]); // still here in case you need it later
   const [lecturers, setLecturers] = useState([]);
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [selectedLecturer, setSelectedLecturer] = useState('');
 
+  // 1) Load all open issues
   useEffect(() => {
-    setIssues([
-      {
-        issueId: 1,
-        year: "One",
-        semester: 1,
-        issueCategory: 'Login issue',
-        issueDescription: "I had put wrong details",
-        status: 'Pending',
-        roleId: 'S12345',
-        course: 'Communication Skills',
-      },
-      {
-        issueId: 4,
-        year: "Four",
-        semester: 2,
-        issueCategory: 'Login issue',
-        issueDescription: "I was sick",
-        status: 'Pending',
-        roleId: 'S12345',
-        course: 'Computer Architecturer and organisation',
-      },
-      {
-        issueId: 2,
-        year: "Two",
-        semester: 1,
-        issueCategory: 'Error in grading',
-        issueDescription: "I am not satisfied with my marks",
-        status: 'Assigned',
-        roleId: 'S67890',
-        course: 'Probanility and stastics',
-      },
-      {
-        issueId: 3,
-        year: "One",
-        semester: 1,
-        issueCategory: 'Course registration failure',
-        issueDescription: "I was sick so I missed the paper",
-        status: 'Resolved',
-        roleId: 'S11223',
-        course: 'Digital Innovation and computational thinking',
-      },
-    ]);
+    api.get('/api/issues/workflow/')
+      .then(res => setIssues(res.data))
+      .catch(err => console.error('Failed to load issues', err));
   }, []);
 
+  // 2) When a registrar picks an issue, fetch lecturers in that issue's department
   useEffect(() => {
-    if (selectedIssue) {
-      const lecturersByCourse = {
-        'Communication Skills': [
-          { id: 'lecturer_1', name: 'Dr. John Paul', department: "Computer Science" },
-          { id: 'lecturer_2', name: 'Prof. John Kizito', department: " Networks" },
-        ],
-       'Computer Architecturer and organisation': [
-          { id: 'lecturer_3', name: 'Mr. Bernard Muwonge', department: "Information Systems" },
-          { id: 'lecturer_4', name: 'Dr. Emmanuel Lule', department: "Networks" },
-        ],
-      };
-      setLecturers(lecturersByCourse[selectedIssue.course] || []);
+    if (selectedIssue && selectedIssue.course_details) {
+      const deptId = selectedIssue.course_details.department.id;
+      api.get('/api/lecturers/', { params: { department: deptId } })
+        .then(res => setLecturers(res.data))
+        .catch(err => console.error('Failed to load lecturers', err));
     } else {
       setLecturers([]);
     }
   }, [selectedIssue]);
 
-  const handleAssign = (e) => {
+  const handleAssign = e => {
     e.preventDefault();
     if (!selectedIssue || !selectedLecturer) {
       alert('Please select an issue and a lecturer.');
       return;
     }
 
-    setIssues((prevIssues) =>
-      prevIssues.map((issue) =>
-        issue.issueId === selectedIssue.issueId ? { ...issue, status: 'Assigned' } : issue
+    // 2-step assign: mark in_progress, then set assigned_to
+    api.post(`/api/issues/workflow/${selectedIssue.id}/mark_in_progress/`)
+      .then(() =>
+        api.patch(`/api/issues/${selectedIssue.id}/`, { assigned_to: selectedLecturer })
       )
-    );
-
-    alert(`Issue "${selectedIssue.issueCategory}" assigned to ${selectedLecturer}`);
-    setSelectedIssue(null);
-    setSelectedLecturer('');
+      .then(() => {
+        setIssues(prev =>
+          prev.map(i =>
+            i.id === selectedIssue.id
+              ? { ...i, status: 'in_progress', assigned_to: { id: selectedLecturer } }
+              : i
+          )
+        );
+        alert(`Issue "${selectedIssue.category}" assigned.`);
+        setSelectedIssue(null);
+        setSelectedLecturer('');
+      })
+      .catch(err => {
+        console.error('Assignment failed', err);
+        alert('Failed to assign issue.');
+      });
   };
 
-  const getStatusClass = (status) => {
+  const getStatusClass = status => {
     switch (status) {
-      case 'Pending': return 'status-pending';
-      case 'Assigned': return 'status-assigned';
-      case 'Resolved': return 'status-resolved';
-      default: return '';
+      case 'open':        return 'status-pending';
+      case 'in_progress': return 'status-assigned';
+      case 'resolved':    return 'status-resolved';
+      default:            return '';
     }
   };
 
@@ -109,12 +78,12 @@ const ManageAndAssignIssues = () => {
             <select
               className="filter-select"
               value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
+              onChange={e => setFilterStatus(e.target.value)}
             >
               <option value="All">All</option>
-              <option value="Pending">Pending</option>
-              <option value="Assigned">Assigned</option>
-              <option value="Resolved">Resolved</option>
+              <option value="open">Pending</option>
+              <option value="in_progress">Assigned</option>
+              <option value="resolved">Resolved</option>
             </select>
           </label>
         </div>
@@ -139,21 +108,21 @@ const ManageAndAssignIssues = () => {
             {issues
               .filter(issue => filterStatus === 'All' || issue.status === filterStatus)
               .map(issue => (
-                <tr key={issue.issueId}>
-                  <td>{issue.issueId}</td>
-                  <td>{issue.year}</td>
+                <tr key={issue.id}>
+                  <td>{issue.id}</td>
+                  <td>{issue.year_of_study}</td>
                   <td>{issue.semester}</td>
-                  <td>{issue.issueCategory}</td>
-                  <td>{issue.issueDescription}</td>
-                  <td>{issue.roleId}</td>
-                  <td>{courseUnits.find(unit => unit.id === issue.course)?.name || issue.course}</td>
+                  <td>{issue.category}</td>
+                  <td>{issue.description}</td>
+                  <td>{issue.student.role_id}</td>
+                  <td>{issue.course_details.name}</td>
                   <td>
                     <span className={`status-badge ${getStatusClass(issue.status)}`}>
                       {issue.status}
                     </span>
                   </td>
                   <td>
-                    {issue.status === 'Pending' && (
+                    {issue.status === 'open' && (
                       <button
                         className="action-button assign-button"
                         onClick={() => setSelectedIssue(issue)}
@@ -174,7 +143,7 @@ const ManageAndAssignIssues = () => {
           <div className="issue-details">
             <div className="detail-item">
               <span className="detail-label">Year:</span>
-              <span className="detail-value">{selectedIssue.year}</span>
+              <span className="detail-value">{selectedIssue.year_of_study}</span>
             </div>
             <div className="detail-item">
               <span className="detail-label">Semester:</span>
@@ -182,18 +151,15 @@ const ManageAndAssignIssues = () => {
             </div>
             <div className="detail-item">
               <span className="detail-label">Issue Category:</span>
-              <span className="detail-value">{selectedIssue.issueCategory}</span>
+              <span className="detail-value">{selectedIssue.category}</span>
             </div>
             <div className="detail-item">
               <span className="detail-label">Student Role ID:</span>
-              <span className="detail-value">{selectedIssue.roleId}</span>
+              <span className="detail-value">{selectedIssue.student.role_id}</span>
             </div>
-           
             <div className="detail-item">
               <span className="detail-label">Course Unit:</span>
-              <span className="detail-value">
-                {courseUnits.find(unit => unit.id === selectedIssue.course)?.name || selectedIssue.course}
-              </span>
+              <span className="detail-value">{selectedIssue.course_details.name}</span>
             </div>
           </div>
 
@@ -204,11 +170,14 @@ const ManageAndAssignIssues = () => {
                 <select
                   className="form-select"
                   value={selectedLecturer}
-                  onChange={(e) => setSelectedLecturer(e.target.value)}
+                  onChange={e => setSelectedLecturer(e.target.value)}
+                  required
                 >
                   <option value="">-- Select a Lecturer --</option>
                   {lecturers.map(lecturer => (
-                    <option key={lecturer.id} value={lecturer.name}>{lecturer.name} - {lecturer.department}</option>
+                    <option key={lecturer.id} value={lecturer.id}>
+                      {lecturer.first_name} {lecturer.last_name} – {lecturer.department.name}
+                    </option>
                   ))}
                 </select>
               </label>
