@@ -62,18 +62,20 @@ const Sidebar = ({ handleLogout, user }) => {
 };
 
 // Recent History
+
 const RecentHistoryTable = () => {
   const [issues, setIssues] = useState([]);
+
   useEffect(() => {
-    const fetchStudentIssues = async () => {
+    const fetchRegistrarHistory = async () => {
       try {
-        const response = await api.get('/api/my-issues/');
+        const response = await api.get('/api/issues/history/');
         setIssues(response.data);
       } catch (error) {
-        console.error("Failed to fetch issues:", error);
+        console.error("Failed to fetch history:", error);
       }
     };
-    fetchStudentIssues();
+    fetchRegistrarHistory();
   }, []);
 
   return (
@@ -92,13 +94,11 @@ const RecentHistoryTable = () => {
           </tr>
         </thead>
         <tbody>
-          {issues.map((issue, index) => (
-            <tr key={index}>
-              <td>
-              <p>{issue.course_details?.name || "N/A"}</p>
-              </td>
+          {issues.map((issue, idx) => (
+            <tr key={idx}>
+              <td>{issue.course_details?.name || "N/A"}</td>
               <td>{issue.category}</td>
-              <td>{issue.roleId}</td>
+              <td>{issue.student.role_id}</td>
               <td>{new Date(issue.created_at).toLocaleDateString()}</td>
               <td>
                 <span className={`status ${issue.status.toLowerCase()}`}>
@@ -112,6 +112,8 @@ const RecentHistoryTable = () => {
     </div>
   );
 };
+
+
 
 
 // Content Component
