@@ -12,43 +12,43 @@ const ManageAndAssignIssues = () => {
   useEffect(() => {
     setIssues([
       {
-        id: 1,
+        issueId: 1,
         year: "One",
         semester: 1,
         issueCategory: 'Login issue',
         issueDescription: "I had put wrong details",
         status: 'Pending',
-        studentNumber: 'S12345',
+        roleId: 'S12345',
         course: 'Communication Skills',
       },
       {
-        id: 4,
+        issueId: 4,
         year: "Four",
         semester: 2,
         issueCategory: 'Login issue',
         issueDescription: "I was sick",
         status: 'Pending',
-        studentNumber: 'S12345',
+        roleId: 'S12345',
         course: 'Computer Architecturer and organisation',
       },
       {
-        id: 2,
+        issueId: 2,
         year: "Two",
         semester: 1,
         issueCategory: 'Error in grading',
         issueDescription: "I am not satisfied with my marks",
         status: 'Assigned',
-        studentNumber: 'S67890',
+        roleId: 'S67890',
         course: 'Probanility and stastics',
       },
       {
-        id: 3,
+        issueId: 3,
         year: "One",
         semester: 1,
         issueCategory: 'Course registration failure',
         issueDescription: "I was sick so I missed the paper",
         status: 'Resolved',
-        studentNumber: 'S11223',
+        roleId: 'S11223',
         course: 'Digital Innovation and computational thinking',
       },
     ]);
@@ -58,12 +58,12 @@ const ManageAndAssignIssues = () => {
     if (selectedIssue) {
       const lecturersByCourse = {
         'Communication Skills': [
-          { id: 'lecturer_1', name: 'Dr. John Paul' },
-          { id: 'lecturer_2', name: 'Prof. John Kizito' },
+          { id: 'lecturer_1', name: 'Dr. John Paul', department: "Computer Science" },
+          { id: 'lecturer_2', name: 'Prof. John Kizito', department: " Networks" },
         ],
        'Computer Architecturer and organisation': [
-          { id: 'lecturer_3', name: 'Mr. Bernard Muwonge' },
-          { id: 'lecturer_4', name: 'Dr. Emmanuel Lule' },
+          { id: 'lecturer_3', name: 'Mr. Bernard Muwonge', department: "Information Systems" },
+          { id: 'lecturer_4', name: 'Dr. Emmanuel Lule', department: "Networks" },
         ],
       };
       setLecturers(lecturersByCourse[selectedIssue.course] || []);
@@ -81,7 +81,7 @@ const ManageAndAssignIssues = () => {
 
     setIssues((prevIssues) =>
       prevIssues.map((issue) =>
-        issue.id === selectedIssue.id ? { ...issue, status: 'Assigned' } : issue
+        issue.issueId === selectedIssue.issueId ? { ...issue, status: 'Assigned' } : issue
       )
     );
 
@@ -139,13 +139,13 @@ const ManageAndAssignIssues = () => {
             {issues
               .filter(issue => filterStatus === 'All' || issue.status === filterStatus)
               .map(issue => (
-                <tr key={issue.id}>
-                  <td>{issue.id}</td>
+                <tr key={issue.issueId}>
+                  <td>{issue.issueId}</td>
                   <td>{issue.year}</td>
                   <td>{issue.semester}</td>
                   <td>{issue.issueCategory}</td>
                   <td>{issue.issueDescription}</td>
-                  <td>{issue.studentNumber}</td>
+                  <td>{issue.roleId}</td>
                   <td>{courseUnits.find(unit => unit.id === issue.course)?.name || issue.course}</td>
                   <td>
                     <span className={`status-badge ${getStatusClass(issue.status)}`}>
@@ -186,7 +186,7 @@ const ManageAndAssignIssues = () => {
             </div>
             <div className="detail-item">
               <span className="detail-label">Student Role ID:</span>
-              <span className="detail-value">{selectedIssue.studentNumber}</span>
+              <span className="detail-value">{selectedIssue.roleId}</span>
             </div>
            
             <div className="detail-item">
@@ -208,7 +208,7 @@ const ManageAndAssignIssues = () => {
                 >
                   <option value="">-- Select a Lecturer --</option>
                   {lecturers.map(lecturer => (
-                    <option key={lecturer.id} value={lecturer.name}>{lecturer.name}</option>
+                    <option key={lecturer.id} value={lecturer.name}>{lecturer.name} - {lecturer.department}</option>
                   ))}
                 </select>
               </label>
