@@ -6,6 +6,7 @@ from . import views
 from .views import (
     IssueWorkflowViewSet,
     LecturerByDepartmentView,
+    RegistrarIssueHistoryView,
     SendEmailView,IssueViewSet, RegisterView, CustomTokenObtainPairView,
     LogoutView, UserDetailView, YearOptionsView, SemesterOptionsView,
     CourseListView, DepartmentListView, ProgrammeListView,
@@ -29,6 +30,7 @@ urlpatterns = [
     path('auth/logout/', views.LogoutView.as_view(), name='logout'), # Logout (blacklist token)
     path('auth/user/', views.UserDetailView.as_view(), name='user_details'), # Get or update current user 
     
+    path('issues/history/', RegistrarIssueHistoryView.as_view(), name='issues-history'),
     # Include automatically generated URLs for viewsets (colleges, departments, programmes)
     path('', include(router.urls)),
 
@@ -44,5 +46,6 @@ urlpatterns = [
     path('issues/', views.IssueView.as_view(), name='issues'),
     path('my-issues/', views.StudentIssueListView.as_view(), name='my-issues'),
     path('lecturers/', LecturerByDepartmentView.as_view(), name='lecturers-list'),
+   
 ]
 
