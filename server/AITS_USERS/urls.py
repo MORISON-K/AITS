@@ -6,7 +6,7 @@ from . import views
 from .views import (
     IssueWorkflowViewSet,
     LecturerByDepartmentView,
-    SendEmailView, RegisterView, CustomTokenObtainPairView,
+    SendEmailView,IssueViewSet, RegisterView, CustomTokenObtainPairView,
     LogoutView, UserDetailView, YearOptionsView, SemesterOptionsView,
     CourseListView, DepartmentListView, ProgrammeListView,
     IssueCategoryOptionsView, StudentIssueListView
@@ -19,6 +19,7 @@ router.register(r'colleges', views.CollegeViewSet)  # /colleges/
 router.register(r'departments', views.DepartmentViewSet) # /departments/
 router.register(r'programmes', views.ProgrammeViewSet) # /programmes/
 router.register(r'issues/workflow', IssueWorkflowViewSet, basename='issue-workflow')# /issues/workflow/
+router.register(r'issues', IssueViewSet, basename='issues')
 
 # Main URL patterns for the app
 urlpatterns = [
