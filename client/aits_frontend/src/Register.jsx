@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import api from './api';
 import LoadingIndicator from './LoadingIndicator';
@@ -85,9 +85,8 @@ const Register = ({ handlePageChange }) => {
       return;
     }
 
-
     if (formData.role === "academic registrar" && !formData.college) {
-      setError("Lecturers must select a college");
+      setError("Academic Registrars must select a college");
       return;
     }
 
@@ -95,25 +94,26 @@ const Register = ({ handlePageChange }) => {
 
     try {
       const payload = {
-        username: formData.userName,
-        email: formData.email,
-        password: formData.password,
+        username:        formData.userName,
+        email:           formData.email,
+        password:        formData.password,
         confirm_password: formData.confirmPassword,
-        first_name: formData.firstName,
-        last_name: formData.lastName,
-        role: formData.role,
-        role_id: formData.roleId
+        first_name:      formData.firstName,
+        last_name:       formData.lastName,
+        role:            formData.role,
+        role_id:         formData.roleId
       };
 
       if (formData.role === "student") {
-        payload.college = formData.college;
-        payload.programme = formData.programme;
+        payload.college_id   = formData.college;
+        payload.programme_id = formData.programme;
       } else if (formData.role === "lecturer") {
-        payload.department = formData.department;
+        payload.department_id = formData.department;
+      } else if (formData.role === "academic registrar") {
+        payload.college_id = formData.college;
       }
 
-      const response = await api.post("/api/auth/register/", payload);
-      
+      await api.post("/api/auth/register/", payload);
       setLoading(false);
       handlePageChange("login");
     } catch (error) {
@@ -208,7 +208,7 @@ const Register = ({ handlePageChange }) => {
             >
               <option value="">Select College</option>
               {colleges.map(college => (
-                <option key={college.id} value={college.name}>
+                <option key={college.id} value={college.id}>
                   {college.name}
                 </option>
               ))}
@@ -223,7 +223,7 @@ const Register = ({ handlePageChange }) => {
             >
               <option value="">Select Programme</option>
               {programmes.map(programme => (
-                <option key={programme.id} value={programme.name}>
+                <option key={programme.id} value={programme.id}>
                   {programme.name} ({programme.code})
                 </option>
               ))}
@@ -231,7 +231,6 @@ const Register = ({ handlePageChange }) => {
             <br />
           </>
         )}
-
 
         {formData.role === "academic registrar" && (
           <>
@@ -244,7 +243,7 @@ const Register = ({ handlePageChange }) => {
             >
               <option value="">Select College</option>
               {colleges.map(college => (
-                <option key={college.id} value={college.name}>
+                <option key={college.id} value={college.id}>
                   {college.name}
                 </option>
               ))}
@@ -252,7 +251,6 @@ const Register = ({ handlePageChange }) => {
             <br />
           </>
         )}
-
 
         {formData.role === "lecturer" && (
           <select
@@ -264,14 +262,13 @@ const Register = ({ handlePageChange }) => {
           >
             <option value="">Select Department</option>
             {departments.map(department => (
-              <option key={department.id} value={department.name}>
+              <option key={department.id} value={department.id}>
                 {department.name}
               </option>
             ))}
           </select>
         )}
         
-
         <input 
           type="password" 
           name="password" 
