@@ -1,8 +1,16 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
-from .views import SendEmailView, IssueWorkflowViewSet
+#from .views import SendEmailView, IssueWorkflowViewSet
 
+from .views import (
+    IssueWorkflowViewSet,
+    LecturerByDepartmentView,
+    SendEmailView, RegisterView, CustomTokenObtainPairView,
+    LogoutView, UserDetailView, YearOptionsView, SemesterOptionsView,
+    CourseListView, DepartmentListView, ProgrammeListView,
+    IssueCategoryOptionsView, StudentIssueListView
+)
 
 
 # Create a router for automatic URL routing for viewsets (like CollegeViewSet, etc.
@@ -33,6 +41,7 @@ urlpatterns = [
     path('programmes/filtered/', views.ProgrammeListView.as_view(), name='programme-filtered'),
     path('issue-categories/', views.IssueCategoryOptionsView.as_view(), name='issue-categories'),
     path('issues/', views.IssueView.as_view(), name='issues'),
-    path('my-issues/', views.StudentIssueListView.as_view(), name='my-issues')
+    path('my-issues/', views.StudentIssueListView.as_view(), name='my-issues'),
+    path('lecturers/', LecturerByDepartmentView.as_view(), name='lecturers-list'),
 ]
 
