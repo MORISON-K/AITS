@@ -789,6 +789,14 @@ body {
 #content main .table-data .order table tr td .status.In Progress {
 	background: var(--yellow);
 }
+
+
+
+#content main .table-data .order table tr td .status.in_progress {
+	background: var(--yellow);
+}
+
+
 #content main .table-data .order table tr td .status.Resolved {
 	background: var(--orange);
 }
