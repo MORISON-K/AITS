@@ -790,6 +790,9 @@ body {
 	background: var(--yellow);
 }
 
+#content main .table-data .order table tr td .status.Resolved {
+	background: var(--red);
+}
 
 
 #content main .table-data .order table tr td .status.in_progress {
