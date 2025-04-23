@@ -4,7 +4,10 @@ import "boxicons/css/boxicons.min.css";
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { useAuth } from './auth';
+import api from './api';
 
+const getStatusClass = (status) =>
+  status === "resolved" ? "badge-resolved" : "badge-assigned";
 // Sidebar Components
 const Sidebar = ({ handleLogout, user }) => {
   return (
@@ -60,90 +63,57 @@ const Sidebar = ({ handleLogout, user }) => {
 };
 
 // Recent History Table Component
-const RecentHistoryTable = () => {
-  const [data, setData] = useState([]);
-  const [feedbackText, setFeedbackText] = useState({}); // Store feedback for each issue
-  
-  useEffect(() => {
-    fetch("API_ENDPOINT_FOR_ASSIGNED_ISSUES") // Replace with actual API URL
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
 
-  const sendFeedback = (issueId) => {
-    if (!feedbackText[issueId]) {
-      alert("Please enter feedback before submitting.");
-      return;
-    }
-    
-    fetch(`API_ENDPOINT_FOR_SENDING_FEEDBACK/${issueId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        status: "Resolved",
-        feedback: feedbackText[issueId], // Send custom feedback
-      }),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        alert("Feedback sent successfully!");
-        // Update the issue status locally
-        setData(data.map(issue =>
-          issue.id === issueId ? { ...issue, status: "Resolved", statusText: "Resolved" } : issue
-        ));
-        // Clear the feedback field for that issue
-        setFeedbackText((prev) => ({ ...prev, [issueId]: "" }));
+
+const RecentHistoryTable = () => {
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/api/issues/assigned/")
+      .then((res) => {
+        // Assuming res.data is an array of issues, some with status 'assigned' and some 'resolved'
+        setHistory(res.data);
       })
-      .catch((error) => console.error("Error sending feedback:", error));
-  };
+      .catch((err) => console.error("Error loading history:", err));
+  }, []);
 
   return (
     <div className="order">
       <div className="head">
-        <h3>Assigned Issues</h3>
+        <h3>Issue History</h3>
       </div>
       <table>
         <thead>
           <tr>
             <th>Course Unit</th>
-            <th>Student Number</th>
-            <th>Issue Category</th>
+            <th>Student Role ID</th>
+            <th>Category</th>
             <th>Date Created</th>
+            <th>Date Resolved</th>
             <th>Status</th>
-            <th>Feedback</th>
-            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
-            <tr key={index}>
-              <td>{row.course}</td>
-              <td>{row.studentNumber}</td>
+          {history.map((row) => (
+            <tr key={row.id}>
+              <td>{row.course_details?.name || "N/A"}</td>
+              <td>{row.student?.role_id || "N/A"}</td>
               <td>{row.category}</td>
-              <td>{row.date}</td>
               <td>
-                <span className={`status ${row.status}`}>{row.statusText}</span>
+                {row.created_at
+                  ? new Date(row.created_at).toLocaleDateString()
+                  : "—"}
               </td>
               <td>
-                {row.status !== "Resolved" && (
-                  <textarea
-                    value={feedbackText[row.id] || ""}
-                    onChange={(e) => setFeedbackText({ ...feedbackText, [row.id]: e.target.value })}
-                    placeholder="Enter feedback..."
-                    rows="2"
-                    cols="25"
-                  />
-                )}
+                {row.resolved_at
+                  ? new Date(row.resolved_at).toLocaleDateString()
+                  : "—"}
               </td>
               <td>
-                {row.status !== "Resolved" && (
-                  <button className="resolve-btn" onClick={() => sendFeedback(row.id)}>
-                    Mark as Resolved
-                  </button>
-                )}
+                <span className={`status-badge ${getStatusClass(row.status)}`}>
+                  {row.status.charAt(0).toUpperCase() + row.status.slice(1)}
+                </span>
               </td>
             </tr>
           ))}
