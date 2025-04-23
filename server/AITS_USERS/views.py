@@ -311,32 +311,43 @@ class IsAcademicRegistrar(permissions.BasePermission):
             request.user.is_authenticated and
             request.user.role == 'academic registrar'
         )    
-
-class IssueWorkflowViewSet(mixins.ListModelMixin,
-                           viewsets.GenericViewSet):
-    """
-    GET    /issues/workflow/                  → list open issues
-    POST   /issues/workflow/{pk}/mark_in_progress/ → mark in_progress
-    POST   /issues/workflow/{pk}/resolve/         → mark resolved
-    """
-    queryset = Issue.objects.filter(status='open')
+    
+    
+class IssueWorkflowViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    queryset = Issue.objects.all()  # Changed from filtering 'open' issues
     serializer_class = IssueSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=True, methods=['post'], permission_classes=[IsAcademicRegistrar])
     def mark_in_progress(self, request, pk=None):
         issue = self.get_object()
+        if issue.status != 'open':
+            return Response(
+                {"error": "Issue must be open to mark in progress"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         issue.status = 'in_progress'
         issue.save()
         return Response({"message": "Marked in progress."}, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    @action(detail=True, methods=['post'])
     def resolve(self, request, pk=None):
         issue = self.get_object()
+        # Ensure the issue is in 'in_progress' status
+        if issue.status != 'in_progress':
+            return Response(
+                {"error": "Issue must be in progress to resolve"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        # Ensure the current user is the assigned lecturer
+        if issue.assigned_to != request.user:
+            return Response(
+                {"error": "You are not assigned to this issue"},
+                status=status.HTTP_403_FORBIDDEN
+            )
         issue.status = 'resolved'
         issue.save()
         return Response({"message": "Marked resolved."}, status=status.HTTP_200_OK)
-
 
 class LecturerByDepartmentView(generics.ListAPIView):
     """
