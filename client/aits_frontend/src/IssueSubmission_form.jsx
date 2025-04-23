@@ -101,7 +101,7 @@ function IssueSubmission_form() {
         semester: formData.semester,
         category: formData.issueCategory,
         description: formData.description,
-        student: user.id,
+        // student: user.id,
         course: parseInt(formData.courseUnit), // Ensure numeric course ID
       };
       
