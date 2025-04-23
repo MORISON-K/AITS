@@ -355,7 +355,11 @@ class IssueViewSet(viewsets.ModelViewSet):
     """
     queryset = Issue.objects.all()
     serializer_class = IssueSerializer
-    permission_classes = [permissions.IsAuthenticated]    
+    permission_classes = [permissions.IsAuthenticated] 
+
+    def perform_create(self, serializer):
+        # ensures student_id=request.user.id on creation
+        serializer.save(student=self.request.user)   
 
 
 class RegistrarIssueHistoryView(generics.ListAPIView):
