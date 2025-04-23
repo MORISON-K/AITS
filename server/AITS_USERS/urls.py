@@ -5,10 +5,11 @@ from . import views
 
 from .views import (
     IssueWorkflowViewSet,
+    IssueViewSet,
     LecturerByDepartmentView,
     RegistrarIssueHistoryView,
     LecturerIssueListView,
-    SendEmailView,IssueViewSet, RegisterView, CustomTokenObtainPairView,
+    SendEmailView, RegisterView, CustomTokenObtainPairView,
     LogoutView, UserDetailView, YearOptionsView, SemesterOptionsView,
     CourseListView, DepartmentListView, ProgrammeListView,
     IssueCategoryOptionsView, StudentIssueListView
@@ -31,9 +32,23 @@ urlpatterns = [
     path('auth/login/', views.CustomTokenObtainPairView.as_view(), name='login'),  # Login (JWT token)
     path('auth/logout/', views.LogoutView.as_view(), name='logout'), # Logout (blacklist token)
     path('auth/user/', views.UserDetailView.as_view(), name='user_details'), # Get or update current user 
+
+    # path(
+    #   'issues/workflow/<int:pk>/mark_in_progress/',
+    #   IssueWorkflowViewSet.as_view({'post': 'mark_in_progress'}),
+    #   name='issue-mark-in-progress'
+    # ),
+    # path(
+    #   'issues/workflow/<int:pk>/resolve/',
+    #   IssueWorkflowViewSet.as_view({'post': 'resolve'}),
+    #   name='issue-resolve'
+    # ),
+
     path('issues/assigned/', LecturerIssueListView.as_view(), name='assigned-issues'),
-    
     path('issues/history/', RegistrarIssueHistoryView.as_view(), name='issues-history'),
+
+    # path('issues/assigned/', LecturerIssueListView.as_view(), name='assigned-issues'),
+    # path('issues/history/', RegistrarIssueHistoryView.as_view(), name='issues-history'),
     # Include automatically generated URLs for viewsets (colleges, departments, programmes)
     path('', include(router.urls)),
 
