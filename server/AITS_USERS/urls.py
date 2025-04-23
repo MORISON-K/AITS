@@ -7,6 +7,7 @@ from .views import (
     IssueWorkflowViewSet,
     LecturerByDepartmentView,
     RegistrarIssueHistoryView,
+    LecturerIssueListView,
     SendEmailView,IssueViewSet, RegisterView, CustomTokenObtainPairView,
     LogoutView, UserDetailView, YearOptionsView, SemesterOptionsView,
     CourseListView, DepartmentListView, ProgrammeListView,
@@ -22,6 +23,7 @@ router.register(r'programmes', views.ProgrammeViewSet) # /programmes/
 router.register(r'issues/workflow', IssueWorkflowViewSet, basename='issue-workflow')# /issues/workflow/
 router.register(r'issues', IssueViewSet, basename='issues')
 
+
 # Main URL patterns for the app
 urlpatterns = [
      # User authentication routes
@@ -29,6 +31,7 @@ urlpatterns = [
     path('auth/login/', views.CustomTokenObtainPairView.as_view(), name='login'),  # Login (JWT token)
     path('auth/logout/', views.LogoutView.as_view(), name='logout'), # Logout (blacklist token)
     path('auth/user/', views.UserDetailView.as_view(), name='user_details'), # Get or update current user 
+    path('issues/assigned/', LecturerIssueListView.as_view(), name='assigned-issues'),
     
     path('issues/history/', RegistrarIssueHistoryView.as_view(), name='issues-history'),
     # Include automatically generated URLs for viewsets (colleges, departments, programmes)
