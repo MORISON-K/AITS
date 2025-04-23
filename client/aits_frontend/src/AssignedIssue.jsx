@@ -1,14 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import api from "./api";
-import { useEffect, useState } from "react";
+
+const getStatusClass = status => {
+  switch (status) {
+    case 'open':        return 'status-pending';
+    case 'in_progress': return 'status-assigned';
+    case 'resolved':    return 'status-resolved';
+    default:            return '';
+  }
+};
+
 
 const AssignedIssues = () => {
-  // Data to be fetched from an API
-  const data = [
-    { issueId: "001", course: "CSC 1101", roleId: "24007", category: "Missing Marks", date: "01-10-2021" },
-    { issueId: "002", course: "CSC 1101", roleId: "24008", category: "Missing Marks", date: "01-10-2021" },
-    { issueId: "003", course: "CSC 1100", roleId: "24009", category: "Wrong Credentials", date: "01-10-2021" },
-  ];
+  const [issues, setIssues] = useState([]);
+
+  // 1) load my assigned issues on mount
+  useEffect(() => {
+    api.get('/api/issues/assigned/')
+      .then(res => setIssues(res.data))
+      .catch(err => console.error("Failed to load assigned issues:", err));
+  }, []);
+
+  // 2) resolve handler
+  const handleResolve = (issueId) => {
+    api.post(`/api/issues/workflow/${issueId}/resolve/`)
+      .then(() => {
+        setIssues(prev =>
+          prev.map(i =>
+            i.id === issueId
+              ? { ...i, status: 'resolved' }
+              : i
+          )
+        );
+      })
+      .catch(err => {
+        console.error("Failed to resolve issue:", err);
+        alert("Could not resolve issue. Try again.");
+      });
+  };
 
   return (
     <div className="assigned-issues">
@@ -21,21 +50,33 @@ const AssignedIssues = () => {
               <th scope="col" className="AssignedIsues-th">Course Unit</th>
               <th scope="col" className="AssignedIsues-th">Student Role ID</th>
               <th scope="col" className="AssignedIsues-th">Issue Category</th>
+              <th scope="col" className="AssignedIsues-th">Issue Description</th>
               <th scope="col" className="AssignedIsues-th">Date Created</th>
               <th scope="col" className="AssignedIsues-th">Action</th>
-             
             </tr>
           </thead>
           <tbody>
-            {data.map((row, index) => (
-              <tr key={index}>
-                <td className="AssignedIsues-td">{row.issueId}</td>
-                <td className="AssignedIsues-td">{row.course}</td>
-                <td className="AssignedIsues-td">{row.roleId}</td>
+            {issues.map((row, idx) => (
+              <tr key={idx}>
+                <td className="AssignedIsues-td">{row.id}</td>
+                <td className="AssignedIsues-td">{row.course_details?.name || 'N/A'}</td>
+                <td className="AssignedIsues-td">{row.student.role_id}</td>
                 <td className="AssignedIsues-td">{row.category}</td>
-                <td className="AssignedIsues-td">{row.date}</td>
+                <td className="AssignedIsues-td">{row.description}</td>
                 <td className="AssignedIsues-td">
-                  <button className="action-button">Resolve</button>
+                  {new Date(row.created_at).toLocaleDateString()}
+                </td>
+                <td className="AssignedIsues-td">
+                  {row.status !== 'resolved' ? (
+                    <button
+                      className="action-button"
+                      onClick={() => handleResolve(row.id)}
+                    >
+                      Resolve
+                    </button>
+                  ) : (
+                    <span className={`status-badge ${getStatusClass(row.status)}`}>Resolved</span>
+                  )}
                 </td>
               </tr>
             ))}
