@@ -1,12 +1,13 @@
 import React from "react";
-
+import api from "./api";
+import { useEffect, useState } from "react";
 
 const AssignedIssues = () => {
   // Data to be fetched from an API
   const data = [
-    { ID: "001", course: "CSC 1101", studentNumber: "24007", category: "Missing Marks", date: "01-10-2021" },
-    { ID: "002", course: "CSC 1101", studentNumber: "24008", category: "Missing Marks", date: "01-10-2021" },
-    { ID: "003", course: "CSC 1100", studentNumber: "24009", category: "Wrong Credentials", date: "01-10-2021" },
+    { issueId: "001", course: "CSC 1101", roleId: "24007", category: "Missing Marks", date: "01-10-2021" },
+    { issueId: "002", course: "CSC 1101", roleId: "24008", category: "Missing Marks", date: "01-10-2021" },
+    { issueId: "003", course: "CSC 1100", roleId: "24009", category: "Wrong Credentials", date: "01-10-2021" },
   ];
 
   return (
@@ -16,23 +17,26 @@ const AssignedIssues = () => {
         <table>
           <thead>
             <tr>
-              <th scope="col" className="AssignedIsues-th">ID</th>
+              <th scope="col" className="AssignedIsues-th">Issue ID</th>
               <th scope="col" className="AssignedIsues-th">Course Unit</th>
-              <th scope="col" className="AssignedIsues-th">Student ID</th>
+              <th scope="col" className="AssignedIsues-th">Student Role ID</th>
               <th scope="col" className="AssignedIsues-th">Issue Category</th>
               <th scope="col" className="AssignedIsues-th">Date Created</th>
+              <th scope="col" className="AssignedIsues-th">Action</th>
              
             </tr>
           </thead>
           <tbody>
             {data.map((row, index) => (
               <tr key={index}>
-                <td className="AssignedIsues-td">{row.ID}</td>
+                <td className="AssignedIsues-td">{row.issueId}</td>
                 <td className="AssignedIsues-td">{row.course}</td>
-                <td className="AssignedIsues-td">{row.studentNumber}</td>
+                <td className="AssignedIsues-td">{row.roleId}</td>
                 <td className="AssignedIsues-td">{row.category}</td>
                 <td className="AssignedIsues-td">{row.date}</td>
-                
+                <td className="AssignedIsues-td">
+                  <button className="action-button">Resolve</button>
+                </td>
               </tr>
             ))}
           </tbody>
