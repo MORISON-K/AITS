@@ -375,3 +375,14 @@ class RegistrarIssueHistoryView(generics.ListAPIView):
         user = self.request.user
         return Issue.objects.filter(student__college=user.college) \
                             .order_by('-created_at')
+    
+
+class LecturerIssueListView(generics.ListAPIView):
+    """
+    GET /api/issues/assigned/ → list issues assigned to the current lecturer
+    """
+    serializer_class = IssueSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Issue.objects.filter(assigned_to=self.request.user).order_by('-created_at')    
