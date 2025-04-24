@@ -42,7 +42,7 @@ const Sidebar = ({ handleLogout, user }) => {
         <li>
         <Link to="/AssignedIssues">
         <i className="bx bxs-folder-open text-xl mr-3"></i>
-            <span className="text">View and Resolve Issues</span>
+            <span className="text">View And Resolve Issues</span>
           </Link>
           <Link to="/notifications">
             <i className="bx bxs-bell"></i>
