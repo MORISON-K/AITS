@@ -7,7 +7,7 @@ import { useAuth } from './auth';
 import api from './api';
 
 const getStatusClass = (status) =>
-  status === "resolved" ? "badge-resolved" : "badge-assigned";
+  status === "resolved" ? "resolved" : "assigned";
 // Sidebar Components
 const Sidebar = ({ handleLogout, user }) => {
   return (
@@ -90,7 +90,7 @@ const RecentHistoryTable = () => {
             <th>Student Role ID</th>
             <th>Category</th>
             <th>Date Created</th>
-            <th>Date Resolved</th>
+            {/* <th>Date Resolved</th> */}
             <th>Status</th>
           </tr>
         </thead>
@@ -105,13 +105,13 @@ const RecentHistoryTable = () => {
                   ? new Date(row.created_at).toLocaleDateString()
                   : "—"}
               </td>
-              <td>
+              {/* <td>
                 {row.resolved_at
                   ? new Date(row.resolved_at).toLocaleDateString()
                   : "—"}
-              </td>
+              </td> */}
               <td>
-                <span className={`status-badge ${getStatusClass(row.status)}`}>
+                <span className={`status ${getStatusClass(row.status)}`}>
                   {row.status.charAt(0).toUpperCase() + row.status.slice(1)}
                 </span>
               </td>
