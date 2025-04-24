@@ -121,7 +121,7 @@ const DashboardView = () => (
   </section>
 );
 
-// Main StudentDashboard Component
+// This is the Main StudentDashboard Component
 const StudentDashboard = () => {
   const auth = useAuth();
   const user = auth.user;
