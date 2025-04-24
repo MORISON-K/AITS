@@ -55,44 +55,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Error Message Styles */
-.error-message {
-  color: #ff4d4f; /* Bright red for errors */
-  font-size: 0.9em;
-  font-weight: 600;
-  margin-top: 0.5em;
-}
-
-/* Success Message Styles */
-.success-message {
-  color: #52c41a; /* Green for success */
-  font-size: 0.9em;
-  font-weight: 600;
-  margin-top: 0.5em;
-}
-
-/* Input Field Error State */
-input.error,
-textarea.error,
-select.error {
-  border: 2px solid #ff4d4f; /* Red border for invalid fields */
-  background-color: #fff1f0; /* Light red background for emphasis */
-}
-
-input.success,
-textarea.success,
-select.success {
-  border: 2px solid #52c41a; /* Green border for valid fields */
-  background-color: #f6ffed; /* Light green background for emphasis */
-}
-
-/* Validation Feedback */
-.validation-feedback {
-  font-size: 0.8em;
-  color: #8c8c8c; /* Neutral gray for additional feedback */
-  margin-top: 0.3em;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
