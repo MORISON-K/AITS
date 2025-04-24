@@ -96,7 +96,7 @@
     resize: vertical;
   }
   
-  /* Navigation buttons */
+  /* The Navigation buttons */
   .form-navigation {
     display: flex;
     justify-content: space-between;
