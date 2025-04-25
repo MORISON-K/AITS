@@ -78,27 +78,6 @@ const Register = ({ handlePageChange }) => {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
     // Role-specific validation     
     if (formData.role === "student" && (!formData.college || !formData.programme)) {
