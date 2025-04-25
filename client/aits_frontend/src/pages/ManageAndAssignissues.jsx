@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../api';
 import './ManageAndAssignIssues.css';
 import '../App.css';
+import LoadingIndicator from '../LoadingIndicator'
 
 const ManageAndAssignIssues = () => {
   const [issues, setIssues] = useState([]);
@@ -9,12 +10,15 @@ const ManageAndAssignIssues = () => {
   const [lecturers, setLecturers] = useState([]);
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [selectedLecturer, setSelectedLecturer] = useState('');
+  const [loadingIssues, setLoadingIssues] = useState(true)
 
   // Load all open issues
   useEffect(() => {
+    setLoadingIssues(true)
     api.get('/api/issues/workflow/')
       .then(res => setIssues(res.data))
-      .catch(err => console.error('Failed to load issues', err));
+      .catch(err => console.error('Failed to load issues', err))
+      .finally(() => setLoadingIssues(false));
   }, []);
 
   // When an issue is selected, load lecturers for its department
@@ -131,6 +135,17 @@ const ManageAndAssignIssues = () => {
             </button>
           </div>
         </form>
+      </div>
+    );
+  }
+
+  
+  // If still loading issues, show spinner
+  if (loadingIssues) {
+    return (
+      <div className="manage-container" id="assign">
+        <LoadingIndicator />
+        <span>Issues loading, please wait ...</span>
       </div>
     );
   }
