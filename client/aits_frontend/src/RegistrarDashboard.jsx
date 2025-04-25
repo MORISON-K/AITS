@@ -5,10 +5,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { useAuth } from './auth';
 import api from './api';
-
+import ManageAndAssignIssues from './pages/ManageAndAssignissues'
 
 // Sidebar Component
-const Sidebar = ({ handleLogout, user }) => {
+const Sidebar = ({ handleLogout, user, onNavClick, activeView }) => {
   return (
     <section id="sidebar">
       <div className="brand">
@@ -32,18 +32,17 @@ const Sidebar = ({ handleLogout, user }) => {
       </div>
       
       <ul className="side-menu top p-4">
-        <li className="active">
-          <Link to="/registrar-dashboard" className="flex items-center p-3 text-white hover:bg-gray-700">
-            <i className="bx bxs-dashboard text-xl mr-3"></i>
-            <span className="text-lg">Dashboard</span>
-          </Link>
-          
+      <li className={activeView === 'dashboard' ? 'active' : ''}>
+         <a href="#!" onClick={() => onNavClick('dashboard')}>
+            <i className="bx bxs-dashboard"></i>
+            <span className="text">Dashboard</span>
+          </a> 
         </li>
-        <li className="active" >
-          <Link to="/manage-issues" className="flex items-center p-3 text-white hover:bg-gray-700">
-            <i className="bx bxs-folder-open text-xl mr-3"></i>
-            <span className="text-lg">Manage Student Issues.</span>
-          </Link>
+        <li className={activeView === 'createIssue' ? 'active' : ''}>
+        <a href="#!" onClick={() => onNavClick('createIssue')}>
+            <i className="bx bxs-shopping-bag-alt"></i>
+            <span className="text">Manage Student Issues.</span>
+          </a>
         </li>
         
       
@@ -116,51 +115,61 @@ const RecentHistoryTable = () => {
 
 
 
-// Content Component
-const Content = () => {
-  return (
-    <section id="content" className="bg-gray-50 p-6 rounded-lg flex-1">
-      <main>
-        {/* Header Section */}
-        <div className="head-title flex justify-between items-center mb-6">
-          <div className="left">
-            <h1 className="text-2xl font-bold text-gray-800">Welcome, Registrar!</h1>
-            <ul className="breadcrumb text-sm text-gray-600">
-              <li>
-                <Link to="/registrar-dashboard">Dashboard</Link>
-              </li>
-              <li>
-                <i className="bx bx-chevron-right text-gray-500"></i>
-              </li>
-            </ul>
-          </div>
+// Main Content Component (Dashboard view)
+const DashboardView = () => (
+  <section id="content">
+    <main>
+      <div className="head-title">
+        <div className="left">
+          <h1>Welcome Registrar!</h1>
+          <ul className="breadcrumb">
+            <li>Dashboard</li>
+          </ul>
         </div>
-         <div className="table-data">
-          <RecentHistoryTable />
-        </div>
-      </main>
-    </section>
-  );
-};
+      </div>
+      <div className="table-data">
+        <RecentHistoryTable />
+      </div>
+    </main>
+  </section>
+);
 
 
 // Main RegistrarDashboard Component
 const  RegistrarDashboard = () => {
-  const { logout, user } = useAuth();
-  const navigate = useNavigate();
-  
+  const auth = useAuth();
+  const user = auth.user;
+  const [activeView, setActiveView] = useState('dashboard');
+
   const handleLogout = (e) => {
     e.preventDefault();
-    logout();
-    navigate('/Login-Page');
+    auth.logout();
+    window.location.href = '/Login-Page';
   };
 
+  
+  const renderContent = () => {
+    switch (activeView) {
+      case 'dashboard':
+        return <DashboardView />;
+      case 'createIssue':
+        return <ManageAndAssignIssues />;
+      default:
+        return <DashboardView />;
+    }
+  };
+
+  // Check if user is logged in and has a role
   return (
     <div className="admin-hub">
-      <Sidebar handleLogout={handleLogout} user={user} />
-      <Content />
+      <Sidebar
+        handleLogout={handleLogout}
+        user={user}
+        onNavClick={setActiveView}
+        activeView={activeView}
+      />
+      {renderContent()}
     </div>
   );
 };
-
 export default RegistrarDashboard;
