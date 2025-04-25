@@ -27,6 +27,8 @@ const Register = ({ handlePageChange }) => {
   const [optionsLoading, setOptionsLoading] = useState(true);
   const navigate = useNavigate();
 
+
+  // Handle page change to login
   // Fetch initial data for dropdowns
   useEffect(() => {
     const fetchOptions = async () => {
