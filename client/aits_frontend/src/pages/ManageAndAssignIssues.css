@@ -164,6 +164,8 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: var(--card-shadow);
+    margin-left: 285px;
+    margin-right: 15px;
   }
   
   .assignment-panel h3 {
