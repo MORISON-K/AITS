@@ -144,6 +144,7 @@ const StudentDashboard = () => {
     }
   };
 
+  // Check if user is logged in and has a role
   return (
     <div className="admin-hub">
       <Sidebar
