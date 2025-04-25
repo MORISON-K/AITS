@@ -77,7 +77,30 @@ const Register = ({ handlePageChange }) => {
       return;
     }
 
-    // Role-specific validation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    // Role-specific validation     
     if (formData.role === "student" && (!formData.college || !formData.programme)) {
       setError("Students must select a college and programme");
       return;
