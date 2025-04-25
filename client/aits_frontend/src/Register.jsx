@@ -90,6 +90,11 @@ const Register = ({ handlePageChange }) => {
       return;
     }
 
+
+
+
+    // Check if password is strong enough (at least 8 characters, 1 uppercase, 1 lowercase, 1 number)
+
     setLoading(true);
 
     try {
