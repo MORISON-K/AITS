@@ -10,10 +10,12 @@
     "preview": "vite preview",
     "heroku-postbuild": "npm install && npm run build"
   },
+
   "engines": {
     "node": "22.x",
     "npm": "10.x"
   },
+
   "dependencies": {
     "axios": "^1.8.4",
     "boxicons": "^2.1.4",
@@ -25,6 +27,7 @@
     "react-router-dom": "^7.5.0",
     "react-toastify": "^11.0.5"
   },
+
   "devDependencies": {
     "@eslint/js": "^9.19.0",
     "@types/react": "^19.0.8",
@@ -39,6 +42,7 @@
     "postcss": "^8.5.3",
     "vite": "^6.1.0"
   },
+
   "description": "front end",
   "main": "eslint.config.js",
   "repository": {
@@ -54,5 +58,7 @@
   "bugs": {
     "url": "https://github.com/MORISON-K/GROUP-H-/issues"
   },
+
+  
   "homepage": "https://github.com/MORISON-K/GROUP-H-#readme"
 }
