@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import { useAuth } from './auth';
 import api from './api';
 import ManageAndAssignIssues from './pages/ManageAndAssignissues'
+import LoadingIndicator from './LoadingIndicator';
+
 
 // Sidebar Component
 const Sidebar = ({ handleLogout, user, onNavClick, activeView }) => {
@@ -64,18 +66,33 @@ const Sidebar = ({ handleLogout, user, onNavClick, activeView }) => {
 
 const RecentHistoryTable = () => {
   const [issues, setIssues] = useState([]);
+  const [loadingIssues, setLoadingIssues] = useState(true);
 
   useEffect(() => {
+    setLoadingIssues(true)
     const fetchRegistrarHistory = async () => {
       try {
         const response = await api.get('/api/issues/history/');
         setIssues(response.data);
+        setLoadingIssues(false);
       } catch (error) {
         console.error("Failed to fetch history:", error);
+        setLoadingIssues(false);
       }
     };
     fetchRegistrarHistory();
   }, []);
+
+  
+  // If still loading issues, show spinner
+  if (loadingIssues) {
+    return (
+      <div className="manage-container">
+        <LoadingIndicator />
+        <span>Your recent history is loading, please wait ...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="order">
