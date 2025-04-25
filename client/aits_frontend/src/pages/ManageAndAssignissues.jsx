@@ -1,26 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
 import './ManageAndAssignIssues.css';
-import '../App.css'
+import '../App.css';
 
 const ManageAndAssignIssues = () => {
   const [issues, setIssues] = useState([]);
   const [filterStatus, setFilterStatus] = useState('All');
-  const [courseUnits, setCourseUnits] = useState([]); // still here in case you need it later
   const [lecturers, setLecturers] = useState([]);
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [selectedLecturer, setSelectedLecturer] = useState('');
 
-  // 1) Load all open issues
+  // Load all open issues
   useEffect(() => {
     api.get('/api/issues/workflow/')
       .then(res => setIssues(res.data))
       .catch(err => console.error('Failed to load issues', err));
   }, []);
 
-  // 2) When a registrar picks an issue, fetch lecturers in that issue's department
+  // When an issue is selected, load lecturers for its department
   useEffect(() => {
-    if (selectedIssue && selectedIssue.course_details) {
+    if (selectedIssue?.course_details) {
       const deptId = selectedIssue.course_details.department.id;
       api.get('/api/lecturers/', { params: { department: deptId } })
         .then(res => setLecturers(res.data))
@@ -69,10 +68,78 @@ const ManageAndAssignIssues = () => {
     }
   };
 
+  // If an issue is selected, show only the assignment panel
+  if (selectedIssue) {
+    return (
+      <div className="assignment-panel">
+        <h3>Assign Issue to Lecturer</h3>
+        <div className="issue-details">
+          <div className="detail-item">
+            <span className="detail-label">Year:</span>
+            <span className="detail-value">{selectedIssue.year_of_study}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Semester:</span>
+            <span className="detail-value">{selectedIssue.semester}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Issue Category:</span>
+            <span className="detail-value">{selectedIssue.category}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Student Role ID:</span>
+            <span className="detail-value">{selectedIssue.student.role_id}</span>
+          </div>
+          <div className="detail-item">
+            <span className="detail-label">Course Unit:</span>
+            <span className="detail-value">{selectedIssue.course_details.name}</span>
+          </div>
+        </div>
+
+        <form onSubmit={handleAssign} className="assignment-form">
+          <div className="form-group">
+            <label className="form-label">
+              Assign To Lecturer:
+              <select
+                className="form-select"
+                value={selectedLecturer}
+                onChange={e => setSelectedLecturer(e.target.value)}
+                required
+              >
+                <option value="">-- Select a Lecturer --</option>
+                {lecturers.map(lecturer => (
+                  <option key={lecturer.id} value={lecturer.id}>
+                    {lecturer.first_name} {lecturer.last_name} – {lecturer.department.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="form-actions">
+            <button
+              type="button"
+              className="cancel-button"
+              onClick={() => {
+                setSelectedIssue(null);
+                setSelectedLecturer('');
+              }}
+            >
+              Cancel
+            </button>
+            <button type="submit" className="submit-button">
+              Assign Issue
+            </button>
+          </div>
+        </form>
+      </div>
+    );
+  }
+
+  // Otherwise, show list + filters
   return (
-    <div className='manage-container' id='assign'>
+    <div className="manage-container" id="assign">
       <div className="page-header">
-        <h2 id='assignh2'>Manage and Assign Student Issues</h2>
+        <h2 id="assignh2">Manage and Assign Student Issues</h2>
         <div className="filter-container">
           <label className="filter-label">
             Filter by Status:
@@ -137,70 +204,6 @@ const ManageAndAssignIssues = () => {
           </tbody>
         </table>
       </div>
-
-      {selectedIssue && (
-        <div className="assignment-panel">
-          <h3>Assign Issue to Lecturer</h3>
-          <div className="issue-details">
-            <div className="detail-item">
-              <span className="detail-label">Year:</span>
-              <span className="detail-value">{selectedIssue.year_of_study}</span>
-            </div>
-            <div className="detail-item">
-              <span className="detail-label">Semester:</span>
-              <span className="detail-value">{selectedIssue.semester}</span>
-            </div>
-            <div className="detail-item">
-              <span className="detail-label">Issue Category:</span>
-              <span className="detail-value">{selectedIssue.category}</span>
-            </div>
-            <div className="detail-item">
-              <span className="detail-label">Student Role ID:</span>
-              <span className="detail-value">{selectedIssue.student.role_id}</span>
-            </div>
-            <div className="detail-item">
-              <span className="detail-label">Course Unit:</span>
-              <span className="detail-value">{selectedIssue.course_details.name}</span>
-            </div>
-          </div>
-
-          <form onSubmit={handleAssign} className="assignment-form">
-            <div className="form-group">
-              <label className="form-label">
-                Assign To Lecturer:
-                <select
-                  className="form-select"
-                  value={selectedLecturer}
-                  onChange={e => setSelectedLecturer(e.target.value)}
-                  required
-                >
-                  <option value="">-- Select a Lecturer --</option>
-                  {lecturers.map(lecturer => (
-                    <option key={lecturer.id} value={lecturer.id}>
-                      {lecturer.first_name} {lecturer.last_name} – {lecturer.department.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <div className="form-actions">
-              <button
-                type="button"
-                className="cancel-button"
-                onClick={() => {
-                  setSelectedIssue(null);
-                  setSelectedLecturer('');
-                }}
-              >
-                Cancel
-              </button>
-              <button type="submit" className="submit-button">
-                Assign Issue
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
     </div>
   );
 };
