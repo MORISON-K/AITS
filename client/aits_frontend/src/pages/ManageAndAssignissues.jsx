@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api';
 import './ManageAndAssignIssues.css';
+import '../App.css'
 
 const ManageAndAssignIssues = () => {
   const [issues, setIssues] = useState([]);
@@ -69,9 +70,9 @@ const ManageAndAssignIssues = () => {
   };
 
   return (
-    <div className='manage-container'>
+    <div className='manage-container' id='assign'>
       <div className="page-header">
-        <h2>Manage and Assign Student Issues</h2>
+        <h2 id='assignh2'>Manage and Assign Student Issues</h2>
         <div className="filter-container">
           <label className="filter-label">
             Filter by Status:
