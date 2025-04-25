@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from './api';
 import LoadingIndicator from './LoadingIndicator';
 
+// This is the initial state for the registration form
 const Register = ({ handlePageChange }) => {
   const [formData, setFormData] = useState({
     firstName: "",
