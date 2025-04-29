@@ -21,9 +21,12 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <div className="app-container">
-          <nav className="nav-bar">
-            <button className="nav-button" onClick={() => window.location.href = '/'}> Home </button>
-          </nav>
+        <nav className="nav-bar">
+          <div className="nav-right">
+            <button className="nav-button" onClick={() => window.location.href = '/'}>Home</button>
+          </div>
+        </nav>
+
           <Routes>
             <Route path="/" element={
               <AuthContext.Consumer>
