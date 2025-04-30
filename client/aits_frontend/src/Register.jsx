@@ -45,7 +45,7 @@ const Register = ({ handlePageChange }) => {
         setOptionsLoading(false);
       } catch (error) {
         console.error('Error fetching options:', error);
-        setError("Failed to load registration options. Please refresh the page.");
+        setError("Failed to load sign up options");
         setOptionsLoading(false);
       }
     };
