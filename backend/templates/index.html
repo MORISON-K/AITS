@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Issue Tracker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin: 2rem;
+            max-width: 800px;
+        }
+        h1 {
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+        p {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .api-info {
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: left;
+        }
+        code {
+            font-family: monospace;
+            background-color: #f1f1f1;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+        .endpoints {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+        .endpoints li {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        .endpoints li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="container">
+        <h1>Academic Issue Tracker API</h1>
+        <p>Welcome to the Academic Issue Tracker API. This REST API provides endpoints for managing academic issues, comments, and notifications.</p>
+        
+        <div class="api-info">
+            <h2>API Endpoints</h2>
+            <ul class="endpoints">
+                <li><strong>Authentication:</strong> <code>/api/token/</code> - Get JWT token</li>
+                <li><strong>Refresh Token:</strong> <code>/api/token/refresh/</code> - Refresh JWT token</li>
+                <li><strong>Registration:</strong> <code>/api/register/</code> - Register new user</li>
+                <li><strong>User Profile:</strong> <code>/api/profile/</code> - User profile operations</li>
+                <li><strong>Current User:</strong> <code>/api/current-user/</code> - Get current user info</li>
+                <li><strong>Issues:</strong> <code>/api/issues/</code> - Issue operations</li>
+                <li><strong>Comments:</strong> <code>/api/comments/</code> - Comment operations</li>
+                <li><strong>Notifications:</strong> <code>/api/notifications/</code> - Notification operations</li>
+                <li><strong>Issue History:</strong> <code>/api/issuehistory/</code> - Issue history operations</li>
+                <li><strong>Faculty Members:</strong> <code>/api/faculty-members/</code> - Get faculty members</li>
+                <li><strong>System Info:</strong> <code>/api/system-info/</code> - Get system information</li>
+            </ul>
+            
+            <h2>API Status</h2>
+            <p>The API is running and ready to accept requests. For more information, check out the API documentation or use a tool like Postman to test the endpoints.</p>
+        </div>
+    </div>
+</body>
+
+</html>

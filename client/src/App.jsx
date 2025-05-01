@@ -11,7 +11,7 @@ import LecturerDashboard from './LecturerDashboard';
 import ManageIssues from "./pages/ManageAndAssignissues";
 import NotFound from './pages/NotFound';
 import 'boxicons/css/boxicons.min.css';
-//import ConfirmEmail from './confirmEmail';
+import ConfirmEmail from './confirmEmail';
 import AssignedIssues from './AssignedIssue';
 
 import { AuthProvider, AuthContext } from './auth';
@@ -21,12 +21,9 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <div className="app-container">
-        <nav className="nav-bar">
-          <div className="nav-right">
-            <button className="nav-button" onClick={() => window.location.href = '/'}>Home</button>
-          </div>
-        </nav>
-
+          <nav className="nav-bar">
+            <button className="nav-button" onClick={() => window.location.href = '/'}> Home </button>
+          </nav>
           <Routes>
             <Route path="/" element={
               <AuthContext.Consumer>
@@ -70,7 +67,7 @@ function App() {
             <Route path="/IssueSubmission-Page" element={<IssueSubmission_form />} />
             <Route path="/Register-Page" element={<Register />} />
             <Route path="/Login-Page" element={<Login />} />
-            {/* <Route path='/confirmEmail' element={<ConfirmEmail/>}/> */}
+            <Route path='/confirmEmail' element={<ConfirmEmail/>}/>
 
             <Route path="/manage-issues" element={<ManageIssues />} />
             <Route path='/AssignedIssues' element={<AssignedIssues/>}/>
