@@ -922,6 +922,20 @@ body {
 	align-items: center;
 	flex-direction: column;
 }
+/*styling for resolve.btn */
+.resolve-btn {
+	background-color: #3C91E6;
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	border-radius: 4px;
+	cursor: pointer;
+  }
+  
+  .resolve-btn:hover {
+	background-color: #2a7dd1;
+  }
+  
 
 .app-container.assigned-issues {
 	max-width: 900px;
