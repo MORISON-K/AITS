@@ -14,6 +14,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ['id', 'user', 'role', 'department', 'student_id']
 
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     role = serializers.CharField(write_only=True)
@@ -40,6 +41,8 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         
         return user
 
+
+
 class CommentSerializer(serializers.ModelSerializer):
     user_username = serializers.CharField(source='user.username', read_only=True)
     
@@ -51,6 +54,7 @@ class CommentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)
+
 
 class IssueSerializer(serializers.ModelSerializer):
     created_by_username = serializers.CharField(source='created_by.username', read_only=True)
@@ -70,6 +74,7 @@ class IssueSerializer(serializers.ModelSerializer):
         validated_data['created_by'] = self.context['request'].user
         return super().create(validated_data)
 
+
 class NotificationSerializer(serializers.ModelSerializer):
     issue_title = serializers.CharField(source='issue.title', read_only=True)
     
@@ -77,6 +82,7 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = ['id', 'user', 'issue', 'issue_title', 'message', 'is_read', 'created_at']
         read_only_fields = ['user', 'issue', 'message', 'created_at']
+
 
 class IssueHistorySerializer(serializers.ModelSerializer):
     changed_by_username = serializers.CharField(source='changed_by.username', read_only=True)
@@ -93,10 +99,12 @@ class IssueHistorySerializer(serializers.ModelSerializer):
         validated_data['changed_by'] = self.context['request'].user
         return super().create(validated_data)
 
+
 class CollegeSerializer(serializers.ModelSerializer):
     class Meta:
         model = College
         fields = ['id', 'name', 'code', 'description']
+
 
 class DepartmentSerializer(serializers.ModelSerializer):
     college_name = serializers.CharField(source='college.name', read_only=True)
@@ -104,6 +112,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         fields = ['id', 'name', 'code', 'college', 'college_name', 'description']
+
 
 class ProgrammeSerializer(serializers.ModelSerializer):
     department_name = serializers.CharField(source='department.name', read_only=True)
