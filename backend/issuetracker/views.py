@@ -519,6 +519,7 @@ def get_user_notifications(request):
     serializer = NotificationSerializer(notifications, many=True)
     return Response(serializer.data)
 
+
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def mark_notification_read(request, notification_id):
@@ -532,10 +533,6 @@ def mark_notification_read(request, notification_id):
         return Response({"status": "success"})
     except Notification.DoesNotExist:
         return Response({"error": "Notification not found"}, status=404)
-
-
-
-
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
