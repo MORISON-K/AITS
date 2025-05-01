@@ -920,70 +920,241 @@ body {
 }
 
 /* Styling for the Assigned Isuees page */
+/* Styling for the Assigned Issues page */
 .assigned-issues {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
-/*styling for resolve.btn */
+
+/* Styling for resolve button */
 .resolve-btn {
-	background-color: #3C91E6;
-	color: white;
-	border: none;
-	padding: 5px 10px;
-	border-radius: 4px;
-	cursor: pointer;
-  }
-  
-  .resolve-btn:hover {
-	background-color: #2a7dd1;
-  }
-  
+    background-color: #3C91E6;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.resolve-btn:hover {
+    background-color: #2a7dd1;
+}
+
+.resolve-btn:active {
+    transform: translateY(1px);
+}
 
 .app-container.assigned-issues {
-	max-width: 900px;
-	margin: 40px auto;
-	text-align: center;
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-	color: #333;
-  }
-  
-  .table-container {
-	overflow-x: auto;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 30px;
-	margin: 50px;
-  }
-  
-  table {
-	width: 100%;
-	border-collapse: separate;
-	border-spacing: 0;
-	margin-top: 20px;
-	background: #fff;
-  }
-  
-  .AssignedIsues-th,
-  .AssignedIsues-td  {
-	padding: 12px 15px;
-	border: 1px solid #e0e0e0;
-  }
-  
-  .AssignedIsues-th {
-	background-color: #90670e;
-	color: #fff;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-  }
-  
-  tbody tr:nth-child(even) {
-	background-color: #f9f9f9;
-  }
-  
-  tbody tr:hover {
-	background-color: #f1f1f1;
-	transition: background-color 0.3s ease;
-  }
+    max-width: 900px;
+    margin: 40px auto;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.table-container {
+    overflow-x: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px 0;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    background: #fff;
+}
+
+.AssignedIssues-th,
+.AssignedIssues-td {
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.AssignedIssues-th {
+    background-color: #3C91E6;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+
+/* Status styling */
+.status {
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status.assigned {
+    background-color: #ffecb3;
+    color: #e6a700;
+}
+
+.status.in_progress {
+    background-color: #b3e0ff;
+    color: #0077cc;
+}
+
+.status.resolved {
+    background-color: #c8e6c9;
+    color: #388e3c;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .table-container {
+        margin: 10px;
+        border-radius: 8px;
+    }
+    
+    .AssignedIssues-th,
+    .AssignedIssues-td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+    
+    .resolve-btn {
+        padding: 4px 8px;
+        font-size: 0.85em;
+    }
+}/* Styling for the Assigned Issues page */
+.assigned-issues {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Styling for resolve button */
+.resolve-btn {
+    background-color: #3C91E6;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.resolve-btn:hover {
+    background-color: #2a7dd1;
+}
+
+.resolve-btn:active {
+    transform: translateY(1px);
+}
+
+.app-container.assigned-issues {
+    max-width: 900px;
+    margin: 40px auto;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.table-container {
+    overflow-x: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px 0;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    background: #fff;
+}
+
+.AssignedIssues-th,
+.AssignedIssues-td {
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    text-align: left;
+}
+
+.AssignedIssues-th {
+    background-color: #3C91E6;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+
+/* Status styling */
+.status {
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status.assigned {
+    background-color: #ffecb3;
+    color: #e6a700;
+}
+
+.status.in_progress {
+    background-color: #b3e0ff;
+    color: #0077cc;
+}
+
+.status.resolved {
+    background-color: #c8e6c9;
+    color: #388e3c;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .table-container {
+        margin: 10px;
+        border-radius: 8px;
+    }
+    
+    .AssignedIssues-th,
+    .AssignedIssues-td {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
+    
+    .resolve-btn {
+        padding: 4px 8px;
+        font-size: 0.85em;
+    }
+}
+
+
   
   * Modern color scheme */
   :root {
