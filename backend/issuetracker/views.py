@@ -478,6 +478,7 @@ def get_semesters(request):
     ]
     return Response(semester_data)
 
+
 @api_view(['GET'])
 @permission_classes([permissions.IsAuthenticated])
 def get_issue_categories(request):

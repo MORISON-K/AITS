@@ -24,3 +24,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+# This script is used to run the Django development server.
+# It sets the necessary environment variables and executes the server command.
