@@ -84,9 +84,10 @@ const Dashboard = () => {
 };
 
 // AssignedIssues Component
+// AssignedIssues Component
 const AssignedIssues = () => {
   const [issues, setIssues] = useState([]);
-
+  
   useEffect(() => {
     api
       .get("/api/issues/assigned/")
@@ -95,47 +96,47 @@ const AssignedIssues = () => {
       })
       .catch((err) => console.error("Error loading assigned issues:", err));
   }, []);
-
+  
   return (
-    <div>
+    <div className="assigned-issues">
       <div className="head-title">
         <div className="left">
           <h1>Assigned Issues</h1>
         </div>
       </div>
-      <div className="table-data">
-        <div className="order">
+      <div className="app-container assigned-issues">
+        <div className="table-container">
           <div className="head">
             <h3>Issues to Resolve</h3>
           </div>
           <table>
             <thead>
               <tr>
-                <th>Course Unit</th>
-                <th>Student Role ID</th>
-                <th>Category</th>
-                <th>Date Created</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th className="AssignedIssues-th">Course Unit</th>
+                <th className="AssignedIssues-th">Student Role ID</th>
+                <th className="AssignedIssues-th">Category</th>
+                <th className="AssignedIssues-th">Date Created</th>
+                <th className="AssignedIssues-th">Status</th>
+                <th className="AssignedIssues-th">Actions</th>
               </tr>
             </thead>
             <tbody>
               {issues.map((issue) => (
                 <tr key={issue.id}>
-                  <td>{issue.course_details?.name || "N/A"}</td>
-                  <td>{issue.student?.role_id || "N/A"}</td>
-                  <td>{issue.category}</td>
-                  <td>
+                  <td className="AssignedIssues-td">{issue.course_details?.name || "N/A"}</td>
+                  <td className="AssignedIssues-td">{issue.student?.role_id || "N/A"}</td>
+                  <td className="AssignedIssues-td">{issue.category}</td>
+                  <td className="AssignedIssues-td">
                     {issue.created_at
                       ? new Date(issue.created_at).toLocaleDateString()
                       : "—"}
                   </td>
-                  <td>
-                    <span className={`status ${getStatusClass(issue.status)}`}>
+                  <td className="AssignedIssues-td">
+                    <span className={`status ${issue.status}`}>
                       {issue.status.charAt(0).toUpperCase() + issue.status.slice(1)}
                     </span>
                   </td>
-                  <td>
+                  <td className="AssignedIssues-td">
                     {issue.status === 'in_progress' && (
                       <button 
                         className="resolve-btn"
@@ -168,6 +169,7 @@ const AssignedIssues = () => {
       .catch((err) => console.error("Error resolving issue:", err));
   }
 };
+
 
 // Recent History Table Component
 const RecentHistoryTable = () => {
