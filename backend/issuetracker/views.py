@@ -533,6 +533,10 @@ def mark_notification_read(request, notification_id):
     except Notification.DoesNotExist:
         return Response({"error": "Notification not found"}, status=404)
 
+
+
+
+
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def mark_all_notifications_read(request):
