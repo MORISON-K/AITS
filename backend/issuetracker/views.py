@@ -339,6 +339,8 @@ def get_current_user(request):
     
     return Response(user_data)
 
+
+
 @api_view(['GET'])
 @permission_classes([IsAdminUser | IsFacultyUser])
 def get_faculty_members(request):
