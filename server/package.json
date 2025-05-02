@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "scripts": {
     "build": "cd client/aits_frontend && npm install && npm run build",
-    "postinstall": "npm run build && cd server && pip install -r requirements.txt"
+    "postinstall": "npm run build"
   },
   "engines": {
     "node": "18.x",
     "npm": "9.x"
-  }
+  },
+  "cacheDirectories": [
+    "client/aits_frontend/node_modules"
+  ]
 }
