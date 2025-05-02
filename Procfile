@@ -1,1 +1,1 @@
-web: cd server && gunicorn aits.wsgi --log-file -
+web: cd server && python manage.py collectstatic --noinput && gunicorn aits.wsgi --log-file -

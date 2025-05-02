@@ -1,16 +1,11 @@
 from django.contrib import admin
-from django.urls import path, include
-from django.views.generic import RedirectView
-from rest_framework_simplejwt.views import TokenRefreshView
+from django.urls import path, include, re_path
+from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/', include('AITS_USERS.urls')),  # Assuming your API URLs are defined here
+    path('api/', include('AITS_USERS.urls')),  # Your API URLs
     
-    # Add a root URL pattern that redirects to your frontend or a specific API endpoint
-    path('', RedirectView.as_view(url='/api/', permanent=False)),
-    
-    # Alternatively, if you want to serve your React frontend:
-    # path('', TemplateView.as_view(template_name='index.html')),
+    # Serve React app - this should be the last URL pattern
+    re_path(r'^(?!api/|admin/).*$', TemplateView.as_view(template_name='index.html')),
 ]

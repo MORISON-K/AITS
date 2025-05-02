@@ -1,6 +1,12 @@
 {
-    "scripts": {
-      "heroku-postbuild": "npm install --prefix ait_frontend && npm run build --prefix ait_frontend"
-    }
+  "name": "aits-app",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd client/aits_frontend && npm install && npm run build",
+    "postinstall": "npm run build && cd server && pip install -r requirements.txt"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
   }
-  
+}
