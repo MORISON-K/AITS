@@ -1,9 +1,7 @@
-"""
-Django settings for academicissuetracker project.
-"""
-
+"""Django settings for academicissuetracker project."""
 import os
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,9 +10,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-ke7#46y!2s1g%k*7x)c&nn%+#c@4a+9u1^@r&g8!7k-i5q#kv6')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1', 'af2e016e-7094-451d-b5b2-40560ea54ef9-00-11pqwzn3wwhu3.spock.replit.dev', '.replit.dev', 'group-h-web-app-bbagarukayo5.replit.app', '.replit.app']
+ALLOWED_HOSTS = [
+    '0.0.0.0', 
+    'localhost', 
+    '127.0.0.1', 
+    'af2e016e-7094-451d-b5b2-40560ea54ef9-00-11pqwzn3wwhu3.spock.replit.dev', 
+    '.replit.dev', 
+    'group-h-web-app-bbagarukayo5.replit.app', 
+    '.replit.app',
+    'aits.herokuapp.com',  # Heroku app domain
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -23,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',  # Add whitenoise
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -33,6 +41,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add whitenoise middleware
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,11 +74,18 @@ WSGI_APPLICATION = 'academicissuetracker.wsgi.application'
 # Database
 import dj_database_url
 
-DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://neondb_owner:npg_m3y7JZgtsbzK@ep-frosty-queen-a5nt9n59-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require')
-
-DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL)
-}
+# Use DATABASE_URL environment variable if available (Heroku sets this)
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+else:
+    # Fallback to your Neon database
+    DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://neondb_owner:npg_m3y7JZgtsbzK@ep-frosty-queen-a5nt9n59-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require')
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -99,6 +115,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -141,11 +158,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5000",
     "https://localhost:5000",
     "https://group-h-web-app-bbagarukayo5.replit.app",
+    "https://aits.herokuapp.com",  # Add Heroku app URL
 ]
 
 # JWT settings
-from datetime import timedelta
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
