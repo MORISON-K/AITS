@@ -1,1 +1,1 @@
-web: cd server && gunicorn AITS.wsgi --log-file -
+web: cd server && gunicorn aits.wsgi --log-file -
