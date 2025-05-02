@@ -1,0 +1,8 @@
+asgiref==3.8.1
+Django==5.1.5
+djangorestframework
+django-cors-headers
+dj-database-url
+gunicorn
+psycopg2-binary
+whitenoise
