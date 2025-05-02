@@ -1,107 +1,27 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Academic Issue Tracking System</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-    #root {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .app-container {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .welcome-page {
-      text-align: center;
-      padding: 2rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .welcome-page img {
-      max-width: 200px;
-      margin-bottom: 1rem;
-    }
-    .button-container {
-      margin-top: 2rem;
-    }
-    .register-button, .login-button {
-      padding: 0.75rem 1.5rem;
-      margin: 0 0.5rem;
-      font-size: 1rem;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .register-button {
-      background-color: #4CAF50;
-      color: white;
-    }
-    .login-button {
-      background-color: #2196F3;
-      color: white;
-    }
-    .register-button:hover {
-      background-color: #45a049;
-    }
-    .login-button:hover {
-      background-color: #0b7dda;
-    }
-    .nav-bar {
-      background-color: #333;
-      padding: 1rem;
-    }
-    .nav-button {
-      background-color: transparent;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-  </style>
+
+  <script type="module" crossorigin src="/assets/index-Ds_DaMNf.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Jpkcw_cO.css">
 </head>
+
+
 <body>
-  <div id="root">
-    <div class="app-container">
-      <nav class="nav-bar">
-        <button class="nav-button" onclick="window.location.href='/'">Home</button>
-      </nav>
-      <div class="welcome-page">
-        <img src="https://www.mak.ac.ug/sites/default/files/images/Mak-Logo-with-text.png" alt="Makerere University Logo">
-        <h1>Welcome To The Academic Issue Tracking System</h1>
-        <div class="button-container">
-          <button class="register-button" onclick="window.location.href='/api/auth/register/'">Register</button>
-          <button class="login-button" onclick="window.location.href='/api/auth/login/'">Login</button>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  <div id="root"></div>
   
-  <script>
-    // Simple script to handle API interactions
-    document.addEventListener('DOMContentLoaded', function() {
-      // Check if user is already logged in
-      const token = localStorage.getItem('token');
-      if (token) {
-        // Redirect to dashboard if already logged in
-        window.location.href = '/api/dashboard/';
-      }
-    });
-  </script>
 </body>
+
+
 </html>
+
+
+
