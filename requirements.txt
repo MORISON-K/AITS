@@ -8,3 +8,4 @@ psycopg2-binary
 whitenoise
 djangorestframework-simplejwt
 python-dotenv
+python-dotenv
