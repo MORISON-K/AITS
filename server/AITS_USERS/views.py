@@ -53,9 +53,8 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
     """
     def validate(self, attrs):
         credentials = {'password': attrs.get("password")}
-
         # Allow login with username or email
-        
+
 
         try:
             validate_email(attrs.get("username"))
@@ -114,7 +113,6 @@ class LogoutView(APIView):
         try:
             refresh_token = request.data.get("refresh")
             
-
             # Validate refresh token exists
 
             if not refresh_token:
@@ -153,12 +151,10 @@ class CollegeViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 # ViewSet for departments
 
-
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     permission_classes = [permissions.AllowAny]
-
 # ViewSet for programmes
 class ProgrammeViewSet(viewsets.ModelViewSet):
     queryset = Programme.objects.all()
@@ -182,6 +178,7 @@ class IssueView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
+
 class YearOptionsView(APIView):
     permission_classes  = [permissions.AllowAny]
 
@@ -200,6 +197,7 @@ class SemesterOptionsView(APIView):
    
 
 # In your views.py file
+
 
 import logging
 logger = logging.getLogger(__name__)
