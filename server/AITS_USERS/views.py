@@ -55,6 +55,7 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
         credentials = {'password': attrs.get("password")}
 
         # Allow login with username or email
+        
 
         try:
             validate_email(attrs.get("username"))
@@ -67,13 +68,12 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
             raise AuthenticationFailed("Invalid login credentials")
 
         self.user = user#Assign user
-
          # Generate JWT tokens
         data = {}
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
         data['refresh'] = str(refresh)
-        data['role'] = self.user.role #Addcustom user data (like role)
+        data['role'] = self.user.role # Addcustom user data (like role)
         return data
 
 
@@ -114,6 +114,7 @@ class LogoutView(APIView):
         try:
             refresh_token = request.data.get("refresh")
             
+
             # Validate refresh token exists
 
             if not refresh_token:
@@ -150,7 +151,6 @@ class CollegeViewSet(viewsets.ModelViewSet):
     queryset = College.objects.all()
     serializer_class = CollegeSerializer
     permission_classes = [permissions.AllowAny]
-
 # ViewSet for departments
 
 
