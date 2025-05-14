@@ -172,24 +172,17 @@ class Issue(models.Model):
         limit_choices_to={'role__in': ('lecturer', 'academic registrar')}
     )
     
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     def __str__(self):
         return f"Issue {self.id}: {self.category} - {self.status}" 
 
 # IssueUpdate model
 class IssueUpdate(models.Model):
-
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='updated')
-
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issue_updates')
-
     comment = models.TextField()
-    
     created_at = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return f"Update on Issue #{self.issue.id} by {self.user.username}"
     
@@ -202,6 +195,6 @@ class Notification(models.Model):
     message = models.TextField()
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         return f"Notification for {self.user.username}: {self.message[:50]}..."

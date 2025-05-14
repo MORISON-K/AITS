@@ -111,7 +111,6 @@ class IssueUpdateSerializer(serializers.ModelSerializer):
         fields = ['id', 'issue', 'user', 'comment', 'created_at']
         read_only_fields = ['created_at']  # Prevent modification of created_at field
 
-
 # Serializer for academic courses
 class CourseSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(read_only=True)
@@ -119,8 +118,7 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course 
         fields = ['id', 'code', 'name', 'department']  
 
-# Serializer for issues reported by users
-
+# Serializer for issues reported by users 
 # serializers.py
 
 from rest_framework import serializers
@@ -137,11 +135,11 @@ class IssueSerializer(serializers.ModelSerializer):
         write_only=True
     )
     # nested read‑only for display
-
     course_details = CourseSerializer(source='course', read_only=True)
-    
+
     year_of_study = serializers.CharField()
     semester     = serializers.IntegerField()
+    
     
     assigned_to = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.filter(role__in=['lecturer','academic registrar']),
