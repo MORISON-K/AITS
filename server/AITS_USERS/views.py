@@ -66,14 +66,14 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
         if not user:
             raise AuthenticationFailed("Invalid login credentials")
 
-        self.user = user  #  Assign user
+        self.user = user#Assign user
 
          # Generate JWT tokens
         data = {}
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
         data['refresh'] = str(refresh)
-        data['role'] = self.user.role # Add custom user data (like role)
+        data['role'] = self.user.role #Addcustom user data (like role)
         return data
 
 
@@ -92,7 +92,7 @@ class RegisterView(generics.CreateAPIView):
     Registers a new user.
     """
     serializer_class = UserRegistrationSerializer
-    permission_classes = [permissions.AllowAny]#Allow anyone to access this view (even unauthenticated)
+    permission_classes = [permissions.AllowAny]#Allow anyone to access this view  (even unauthenticated)
     
     def perform_create(self, serializer):
         """
@@ -115,6 +115,7 @@ class LogoutView(APIView):
             refresh_token = request.data.get("refresh")
             
             # Validate refresh token exists
+
             if not refresh_token:
                 return Response(
                     {"error": "Refresh token is required"},
@@ -141,6 +142,7 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
     
     def get_object(self):
          # Return the currently logged-in user
+
         return self.request.user
 
 
@@ -151,6 +153,7 @@ class CollegeViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 # ViewSet for departments
+
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
