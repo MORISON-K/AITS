@@ -108,6 +108,7 @@ class User(AbstractUser):
     programme = models.ForeignKey(Programme, on_delete=models.SET_NULL, null=True, blank=True, related_name='students')
 
     # Permissions and groups
+    
     groups = models.ManyToManyField('auth.Group', related_name='ait_users_groups', blank=True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name='ait_users_permissions', blank=True)
     
@@ -119,6 +120,7 @@ class User(AbstractUser):
  
 
 # CourseAllocation model
+
 class CourseAllocation(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='allocations')
     lecturer = models.ForeignKey(
@@ -171,12 +173,12 @@ class Issue(models.Model):
         limit_choices_to={'role__in': ('lecturer', 'academic registrar')}
     )
     
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"Issue {self.id}: {self.category} - {self.status}" 
-
 
 # IssueUpdate model
 class IssueUpdate(models.Model):
