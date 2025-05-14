@@ -27,7 +27,7 @@ class SendEmailView(APIView):
     def post(self, request):
         subject = "Welcome to AITS"
         message = "Hello, thank you for registering on our platform. We're glad to have you!"
-        recipient_email = request.data.get("email")  # Get recipient email from request
+        recipient_email = request.data.get("email")#Get recipient email from request
 
         if not recipient_email:
             return Response({"error": "Email address is required"}, status=status.HTTP_400_BAD_REQUEST)
@@ -37,7 +37,7 @@ class SendEmailView(APIView):
                 subject,
                 message,
                 settings.EMAIL_HOST_USER,  # Sender from settings.py
-                [recipient_email],  # Recipient list
+                [recipient_email],#Recipient list
                 fail_silently=False,
             )
             return Response({"message": "Email sent successfully"}, status=status.HTTP_200_OK)
@@ -55,6 +55,7 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
         credentials = {'password': attrs.get("password")}
 
         # Allow login with username or email
+
         try:
             validate_email(attrs.get("username"))
             credentials['email'] = attrs.get("username")
