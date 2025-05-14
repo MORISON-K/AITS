@@ -38,8 +38,9 @@ class UserSerializer(serializers.ModelSerializer):
     # nested, read‑only
     department = DepartmentSerializer(read_only=True)
     college    = CollegeSerializer(read_only=True)
-    programme  = ProgrammeSerializer(read_only=True)
+    programme  = ProgrammeSerializer(read_only=True)   
 
+    
     # write‑only PK inputs
     department_id = serializers.PrimaryKeyRelatedField(
         queryset=Department.objects.all(),
