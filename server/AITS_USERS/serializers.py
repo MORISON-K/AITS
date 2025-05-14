@@ -17,31 +17,36 @@ class CollegeSerializer(serializers.ModelSerializer):
         fields = ['id', 'name'] 
 
 # Serializer for schools (which belong to colleges)
+
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School              
         fields = ['id', 'name', 'college'] 
 
+
 # Serializer for academic programme
 class ProgrammeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programme
-        fields = ['id', 'code', 'name', 'department']  
+        fields  =  ['id', 'code', 'name', 'department']  
 
 
 # Serializer for the main User model
+
 from rest_framework import serializers
 from .models import User, Department, College, Programme
 from .serializers import DepartmentSerializer, CollegeSerializer, ProgrammeSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     # nested, read‑only
+
     department = DepartmentSerializer(read_only=True)
     college    = CollegeSerializer(read_only=True)
     programme  = ProgrammeSerializer(read_only=True)   
 
 
     # write‑only PK inputs
+    
     department_id = serializers.PrimaryKeyRelatedField(
         queryset=Department.objects.all(),
         write_only=True,
