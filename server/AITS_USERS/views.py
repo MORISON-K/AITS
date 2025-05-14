@@ -69,12 +69,11 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
         self.user = user  #  Assign user
 
          # Generate JWT tokens
-
         data = {}
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
         data['refresh'] = str(refresh)
-        data['role'] = self.user.role  # Add custom user data (like role)
+        data['role'] = self.user.role # Add custom user data (like role)
         return data
 
 
@@ -100,7 +99,7 @@ class RegisterView(generics.CreateAPIView):
         Ensures the password is hashed before saving the user.
         """
         user = serializer.save()
-        user.set_password(serializer.validated_data['password'])  # Securely hash the password
+        user.set_password(serializer.validated_data['password']) # Securely hash the password
         user.save()
 
 

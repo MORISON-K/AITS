@@ -131,7 +131,7 @@ class IssueSerializer(serializers.ModelSerializer):
         write_only=True
     )
     # nested read‑only for display
-    
+
     course_details = CourseSerializer(source='course', read_only=True)
     
     year_of_study = serializers.CharField()
@@ -184,7 +184,6 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 # Custom serializer for handling user registration
-
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password         = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
