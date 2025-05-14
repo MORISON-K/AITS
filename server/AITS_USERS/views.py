@@ -160,6 +160,7 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 # ViewSet for programmes
+
 class ProgrammeViewSet(viewsets.ModelViewSet):
     queryset = Programme.objects.all()
     serializer_class = ProgrammeSerializer
@@ -169,7 +170,7 @@ class ProgrammeViewSet(viewsets.ModelViewSet):
 
 class IssueView(APIView):
     """
-    API view for authenticated users to create issues.
+    API view  for  authenticated users to create issues.
     """
     permission_classes = [permissions.IsAuthenticated]  
 
@@ -177,13 +178,14 @@ class IssueView(APIView):
         serializer = IssueSerializer(data=request.data)
         if serializer.is_valid():
             # Save the issue with the authenticated user as the student
+
             serializer.save(student=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
 class YearOptionsView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes  = [permissions.AllowAny]
 
     def get(self, request):
         years = ["Year One", "Year Two", "Year Three", "Year Four", "Year Five"]
