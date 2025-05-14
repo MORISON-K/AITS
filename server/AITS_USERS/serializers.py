@@ -58,7 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
         source='programme'
     )
 
-    # never  return  password
+    # never  return password
     password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -93,6 +93,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # hash password if being updated
+
         if 'password' in validated_data:
             instance.set_password(validated_data.pop('password'))
         return super().update(instance, validated_data)    
@@ -233,7 +234,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
         role = data.get('role')
         # student must have college & programme
-        
+
         if role == 'student':
             if not data.get('college'):
                 raise serializers.ValidationError({"college_id": "College is required for students."})
