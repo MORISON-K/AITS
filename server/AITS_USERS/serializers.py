@@ -46,15 +46,20 @@ class UserSerializer(serializers.ModelSerializer):
 
 
     # write‑only PK inputs
-    
+
     department_id = serializers.PrimaryKeyRelatedField(
+
         queryset=Department.objects.all(),
+
         write_only=True,
+
         source='department'
     )
     college_id = serializers.PrimaryKeyRelatedField(
         queryset=College.objects.all(),
+        
         write_only=True,
+
         source='college'
     )
     programme_id = serializers.PrimaryKeyRelatedField(
