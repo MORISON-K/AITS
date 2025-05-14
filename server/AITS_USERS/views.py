@@ -142,7 +142,6 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
     
     def get_object(self):
          # Return the currently logged-in user
-
         return self.request.user
 
 
@@ -160,7 +159,6 @@ class DepartmentViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 # ViewSet for programmes
-
 class ProgrammeViewSet(viewsets.ModelViewSet):
     queryset = Programme.objects.all()
     serializer_class = ProgrammeSerializer
@@ -178,7 +176,6 @@ class IssueView(APIView):
         serializer = IssueSerializer(data=request.data)
         if serializer.is_valid():
             # Save the issue with the authenticated user as the student
-
             serializer.save(student=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

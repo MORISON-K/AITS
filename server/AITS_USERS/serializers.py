@@ -227,11 +227,13 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         # password confirmation
+
         if data['password'] != data.pop('confirm_password'):
             raise serializers.ValidationError({"password": "Passwords must match."})
 
         role = data.get('role')
         # student must have college & programme
+        
         if role == 'student':
             if not data.get('college'):
                 raise serializers.ValidationError({"college_id": "College is required for students."})
