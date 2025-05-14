@@ -40,7 +40,7 @@ class UserSerializer(serializers.ModelSerializer):
     college    = CollegeSerializer(read_only=True)
     programme  = ProgrammeSerializer(read_only=True)   
 
-    
+
     # write‑only PK inputs
     department_id = serializers.PrimaryKeyRelatedField(
         queryset=Department.objects.all(),
@@ -58,7 +58,7 @@ class UserSerializer(serializers.ModelSerializer):
         source='programme'
     )
 
-    # never return password
+    # never  return  password
     password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -96,6 +96,7 @@ class UserSerializer(serializers.ModelSerializer):
         if 'password' in validated_data:
             instance.set_password(validated_data.pop('password'))
         return super().update(instance, validated_data)    
+
 
 
 # Serializer for updates made to an issue
