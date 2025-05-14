@@ -16,7 +16,6 @@ from .views import (
     IssueCategoryOptionsView, StudentIssueListView
 )
 
-
 # Create a router for automatic URL routing for viewsets 
 router = DefaultRouter()
 router.register(r'colleges', views.CollegeViewSet)  # /colleges/
@@ -41,8 +40,9 @@ urlpatterns = [
 
     path('', include(router.urls)),
 
+
     # Send welcome email after registration
-    path('send-email/', SendEmailView.as_view(), name='send-email'),   # POST email to trigger sending
+    path('send-email/', SendEmailView.as_view(), name='send-email'),#POST email to trigger sending
     path('years/', views.YearOptionsView.as_view(), name='year-options'),
     path('semesters/', views.SemesterOptionsView.as_view(), name='semester-options'),  
     path('courses/', views.CourseListView.as_view(), name='courses-list'),  
