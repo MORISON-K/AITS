@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 
 # Custom manager for the custom user model
 class CustomUserManager(BaseUserManager):
-    
+
  # Method to create a regular user
     def create_user(self, username, email, password, **extra_fields):
         # Ensure username, email, and password are provided
@@ -25,7 +25,9 @@ class CustomUserManager(BaseUserManager):
         return user
 
         # Method to create a superuser
+
     def create_superuser(self, username, email, password, **extra_fields):
+        
         # Default values for superuser
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
