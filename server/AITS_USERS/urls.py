@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 #from .views import SendEmailView, IssueWorkflowViewSet
 
+
 from .views import (
     IssueWorkflowViewSet,
     IssueViewSet,
@@ -16,7 +17,6 @@ from .views import (
 )
 
 
-
 # Create a router for automatic URL routing for viewsets 
 router = DefaultRouter()
 router.register(r'colleges', views.CollegeViewSet)  # /colleges/
@@ -24,6 +24,7 @@ router.register(r'departments', views.DepartmentViewSet) # /departments/
 router.register(r'programmes', views.ProgrammeViewSet) # /programmes/
 router.register(r'issues/workflow', IssueWorkflowViewSet, basename='issue-workflow')# /issues/workflow/
 router.register(r'issues', IssueViewSet, basename='issues')
+
 
 
 # Main URL patterns for the app
