@@ -140,7 +140,6 @@ class IssueSerializer(serializers.ModelSerializer):
     year_of_study = serializers.CharField()
     semester     = serializers.IntegerField()
     
-    
     assigned_to = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.filter(role__in=['lecturer','academic registrar']),
         required=False,
