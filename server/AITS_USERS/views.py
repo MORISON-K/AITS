@@ -143,7 +143,6 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
          # Return the currently logged-in user
         return self.request.user
 
-
 # ViewSet for listing, creating, updating, deleting colleges
 class CollegeViewSet(viewsets.ModelViewSet):
     queryset = College.objects.all()
@@ -177,7 +176,6 @@ class IssueView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    
 
 class YearOptionsView(APIView):
     permission_classes  = [permissions.AllowAny]
@@ -185,27 +183,21 @@ class YearOptionsView(APIView):
     def get(self, request):
         years = ["Year One", "Year Two", "Year Three", "Year Four", "Year Five"]
         return Response(years)
-
 class SemesterOptionsView(APIView):
-    
+
     permission_classes = [permissions.AllowAny]
     def get(self, request):
         semesters = [1, 2]
         return Response(semesters)
     
 
-   
-
 # In your views.py file
-
-
 import logging
 logger = logging.getLogger(__name__)
 
 class CourseListView(generics.ListAPIView):
     serializer_class = CourseSerializer
     permission_classes = [permissions.AllowAny]
-
     def get_queryset(self):
         # Try reading query parameters if provided.
         department_id = self.request.query_params.get('department')

@@ -108,7 +108,7 @@ class User(AbstractUser):
     programme = models.ForeignKey(Programme, on_delete=models.SET_NULL, null=True, blank=True, related_name='students')
 
     # Permissions and groups
-    
+
     groups = models.ManyToManyField('auth.Group', related_name='ait_users_groups', blank=True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name='ait_users_permissions', blank=True)
     
@@ -137,7 +137,6 @@ class CourseAllocation(models.Model):
     
     def __str__(self):
         return f"{self.course.code} - {self.lecturer.username} ({self.academic_year}, Sem {self.semester})"
-
 
 # Issue model
 class Issue(models.Model):
@@ -182,9 +181,13 @@ class Issue(models.Model):
 
 # IssueUpdate model
 class IssueUpdate(models.Model):
+
     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='updated')
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issue_updates')
+
     comment = models.TextField()
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
