@@ -61,13 +61,14 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
         except ValidationError:
             credentials['username'] = attrs.get("username")
 
-        user = authenticate(**credentials) # Authenticate user
+        user = authenticate(**credentials) #Authenticate user
         if not user:
             raise AuthenticationFailed("Invalid login credentials")
 
         self.user = user  #  Assign user
 
          # Generate JWT tokens
+
         data = {}
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
@@ -91,7 +92,7 @@ class RegisterView(generics.CreateAPIView):
     Registers a new user.
     """
     serializer_class = UserRegistrationSerializer
-    permission_classes = [permissions.AllowAny]  # Allow anyone to access this view (even unauthenticated)
+    permission_classes = [permissions.AllowAny]#Allow anyone to access this view (even unauthenticated)
     
     def perform_create(self, serializer):
         """
