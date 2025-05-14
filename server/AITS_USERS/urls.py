@@ -16,7 +16,8 @@ from .views import (
 )
 
 
-# Create a router for automatic URL routing for viewsets (like CollegeViewSet, etc.
+
+# Create a router for automatic URL routing for viewsets 
 router = DefaultRouter()
 router.register(r'colleges', views.CollegeViewSet)  # /colleges/
 router.register(r'departments', views.DepartmentViewSet) # /departments/
