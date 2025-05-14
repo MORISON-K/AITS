@@ -23,7 +23,7 @@ class SendEmailView(APIView):
     """
     Handles sending welcome emails to users after registration.
     """
-    
+
     def post(self, request):
         subject = "Welcome to AITS"
         message = "Hello, thank you for registering on our platform. We're glad to have you!"
@@ -43,6 +43,7 @@ class SendEmailView(APIView):
             return Response({"message": "Email sent successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 
@@ -73,6 +74,7 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
         data['refresh'] = str(refresh)
         data['role'] = self.user.role  # Add custom user data (like role)
         return data
+
 
 
 
