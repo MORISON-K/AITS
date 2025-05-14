@@ -27,7 +27,7 @@ class CustomUserManager(BaseUserManager):
         # Method to create a superuser
 
     def create_superuser(self, username, email, password, **extra_fields):
-        
+
         # Default values for superuser
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -39,7 +39,6 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("Superuser must have is_superuser=True.")
 
         return self.create_user(username, email, password, **extra_fields)
-
 
 
 # College model (top-level entity)
@@ -117,6 +116,7 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username} ({self.get_role_display()})"
 
+ 
 
 # CourseAllocation model
 class CourseAllocation(models.Model):
@@ -188,6 +188,7 @@ class IssueUpdate(models.Model):
     def __str__(self):
         return f"Update on Issue #{self.issue.id} by {self.user.username}"
     
+
 
 # Notification model
 class Notification(models.Model):
