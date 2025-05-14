@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 
 # Custom manager for the custom user model
 class CustomUserManager(BaseUserManager):
+    
  # Method to create a regular user
     def create_user(self, username, email, password, **extra_fields):
         # Ensure username, email, and password are provided
