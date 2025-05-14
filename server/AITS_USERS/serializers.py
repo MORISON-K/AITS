@@ -8,14 +8,12 @@ User = get_user_model()
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
-        
         fields = ['id', 'name']
 
 
 class CollegeSerializer(serializers.ModelSerializer):
     class Meta:
         model = College
-
         fields = ['id', 'name'] 
 
 # Serializer for schools (which belong to colleges)
