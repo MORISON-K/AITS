@@ -48,18 +48,13 @@ class UserSerializer(serializers.ModelSerializer):
     # write‑only PK inputs
 
     department_id = serializers.PrimaryKeyRelatedField(
-
         queryset=Department.objects.all(),
-
         write_only=True,
-
         source='department'
     )
     college_id = serializers.PrimaryKeyRelatedField(
         queryset=College.objects.all(),
-        
         write_only=True,
-
         source='college'
     )
     programme_id = serializers.PrimaryKeyRelatedField(
@@ -103,7 +98,6 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         # hash password if being updated
-
         if 'password' in validated_data:
             instance.set_password(validated_data.pop('password'))
         return super().update(instance, validated_data)    
@@ -126,6 +120,7 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = ['id', 'code', 'name', 'department']  
 
 # Serializer for issues reported by users
+
 # serializers.py
 
 from rest_framework import serializers
