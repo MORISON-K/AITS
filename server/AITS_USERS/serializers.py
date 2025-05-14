@@ -4,7 +4,7 @@ from .models import User, Department, Issue, College, Programme, IssueUpdate, Co
 
 User = get_user_model()
 
-# Serializer for the Department model
+# Serializer for the Departmentmodel
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
@@ -22,7 +22,7 @@ class SchoolSerializer(serializers.ModelSerializer):
         model = School              
         fields = ['id', 'name', 'college'] 
 
-# Serializer for academic programmes
+# Serializer for academic programme
 class ProgrammeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programme
