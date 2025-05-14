@@ -17,12 +17,13 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet, GenericViewSet
 
 
-User = get_user_model()# Get the custom user model
+User = get_user_model() # Get the custom user model
 
 class SendEmailView(APIView):
     """
     Handles sending welcome emails to users after registration.
     """
+    
     def post(self, request):
         subject = "Welcome to AITS"
         message = "Hello, thank you for registering on our platform. We're glad to have you!"
