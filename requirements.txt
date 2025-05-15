@@ -8,5 +8,5 @@ psycopg2-binary
 whitenoise
 djangorestframework-simplejwt
 python-dotenv
-django-heroku
+python-dotenv
 gunicorn==21.2.0
