@@ -17,16 +17,17 @@ from rest_framework.decorators import action
 from rest_framework.viewsets import ViewSet, GenericViewSet
 
 
-User = get_user_model()# Get the custom user model
+User = get_user_model() # Get the custom user model
 
 class SendEmailView(APIView):
     """
     Handles sending welcome emails to users after registration.
     """
+
     def post(self, request):
         subject = "Welcome to AITS"
         message = "Hello, thank you for registering on our platform. We're glad to have you!"
-        recipient_email = request.data.get("email")  # Get recipient email from request
+        recipient_email = request.data.get("email")#Get recipient email from request
 
         if not recipient_email:
             return Response({"error": "Email address is required"}, status=status.HTTP_400_BAD_REQUEST)
@@ -36,12 +37,13 @@ class SendEmailView(APIView):
                 subject,
                 message,
                 settings.EMAIL_HOST_USER,  # Sender from settings.py
-                [recipient_email],  # Recipient list
+                [recipient_email],#Recipient list
                 fail_silently=False,
             )
             return Response({"message": "Email sent successfully"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 
@@ -51,27 +53,28 @@ class CustomTokenObtainSerializer(TokenObtainPairSerializer):
     """
     def validate(self, attrs):
         credentials = {'password': attrs.get("password")}
-
         # Allow login with username or email
+
+
         try:
             validate_email(attrs.get("username"))
             credentials['email'] = attrs.get("username")
         except ValidationError:
             credentials['username'] = attrs.get("username")
 
-        user = authenticate(**credentials) # Authenticate user
+        user = authenticate(**credentials) #Authenticate user
         if not user:
             raise AuthenticationFailed("Invalid login credentials")
 
-        self.user = user  #  Assign user
-
+        self.user = user#Assign user
          # Generate JWT tokens
         data = {}
         refresh = self.get_token(self.user)
         data['access'] = str(refresh.access_token)
         data['refresh'] = str(refresh)
-        data['role'] = self.user.role  # Add custom user data (like role)
+        data['role'] = self.user.role # Addcustom user data (like role)
         return data
+
 
 
 
@@ -88,14 +91,14 @@ class RegisterView(generics.CreateAPIView):
     Registers a new user.
     """
     serializer_class = UserRegistrationSerializer
-    permission_classes = [permissions.AllowAny]  # Allow anyone to access this view (even unauthenticated)
+    permission_classes = [permissions.AllowAny]#Allow anyone to access this view  (even unauthenticated)
     
     def perform_create(self, serializer):
         """
         Ensures the password is hashed before saving the user.
         """
         user = serializer.save()
-        user.set_password(serializer.validated_data['password'])  # Securely hash the password
+        user.set_password(serializer.validated_data['password']) # Securely hash the password
         user.save()
 
 
@@ -111,6 +114,7 @@ class LogoutView(APIView):
             refresh_token = request.data.get("refresh")
             
             # Validate refresh token exists
+
             if not refresh_token:
                 return Response(
                     {"error": "Refresh token is required"},
@@ -139,19 +143,17 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
          # Return the currently logged-in user
         return self.request.user
 
-
 # ViewSet for listing, creating, updating, deleting colleges
 class CollegeViewSet(viewsets.ModelViewSet):
     queryset = College.objects.all()
     serializer_class = CollegeSerializer
     permission_classes = [permissions.AllowAny]
-
 # ViewSet for departments
+
 class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
     permission_classes = [permissions.AllowAny]
-
 # ViewSet for programmes
 class ProgrammeViewSet(viewsets.ModelViewSet):
     queryset = Programme.objects.all()
@@ -162,7 +164,7 @@ class ProgrammeViewSet(viewsets.ModelViewSet):
 
 class IssueView(APIView):
     """
-    API view for authenticated users to create issues.
+    API view  for  authenticated users to create issues.
     """
     permission_classes = [permissions.IsAuthenticated]  
 
@@ -174,33 +176,28 @@ class IssueView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    
+
 class YearOptionsView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes  = [permissions.AllowAny]
 
     def get(self, request):
         years = ["Year One", "Year Two", "Year Three", "Year Four", "Year Five"]
         return Response(years)
-
 class SemesterOptionsView(APIView):
-    
+
     permission_classes = [permissions.AllowAny]
     def get(self, request):
         semesters = [1, 2]
         return Response(semesters)
     
 
-   
-
 # In your views.py file
-
 import logging
 logger = logging.getLogger(__name__)
 
 class CourseListView(generics.ListAPIView):
     serializer_class = CourseSerializer
     permission_classes = [permissions.AllowAny]
-
     def get_queryset(self):
         # Try reading query parameters if provided.
         department_id = self.request.query_params.get('department')

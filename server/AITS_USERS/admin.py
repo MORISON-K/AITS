@@ -1,10 +1,13 @@
 from django.contrib import admin
 
 # Register your models here.
+
 from .models import User, Issue, Department, College, School, Programme, Course
 
 admin.site.register(User)
+
 # admin.site.register(Issue)
+
 admin.site.register(College)
 admin.site.register(School)
 admin.site.register(Department)
@@ -44,6 +47,7 @@ class IssueAdmin(admin.ModelAdmin):
     list_filter = ('year_of_study', 'semester', 'status')
     
     # Optional: Add search for relevant fields
+    
     search_fields = ('student__username', 'course__name', 'description')
 
 

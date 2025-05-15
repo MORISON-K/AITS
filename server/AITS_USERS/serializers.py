@@ -4,7 +4,7 @@ from .models import User, Department, Issue, College, Programme, IssueUpdate, Co
 
 User = get_user_model()
 
-# Serializer for the Department model
+# Serializer for the Departmentmodel
 class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
@@ -17,30 +17,36 @@ class CollegeSerializer(serializers.ModelSerializer):
         fields = ['id', 'name'] 
 
 # Serializer for schools (which belong to colleges)
+
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School              
         fields = ['id', 'name', 'college'] 
 
-# Serializer for academic programmes
+
+# Serializer for academic programme
 class ProgrammeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Programme
-        fields = ['id', 'code', 'name', 'department']  
+        fields  =  ['id', 'code', 'name', 'department']  
 
 
 # Serializer for the main User model
+
 from rest_framework import serializers
 from .models import User, Department, College, Programme
 from .serializers import DepartmentSerializer, CollegeSerializer, ProgrammeSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     # nested, read‑only
+
     department = DepartmentSerializer(read_only=True)
     college    = CollegeSerializer(read_only=True)
-    programme  = ProgrammeSerializer(read_only=True)
+    programme  = ProgrammeSerializer(read_only=True)   
+
 
     # write‑only PK inputs
+
     department_id = serializers.PrimaryKeyRelatedField(
         queryset=Department.objects.all(),
         write_only=True,
@@ -57,7 +63,7 @@ class UserSerializer(serializers.ModelSerializer):
         source='programme'
     )
 
-    # never return password
+    # never  return password
     password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -97,13 +103,13 @@ class UserSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)    
 
 
+
 # Serializer for updates made to an issue
 class IssueUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = IssueUpdate
         fields = ['id', 'issue', 'user', 'comment', 'created_at']
         read_only_fields = ['created_at']  # Prevent modification of created_at field
-
 
 # Serializer for academic courses
 class CourseSerializer(serializers.ModelSerializer):
@@ -112,7 +118,7 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course 
         fields = ['id', 'code', 'name', 'department']  
 
-# Serializer for issues reported by users
+# Serializer for issues reported by users 
 # serializers.py
 
 from rest_framework import serializers
@@ -130,7 +136,7 @@ class IssueSerializer(serializers.ModelSerializer):
     )
     # nested read‑only for display
     course_details = CourseSerializer(source='course', read_only=True)
-    
+
     year_of_study = serializers.CharField()
     semester     = serializers.IntegerField()
     
@@ -181,7 +187,6 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 # Custom serializer for handling user registration
-
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password         = serializers.CharField(write_only=True)
     confirm_password = serializers.CharField(write_only=True)
@@ -225,11 +230,13 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         # password confirmation
+
         if data['password'] != data.pop('confirm_password'):
             raise serializers.ValidationError({"password": "Passwords must match."})
 
         role = data.get('role')
         # student must have college & programme
+
         if role == 'student':
             if not data.get('college'):
                 raise serializers.ValidationError({"college_id": "College is required for students."})

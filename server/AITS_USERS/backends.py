@@ -26,6 +26,7 @@ class EmailOrUsernameModelBackend(ModelBackend):
         except User.DoesNotExist:
             # Simulating the hashing time to help prevent timing attacks
             make_password(password)
+            
             return None
         else:
             if user.check_password(password) and self.user_can_authenticate(user):

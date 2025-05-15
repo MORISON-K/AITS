@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import make_password
 
 # Custom manager for the custom user model
 class CustomUserManager(BaseUserManager):
+
  # Method to create a regular user
     def create_user(self, username, email, password, **extra_fields):
         # Ensure username, email, and password are provided
@@ -24,7 +25,9 @@ class CustomUserManager(BaseUserManager):
         return user
 
         # Method to create a superuser
+
     def create_superuser(self, username, email, password, **extra_fields):
+
         # Default values for superuser
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -36,7 +39,6 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("Superuser must have is_superuser=True.")
 
         return self.create_user(username, email, password, **extra_fields)
-
 
 
 # College model (top-level entity)
@@ -106,6 +108,7 @@ class User(AbstractUser):
     programme = models.ForeignKey(Programme, on_delete=models.SET_NULL, null=True, blank=True, related_name='students')
 
     # Permissions and groups
+
     groups = models.ManyToManyField('auth.Group', related_name='ait_users_groups', blank=True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name='ait_users_permissions', blank=True)
     
@@ -114,8 +117,10 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username} ({self.get_role_display()})"
 
+ 
 
 # CourseAllocation model
+
 class CourseAllocation(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='allocations')
     lecturer = models.ForeignKey(
@@ -132,7 +137,6 @@ class CourseAllocation(models.Model):
     
     def __str__(self):
         return f"{self.course.code} - {self.lecturer.username} ({self.academic_year}, Sem {self.semester})"
-
 
 # Issue model
 class Issue(models.Model):
@@ -170,10 +174,8 @@ class Issue(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     def __str__(self):
         return f"Issue {self.id}: {self.category} - {self.status}" 
-
 
 # IssueUpdate model
 class IssueUpdate(models.Model):
@@ -181,10 +183,10 @@ class IssueUpdate(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issue_updates')
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-
     def __str__(self):
         return f"Update on Issue #{self.issue.id} by {self.user.username}"
     
+
 
 # Notification model
 class Notification(models.Model):
@@ -193,6 +195,6 @@ class Notification(models.Model):
     message = models.TextField()
     is_read = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         return f"Notification for {self.user.username}: {self.message[:50]}..."
