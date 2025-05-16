@@ -32,7 +32,7 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(_
 SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Temporarily set to True for debugging
+
 
 # Email settings
 EMAIL_HOST = 'smtp.gmail.com'
