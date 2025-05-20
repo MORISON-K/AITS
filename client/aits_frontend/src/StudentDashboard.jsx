@@ -56,6 +56,7 @@ const Sidebar = ({ handleLogout, user, onNavClick, activeView }) => {
 // Recent history table
 const RecentHistoryTable = () => {
   const [issues, setIssues] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStudentIssues = async () => {
@@ -64,10 +65,34 @@ const RecentHistoryTable = () => {
         setIssues(response.data);
       } catch (error) {
         console.error("Failed to fetch issues:", error);
+      }  finally {
+        setLoading(false);
       }
     };
     fetchStudentIssues();
   }, []);
+
+   if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',         // Full height of container
+          minHeight: '300px',     // Ensures enough space even if parent is small
+          width: '100%',          // Full width
+          textAlign: 'center',
+        }}
+      >
+        {/* Replace or customize this with your spinner component */}
+        <div className="spinner" />
+        
+        <span>Loading recent history...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="order">
