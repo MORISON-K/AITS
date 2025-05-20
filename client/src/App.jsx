@@ -13,7 +13,7 @@ import NotFound from './pages/NotFound';
 import 'boxicons/css/boxicons.min.css';
 import ConfirmEmail from './confirmEmail';
 import AssignedIssues from './AssignedIssue';
-import mukLogo from './assets/muk_logo.jpeg';
+import mukLogo from './muk_logo.jpeg';
 
 import { AuthProvider, AuthContext } from './auth';
 
@@ -31,8 +31,8 @@ function App() {
                 {({ currentPage, handlePageChange, user }) => (
                   currentPage === 'welcome' ? (
                     <div className="welcome-page">
-                     
-                      <img src={mukLogo} alt="Logo not found" />
+
+                      <img src="/muk_logo.jpeg" />
                       <h1>Welcome To The Academic Issue Tracking System</h1>
                       <div className="button-container">
                         <button className="register-button" onClick={() => handlePageChange('register')}> Register </button>
