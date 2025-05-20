@@ -247,3 +247,7 @@ try:
     django_heroku.settings(locals())
 except ImportError:
     pass
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE   = True
+CSRF_COOKIE_SECURE      = True
