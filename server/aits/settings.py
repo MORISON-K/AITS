@@ -23,7 +23,7 @@ except ImportError:
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Get the absolute path to the project root directory
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+#PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -84,12 +84,10 @@ ROOT_URLCONF = 'aits.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(PROJECT_ROOT, 'client', 'aits_frontend', 'dist'),
-            os.path.join(BASE_DIR, '..', 'client', 'aits_frontend', 'dist'),
-            # Also check for templates in the server/templates directory
-            os.path.join(BASE_DIR, 'templates'),
-        ],
+          'DIRS': [
+            BASE_DIR / "client" / "aits_frontend" / "dist",
+            BASE_DIR / "templates",
+      ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -148,14 +146,16 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-STATIC_URL = '/static/'  # Make sure this has a leading slash
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL  = "/static/"
+
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    os.path.join(PROJECT_ROOT, 'client', 'aits_frontend', 'dist', 'assets'),
-    os.path.join(BASE_DIR, '..', 'client', 'aits_frontend', 'dist', 'assets'),
+    BASE_DIR / "static",
+    BASE_DIR / "client" / "aits_frontend" / "dist" / "assets",
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
