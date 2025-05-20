@@ -71,9 +71,36 @@ export const AuthProvider = ({ children }) => {
   };
 
   
-  if (loadingUser) {
-    return <div>Loading authentication state...</div>;
+    if (loadingUser) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          backgroundColor: '#f0f4f8',
+          color: '#334e68',
+          fontSize: '1.25rem',
+          fontWeight: 500,
+          fontFamily: 'Arial, sans-serif',
+          textShadow: '0 1px 2px rgba(0,0,0,0.1)',
+        }}
+      >
+        <div
+          style={{
+            padding: '1rem 2rem',
+            borderRadius: '0.5rem',
+            backgroundColor: '#ffffff',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+          }}
+        >
+          Loading authentication state…
+        </div>
+      </div>
+    );
   }
+
 
   return (
     <AuthContext.Provider value={{ 
