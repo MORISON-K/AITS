@@ -86,10 +86,7 @@ ROOT_URLCONF = 'aits.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-          'DIRS': [
-           str(CLIENT_DIST),
-             os.path.join(BASE_DIR, 'templates'),
-      ],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,6 +97,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+TEMPLATES[0]['DIRS'] = [
+    str(CLIENT_DIST),
+    os.path.join(BASE_DIR, 'templates'),
 ]
 
 WSGI_APPLICATION = 'aits.wsgi.application'
