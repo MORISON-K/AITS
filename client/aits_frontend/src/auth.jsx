@@ -57,13 +57,9 @@ export const AuthProvider = ({ children }) => {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN);
     
     try {
-      if (refreshToken) {
-        await axios.post(
-          `${import.meta.env.VITE_API_URL}/api/auth/logout/`,
-          { refresh: refreshToken },
-          { headers: { 'Content-Type': 'application/json' } }
-        );
-      }
+       if (refreshToken) {
+    await api.post('/api/auth/logout/', { refresh: refreshToken });
+  }
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
