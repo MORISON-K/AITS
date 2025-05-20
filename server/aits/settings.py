@@ -33,6 +33,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
+# The client folder is one level above BASE_DIR
+CLIENT_DIST = BASE_DIR.parent / 'client' / 'aits_frontend' / 'dist'
 
 # Email settings
 EMAIL_HOST = 'smtp.gmail.com'
@@ -85,8 +87,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
           'DIRS': [
-            BASE_DIR / "client" / "aits_frontend" / "dist",
-            BASE_DIR / "templates",
+           str(CLIENT_DIST),
+             os.path.join(BASE_DIR, 'templates'),
       ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -152,7 +154,7 @@ STATIC_URL  = "/static/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    BASE_DIR / "client" / "aits_frontend" / "dist" / "assets",
+    CLIENT_DIST / 'assets',
 ]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
