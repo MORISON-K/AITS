@@ -141,14 +141,26 @@ const ManageAndAssignIssues = () => {
 
   
   // If still loading issues, show spinner
-  if (loadingIssues) {
-    return (
-      <div className="manage-container" id="assign">
-        <LoadingIndicator />
-        <span>Issues loading, please wait ...</span>
-      </div>
-    );
-  }
+ if (loadingIssues) {
+  return (
+    <div
+      id="assign"
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        textAlign: 'center',
+       
+      }}
+    >
+      <LoadingIndicator />
+      <span >Issues loading, please wait ...</span>
+    </div>
+  );
+}
+
 
   // Otherwise, show list + filters
   return (
