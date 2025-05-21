@@ -9,7 +9,12 @@ urlpatterns = [
     path('api/', include('AITS_USERS.urls')),
     
     # Serve React app for all other routes
-    re_path(r'^(?!api/|admin/).*$', TemplateView.as_view(template_name='index.html')),
+    #re_path(r'^(?!api/|admin/).*$', TemplateView.as_view(template_name='index.html')),
+    # Serve React app for all non-API, non-admin, non-static routes
+   re_path(
+       r'^(?!api/|admin/|static/).*$', 
+       TemplateView.as_view(template_name='index.html'),
+   ),
 ]
 
 # Add static file serving for development
