@@ -12,7 +12,7 @@ import ManageIssues from "./pages/ManageAndAssignissues";
 import NotFound from './pages/NotFound';
 import 'boxicons/css/boxicons.min.css';
 //import ConfirmEmail from './confirmEmail';
-import AssignedIssues from './AssignedIssue';
+//import AssignedIssues from './AssignedIssue';
 
 import { AuthProvider, AuthContext } from './auth';
 
@@ -73,7 +73,7 @@ function App() {
             {/* <Route path='/confirmEmail' element={<ConfirmEmail/>}/> */}
 
             <Route path="/manage-issues" element={<ManageIssues />} />
-            <Route path='/AssignedIssues' element={<AssignedIssues/>}/>
+            {/* <Route path='/AssignedIssues' element={<AssignedIssues/>}/> */}
             
 
             

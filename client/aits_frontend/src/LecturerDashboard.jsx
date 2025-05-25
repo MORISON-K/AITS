@@ -157,7 +157,7 @@ const AssignedIssues = () => {
 
   function handleResolveIssue(issueId) {
     api
-      .post(`/api/issues/${issueId}/resolve/`)
+      .post(`/api/issues/workflow/${issueId}/resolve/`)
       .then(() => {
         // Update the issues list after resolving
         setIssues(issues.map(issue => 
