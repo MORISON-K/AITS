@@ -14,18 +14,18 @@ const Sidebar = ({ handleLogout, user, activeComponent, setActiveComponent }) =>
   return (
     <section id="sidebar">
       <div className="brand">
-        <i className="bx bxs-smile"></i>
+        <i className="bx bxs-user"></i>
         <span className="text">
           {user ? (
             <div className="user-info">
               <div className="user-name">
-                <strong>Name:</strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
+                <strong></strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
               </div>
-              {(user.role_id || user.roleId) && (
+              {/* {(user.role_id || user.roleId) && (
                 <div className="role-id">
                   <strong>Role:</strong> {user.role_id || user.roleId}
                 </div>
-              )}
+              )} */}
             </div>
           ) : (
             'Profile'
@@ -157,7 +157,7 @@ const AssignedIssues = () => {
 
   function handleResolveIssue(issueId) {
     api
-      .post(`/api/issues/${issueId}/resolve/`)
+      .post(`/api/issues/workflow/${issueId}/resolve/`)
       .then(() => {
         // Update the issues list after resolving
         setIssues(issues.map(issue => 

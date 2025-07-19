@@ -81,9 +81,8 @@ const Login = () => {
         <Link to="/forgotPassword" className="Forgot-Password">Forgot Password?</Link><br />
         <button type="submit" className="login">Login</button><br />
         <span className="without">Don't have an account? </span>
-        <span className="without-account" onClick={() => handlePageChange("register")}>
-          Sign up
-        </span>
+        <Link to="/Register-Page" className="without-account">Signup</Link>
+      
       </form>
     </div>
   );

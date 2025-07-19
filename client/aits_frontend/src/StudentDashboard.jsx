@@ -10,18 +10,18 @@ const Sidebar = ({ handleLogout, user, onNavClick, activeView }) => {
   return (
     <section id="sidebar">
       <div className="brand">
-        <i className="bx bxs-smile"></i>
+        <i className="bx bxs-user"></i>
         <span className="text">
           {user ? (
             <div className="user-info">
               <div className="user-name">
-                <strong>Name:</strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
+                <strong></strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
               </div>
-              {(user.role_id || user.roleId) && (
+              {/* {(user.role_id || user.roleId) && (
                 <div className="role-id">
                   <strong>Role:</strong> {user.role_id || user.roleId}
                 </div>
-              )}
+              )} */}
             </div>
           ) : (
             'Profile'
@@ -56,6 +56,7 @@ const Sidebar = ({ handleLogout, user, onNavClick, activeView }) => {
 // Recent history table
 const RecentHistoryTable = () => {
   const [issues, setIssues] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStudentIssues = async () => {
@@ -64,10 +65,34 @@ const RecentHistoryTable = () => {
         setIssues(response.data);
       } catch (error) {
         console.error("Failed to fetch issues:", error);
+      }  finally {
+        setLoading(false);
       }
     };
     fetchStudentIssues();
   }, []);
+
+   if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',         // Full height of container
+          minHeight: '300px',     // Ensures enough space even if parent is small
+          width: '100%',          // Full width
+          textAlign: 'center',
+        }}
+      >
+        {/* Replace or customize this with your spinner component */}
+        <div className="spinner" />
+        
+        <span>Loading recent history...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="order">
