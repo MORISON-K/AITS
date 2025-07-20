@@ -8,9 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "heroku-postbuild": "npm install && npm run build",
-    "start": "serve -s dist"
-
+    "heroku-postbuild": "npm install && npm run build"
   },
   "engines": {
     "node": "22.x",

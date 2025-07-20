@@ -2,11 +2,14 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './auth';
 import { Link, Navigate } from 'react-router-dom';
-const Login = () => {
+const Login = ({ handlePageChange: propHandlePageChange }) => {
   const [formData, setFormData] = useState({ username: "", password: "" }); 
   const [errors, setErrors] = useState({ username: "", password: "", nonField: "" });
-  const { login, handlePageChange } = useContext(AuthContext);
+  const { login, handlePageChange: contextHandlePageChange } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // Use the prop if provided, otherwise use the context
+  const handlePageChange = propHandlePageChange || contextHandlePageChange;
 
   const handleChange = (e) => {
     setErrors({ ...errors, [e.target.name]: "", nonField: "" });
@@ -29,26 +32,39 @@ const Login = () => {
     }
     
     try {
+      console.log('Attempting login with:', formData);
+      console.log('API base URL:', import.meta.env.VITE_API_URL);
       const userData = await login({
         username: formData.username, 
         password: formData.password
       });
+      
+      console.log('Login successful, user data:', userData);
+
+      // Check if role is available, default to admin dashboard if not
+      if (!userData.role) {
+        console.log('No role found in user data, defaulting to dashboard');
+        navigate('/dashboard');
+        return;
+      }
 
       switch(userData.role.toLowerCase()) {
         case 'student':
           navigate('/student-dashboard');
           break;
-        case 'lecturer':
+        case 'faculty':
           navigate('/lecturer-dashboard');
           break;
-        case 'academic registrar':
+        case 'academic_registrar':
+        case 'registrar':
+        case 'admin':
           navigate('/registrar-dashboard');
           break;
         default:
-          navigate('/');
+          navigate('/dashboard');
       }
     } catch (error) {
-      console.error(error);
+      console.error('Login error:', error);
       setErrors({ ...errors, nonField: error.response?.data?.detail || "Invalid login credentials." });
     }
   };

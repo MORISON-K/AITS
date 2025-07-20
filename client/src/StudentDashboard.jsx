@@ -1,13 +1,10 @@
-import React from 'react';
 import './App.css';
 import "boxicons/css/boxicons.min.css";
-import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useAuth } from './auth';
 import api from './api';
-import ManageAndAssignIssues from './pages/ManageAndAssignissues'
-import LoadingIndicator from './LoadingIndicator';
-
+import IssueSubmissionForm from './IssueSubmission_form';
+import NotificationBadge from './components/NotificationBadge';
 
 // Sidebar Component
 const Sidebar = ({ handleLogout, user, onNavClick, activeView }) => {
@@ -16,43 +13,38 @@ const Sidebar = ({ handleLogout, user, onNavClick, activeView }) => {
       <div className="brand">
         <i className="bx bxs-smile"></i>
         <span className="text">
-  {user ? (
-    <div className="user-info">
-      <div className="user-name">
-        <strong>Name:</strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
+          {user ? (
+            <div className="user-info">
+              <div className="user-name">
+                <strong>Name:</strong> {user.name || user.username || user.fullName || user.full_name || user.email || 'Unknown'}
+              </div>
+              {(user.role_id || user.roleId) && (
+                <div className="role-id">
+                  <strong>Role:</strong> {user.role_id || user.roleId}
+                </div>
+              )}
+            </div>
+          ) : (
+            'Profile'
+          )}
+        </span>
       </div>
-      {(user.role_id || user.roleId) && (
-        <div className="role-id">
-          <strong>Role:</strong> {user.role_id || user.roleId}
-        </div>
-      )}
-    </div>
-  ) : (
-    'Profile'
-  )}
-</span>
-      </div>
-      
-      <ul className="side-menu top p-4">
-      <li className={activeView === 'dashboard' ? 'active' : ''}>
-         <a href="#!" onClick={() => onNavClick('dashboard')}>
+
+      <ul className="side-menu top">
+        <li className={activeView === 'dashboard' ? 'active' : ''}>
+          <a href="#!" onClick={() => onNavClick('dashboard')}>
             <i className="bx bxs-dashboard"></i>
             <span className="text">Dashboard</span>
-          </a> 
-        </li>
-        <li className={activeView === 'createIssue' ? 'active' : ''}>
-        <a href="#!" onClick={() => onNavClick('createIssue')}>
-            <i className="bx bxs-shopping-bag-alt"></i>
-            <span className="text">Manage Student Issues.</span>
           </a>
         </li>
-        
-      
-        
-      </ul>
-      <ul className="side-menu p-4">
+        <li className={activeView === 'createIssue' ? 'active' : ''}>
+          <a href="#!" onClick={() => onNavClick('createIssue')}>
+            <i className="bx bxs-shopping-bag-alt"></i>
+            <span className="text">Create A New Issue</span>
+          </a>
+        </li>
         <li>
-        <a href="#!" onClick={handleLogout} className="logout">
+          <a href="#!" onClick={handleLogout} className="logout">
             <i className="bx bxs-log-out-circle"></i>
             <span className="text">Logout</span>
           </a>
@@ -62,37 +54,21 @@ const Sidebar = ({ handleLogout, user, onNavClick, activeView }) => {
   );
 };
 
-// Recent History
-
+// Recent history table
 const RecentHistoryTable = () => {
   const [issues, setIssues] = useState([]);
-  const [loadingIssues, setLoadingIssues] = useState(true);
 
   useEffect(() => {
-    setLoadingIssues(true)
-    const fetchRegistrarHistory = async () => {
+    const fetchStudentIssues = async () => {
       try {
-        const response = await api.get('/api/issues/history/');
+        const response = await api.get('/my-issues/');
         setIssues(response.data);
-        setLoadingIssues(false);
       } catch (error) {
-        console.error("Failed to fetch history:", error);
-        setLoadingIssues(false);
+        console.error("Failed to fetch issues:", error);
       }
     };
-    fetchRegistrarHistory();
+    fetchStudentIssues();
   }, []);
-
-  
-  // If still loading issues, show spinner
-  if (loadingIssues) {
-    return (
-      <div className="manage-container">
-        <LoadingIndicator />
-        <span>Your recent history is loading, please wait ...</span>
-      </div>
-    );
-  }
 
   return (
     <div className="order">
@@ -104,17 +80,15 @@ const RecentHistoryTable = () => {
           <tr>
             <th>Course Unit</th>
             <th>Issue Category</th>
-            <th>Student ID</th>
             <th>Date Created</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          {issues.map((issue, idx) => (
-            <tr key={idx}>
+          {issues.map((issue, index) => (
+            <tr key={index}>
               <td>{issue.course_details?.name || "N/A"}</td>
               <td>{issue.category}</td>
-              <td>{issue.student.role_id}</td>
               <td>{new Date(issue.created_at).toLocaleDateString()}</td>
               <td>
                 <span className={`status ${issue.status.toLowerCase()}`}>
@@ -129,16 +103,18 @@ const RecentHistoryTable = () => {
   );
 };
 
-
-
-
 // Main Content Component (Dashboard view)
 const DashboardView = () => (
   <section id="content">
+    <nav>
+      <div className="nav-right">
+        <NotificationBadge />
+      </div>
+    </nav>
     <main>
       <div className="head-title">
         <div className="left">
-          <h1>Welcome Registrar!</h1>
+          <h1>Welcome Student!</h1>
           <ul className="breadcrumb">
             <li>Dashboard</li>
           </ul>
@@ -151,9 +127,8 @@ const DashboardView = () => (
   </section>
 );
 
-
-// Main RegistrarDashboard Component
-const  RegistrarDashboard = () => {
+// This is the Main StudentDashboard Component
+const StudentDashboard = () => {
   const auth = useAuth();
   const user = auth.user;
   const [activeView, setActiveView] = useState('dashboard');
@@ -164,13 +139,12 @@ const  RegistrarDashboard = () => {
     window.location.href = '/Login-Page';
   };
 
-  
   const renderContent = () => {
     switch (activeView) {
       case 'dashboard':
         return <DashboardView />;
       case 'createIssue':
-        return <ManageAndAssignIssues />;
+        return <IssueSubmissionForm />;
       default:
         return <DashboardView />;
     }
@@ -189,4 +163,5 @@ const  RegistrarDashboard = () => {
     </div>
   );
 };
-export default RegistrarDashboard;
+
+export default StudentDashboard;

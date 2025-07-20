@@ -7,6 +7,7 @@ import { useAuth } from './auth';
 import api from './api';
 import ManageAndAssignIssues from './pages/ManageAndAssignissues'
 import LoadingIndicator from './LoadingIndicator';
+import NotificationBadge from './components/NotificationBadge';
 
 
 // Sidebar Component
@@ -72,7 +73,7 @@ const RecentHistoryTable = () => {
     setLoadingIssues(true)
     const fetchRegistrarHistory = async () => {
       try {
-        const response = await api.get('/api/issues/history/');
+        const response = await api.get('/issues/history/');
         setIssues(response.data);
         setLoadingIssues(false);
       } catch (error) {
@@ -135,6 +136,11 @@ const RecentHistoryTable = () => {
 // Main Content Component (Dashboard view)
 const DashboardView = () => (
   <section id="content">
+    <nav>
+      <div className="nav-right">
+        <NotificationBadge />
+      </div>
+    </nav>
     <main>
       <div className="head-title">
         <div className="left">
